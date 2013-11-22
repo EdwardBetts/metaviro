@@ -14,7 +14,7 @@ of the new fonctions)
 """
 
 import sys, os.path
-from lib.segmentation_methods import exec_command
+from segmentation_methods import exec_command
 
 ### List of segmentation methods! ###
 methods = ["basio", "kmers"]
@@ -28,7 +28,8 @@ class NastyCompilationError(Exception):
 # Just because. Laziness. Takes the codename of the method as an argument.
 def get_abs_paths(name):
     src_abspath = os.path.abspath(os.path.join(os.path.dirname(__file__), "src/%s" % name))
-    bin_abspath = os.path.abspath(os.path.join(os.path.dirname(__file__), "bin"))
+#    bin_abspath = os.path.abspath(os.path.join(os.path.dirname(__file__), "bin"))
+    bin_abspath = os.path.dirname(__file__)
     return src_abspath, bin_abspath
 
 # One function to rule them all, One function to find them,
