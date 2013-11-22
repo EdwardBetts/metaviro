@@ -23,14 +23,16 @@ args = argparser.parse_args()
 
 # Loading input file contents
 infile = open(args.input_file, "rU")
-sequences = []
+total_sequences = []
+total_ids = []
 for record in SeqIO.parse(infile, "fasta"):
-    sequences.append(record.seq)
-print len(sequences), "sequences in the input file"
+    total_sequences.append(record.seq)
+    total_ids.append(record.id)
+print len(total_sequences), "sequences in the input file"
 infile.close()
 
 # Checking boundaries
-longest_sequence_length =  len(max(sequences, key=len))
+longest_sequence_length =  len(max(total_sequences, key=len))
 if args.top > longest_sequence_length:
     maxlength = longest_sequence_length
 else:
@@ -44,21 +46,44 @@ if args.out:
 else:
     outfile = os.path.splitext(args.input_file)[0] + "_contigs.fasta"
 
-# Creating cumulative lengths list
-cum_lengths = []
+# Creating total cumulative lengths list
+total_cum_lengths = []
 cumul = 0
-for sequence in sequences:
+for sequence in total_sequences:
     cumul = cumul + len(sequence)
-    cum_lengths.append(cumul)
+    total_cum_lengths.append(cumul)
 #print cum_lengths
 
 contigs = []
+idscontig = []
 left_to_go = args.number
+
+# Get sequences to resample from (so that a maximum of sequences are represented)
+def get_sequences_left():
+    if len(idscontig) == 0 or len(total_ids) == len(idscontig):
+        return total_ids, total_sequences, total_cum_lengths
+    else:
+        left_ids = []
+        left_sequences = []
+        for i in range(len(total_ids)):
+            if total_ids[i] not in idscontig:
+                left_ids.append(total_ids[i])
+                left_sequences.append(total_sequences[i])
+        left_cum_lengths = []
+        cumul = 0
+        for sequence in left_sequences:
+            cumul = cumul + len(sequence)
+            left_cum_lengths.append(cumul)
+        return left_ids, left_sequences, left_cum_lengths
+            
 
 # There is indeed a tiny chance that this will end up as an endless loop...
 # If that ever happens, I'm willing to eat my damn keyboard.
 while left_to_go > 0:
     print "New loop, contigs left to go =", left_to_go
+    # Get sequences to work with:
+    ids, sequences, cum_lengths = get_sequences_left()
+#    ids, sequences, cum_lengths = total_ids, total_sequences, total_cum_lengths
     # First create the sample of positions we want to process in this loop turn
     sample = []
     for i in range(left_to_go): # Most efficient way I found to sample positions, not pretty but meh.
@@ -74,6 +99,8 @@ while left_to_go > 0:
                     break
             # If it fits I sits :3
             if value + length <= cum_lengths[index]:
+                if ids[index] not in idscontig:
+                    idscontig.append(ids[index])
                 # Calculating the position within the sequence from the cumulative values
                 if index == 0:
                     start = value
@@ -103,5 +130,11 @@ for contig in contigs:
     outputf.write("%s\n" % contig)
     i = i+1
 outputf.close()
+
+print float(len(idscontig))/len(total_ids)
+
+#for i in range(len(ids)):
+#    if ids[i] not in idscontig:
+#        print sequences[i]
 
 print "ta-da"
