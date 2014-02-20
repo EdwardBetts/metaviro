@@ -1,0 +1,39 @@
+TOPLEVEL1 = ["virus", "arch", "bact", "euk"]
+TOPLEVEL2 = ["virusfiltered", "arch", "bact", "euk"]
+KVAL = range(3,5)
+
+BIN = "../../../bin"
+
+QUERY = "100k3"
+REF = "100k4"
+
+rule all:
+	input: expand("{query}vs{ref}/{virusdir}/{reign}_cont_kmer_rof.png", reign=TOPLEVEL1, query=QUERY, ref=REF, virusdir=["virus", "virusfiltered"])
+
+
+rule plot:
+	input: "{QUERY}vs{REF}/{virusdir}/{reign}_cont_kmer_rof.csv"
+	output: "{QUERY}vs{REF}/{virusdir}/{reign}_cont_kmer_rof.png"
+	shell: "python makeplots.py {input}"
+
+rule summ_virus:
+	input: expand("{query}vs{ref}/virus/{reign}_cont_k{k}.rof", reign="{reign}", k=KVAL, query=QUERY, ref=REF)
+	output: expand("{query}vs{ref}/virus/{reign}_cont_kmer_rof.csv", reign="{reign}", query=QUERY, ref=REF)
+	shell: "python summary.py {input}"
+
+rule virus:
+	input: "{QUERY}/{reign}_cont_k{k}.mv", expand("{ref}/{reignref1}_cont_k{foo}.mv", reignref1=TOPLEVEL1, ref=REF, foo="{k}")
+	output: "{QUERY}vs{REF}/virus/{reign}_cont_k{k}.rof"
+	shell: "python rof.py -t 10 -o {QUERY}vs{REF}/virus/ {input}"
+
+rule summ_virusfiltered:
+	input: expand("{query}vs{ref}/virusfiltered/{reign}_cont_k{k}.rof", reign="{reign}", k=KVAL, query=QUERY, ref=REF)
+	output: expand("{query}vs{ref}/virusfiltered/{reign}_cont_kmer_rof.csv", reign="{reign}", query=QUERY, ref=REF)
+	shell: "python summary.py {input}"
+
+rule virusfiltered:
+	input: "{QUERY}/{reign}_cont_k{k}.mv", expand("{ref}/{reignref2}_cont_k{bar}.mv", reignref2=TOPLEVEL2, ref=REF, bar="{k}")
+	output: "{QUERY}vs{REF}/virusfiltered/{reign}_cont_k{k}.rof"
+	shell: "python rof.py -t 10 -o {QUERY}vs{REF}/virusfiltered/ {input}"
+
+

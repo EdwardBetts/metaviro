@@ -84,7 +84,7 @@ filename=`basename $fastafile`
 extension="${filename##*.}"
 filenameprefix="${filename%.*}"
 prefix=$fulldir/$filenameprefix
-bindir=`dirname $(readlink -f $0)`/bin
+bindir=`dirname $(readlink -f $0)`
 
 # Set a name for the run, using a random number, to name the jobs
 runid=${filenameprefix}_$RANDOM

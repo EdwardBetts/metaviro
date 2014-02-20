@@ -1,0 +1,26 @@
+BIP:=0.2
+
+FASTAS=$(wildcard *.fasta)
+TARGETS=$(FASTAS:.fasta=_bp$(BIP).sgm)
+
+BASIOSPLIT:=/home/macha/Louisa/bin/data_generation/bin/basio_splitb 
+BASIOBASIO:=/home/macha/Louisa/bin/data_generation/bin/basio_basio --bip=$(BIP)
+.PHONY : clean
+
+
+all.sgm: $(TARGETS)
+	@ls *.sgm | xargs cat >> $@.tmp
+	mv $@.tmp $@
+
+clean: 
+	@rm -f $(TARGETS) all.sgm
+
+%_bp$(BIP).sgm : %.fasta
+	@echo $<
+	@$(BASIOSPLIT) $< > /dev/null
+	@$(BASIOBASIO) $(addsuffix .sgm, $(basename $(<))) > /dev/null
+	@head -n 1 $< > $@.tmp
+	@cat $(addsuffix .sgm, $(basename $(<))) >> $@.tmp
+	@mv $@.tmp $@
+	@rm $(addsuffix .sgm, $(basename $(<)))
+	@echo " " >> $@

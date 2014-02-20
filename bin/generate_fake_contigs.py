@@ -55,18 +55,19 @@ for sequence in total_sequences:
 #print cum_lengths
 
 contigs = []
-idscontig = []
+idscontigs = []
+used_ids = []
 left_to_go = args.number
 
 # Get sequences to resample from (so that a maximum of sequences are represented)
 def get_sequences_left():
-    if len(idscontig) == 0 or len(total_ids) == len(idscontig):
+    if len(used_ids) == 0 or len(total_ids) == len(used_ids):
         return total_ids, total_sequences, total_cum_lengths
     else:
         left_ids = []
         left_sequences = []
         for i in range(len(total_ids)):
-            if total_ids[i] not in idscontig:
+            if total_ids[i] not in used_ids:
                 left_ids.append(total_ids[i])
                 left_sequences.append(total_sequences[i])
         left_cum_lengths = []
@@ -99,8 +100,8 @@ while left_to_go > 0:
                     break
             # If it fits I sits :3
             if value + length <= cum_lengths[index]:
-                if ids[index] not in idscontig:
-                    idscontig.append(ids[index])
+                if ids[index] not in used_ids:
+                    used_ids.append(ids[index])
                 # Calculating the position within the sequence from the cumulative values
                 if index == 0:
                     start = value
@@ -114,6 +115,7 @@ while left_to_go > 0:
                     contigs.append(forward_sequence.reverse_complement())
                 else:
                     contigs.append(sequences[index][start:end])
+                idscontigs.append(ids[index])
                 left_to_go = left_to_go - 1
             else:
 #                print "Doesn't fits, no sits :3"
@@ -121,20 +123,29 @@ while left_to_go > 0:
         else:
 #            print "Length out of bounds, skipping"
             pass
+
+# How many of the original sequences have we kept in the resulting contigs?
+print "{0:.2f}".format(100*float(len(used_ids))/len(total_ids)) + "% of the original sequences are present in the resampling."
+
 # Saving results
 print "writing to file..."
 outputf=open(outfile, "w")
 i = 1
-for contig in contigs:
-    outputf.write(">%d_%s_len%d\n" % (i, os.path.splitext(os.path.basename(args.input_file))[0], len(contig)) )
-    outputf.write("%s\n" % contig)
+for i in range(len(contigs)):
+    outputf.write(">%d_%s_%s_len%d\n" % (i, os.path.splitext(os.path.basename(args.input_file))[0], idscontigs[i], len(contigs[i])) )
+    outputf.write("%s\n" % contigs[i])
     i = i+1
 outputf.close()
 
-print float(len(idscontig))/len(total_ids)
+# Saving used sequences ids
+print "writing ids to file..."
+outputf=open("%s.used_ids" % outfile, "w")
+for header in used_ids:
+    outputf.write("%s\n" % header)
+outputf.close()
 
 #for i in range(len(ids)):
-#    if ids[i] not in idscontig:
+#    if ids[i] not in used_ids:
 #        print sequences[i]
 
 print "ta-da"

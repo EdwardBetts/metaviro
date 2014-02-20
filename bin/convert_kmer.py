@@ -6,7 +6,7 @@ Created on Tue Apr 30 18:40:19 2013
 """
 
 import multiprocessing, Queue, sys, argparse, os, subprocess, re, pprint
-from lib import oak
+import oak
 from io import StringIO
 
 
@@ -45,7 +45,7 @@ class basioConverter(multiprocessing.Process):
             loop_count = loop_count +1
             
             # Get the sequence of the contig with samtools and the header
-            cmd = "module load samtools && samtools faidx %s %s" %(fastafile, sgmblock["header"])
+            cmd = "module load samtools && samtools faidx %s \"%s\"" %(fastafile, sgmblock["header"])
 #            sys.stderr.write(cmd + "\n")
             record = subprocess.check_output(cmd, shell=True).split()
             contig = ''.join(record[1:])
