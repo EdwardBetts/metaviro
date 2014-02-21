@@ -1,0 +1,103 @@
+NBCONTIGS = 100000
+TOPLEVEL = ["virusfiltered", "virus", "arch", "bact", "euk"]
+NCORES = 30
+BIN = "../../../bin"
+
+"""
+
+"""
+
+rule all:
+	input: expand("{reign}_cont_k{k}.mv", reign=TOPLEVEL, k=range(3,5))
+	shell: "ls -lh *.mv"
+
+rule computedist:
+	input: "{reign}_cont.fasta"
+	output: "{reign}_cont_k{k}.mv"
+	shell:
+		"""
+		{BIN}/run_kmer.bash  -k {wildcards.k} -f {input}
+		python {BIN}/convert_kmer.py -t 10 {wildcards.reign}_cont_k{wildcards.k}.frags
+		rm {wildcards.reign}_cont_k{wildcards.k}.frags
+		"""
+
+# Separate viral sequences that have no hits from the rest
+rule separate:
+	input: "virus_cont.fasta", "all.hits"
+	output: "virusfiltered_cont.fasta"
+	shell: "module load python/2.7.3 && python ../separate.py {input} > {output}"
+"""
+# Gather hits in a single file
+rule concatenate_hits:
+	input: expand("{reign}.hits", reign=TOPLEVEL[2:])
+	output: "all.hits"
+	shell: "cat {input} > {output}"
+"""
+"""
+# Get the query sequences ids that don't have hits on the db
+rule getnohits:
+	input: "{reign}_cont.fasta.blastout"
+	output: "{reign}.nohits"
+	shell: "module load python/2.7.3 && python ../filter_nohits.py {input} > {output}"
+"""
+
+# Get the query sequences ids that have hits on the db
+rule gethits:
+	input: "virus_cont.fasta.blastout.virless"
+	output: "all.hits"
+	shell: "module load python/2.7.3 && python ../filter_hits.py {input} > {output}"
+
+# Filter viral hits out of blast output
+rule filterblastout:
+	input: "virus_cont.fasta.blastout"
+	output: "virus_cont.fasta.blastout.virless"
+	shell: "egrep '^>|^Query=' {input} | egrep -vi '^>.*virus|^>.*viral|^>.*phage|^>.*pahge|^>.*capsid|^>.*cloning vector lambda|^>.*cloning vector.+M13|^>.*M13.+cloning vector'> {output}"
+
+# Blast the viral contigs to the other reigns
+rule blast:
+	input: "virus_cont.fasta"
+	output: "virus_cont.fasta.blastout"
+	shell: "export BLASTDB=/mnt/cbib/bank/blast && megablast -d nt -i {input} -o {output} -e 0.05 -D 2 -W 16"
+
+'''
+# fuse back the blast results
+rule fuseback_blastout:
+	input: expand("tralalaplanplan_{n}.blastout", n=range(NCORES+1) )
+	output: "virus_cont.fasta.blastout"
+	shell: "cat {input} > {output} && rm {input}"
+
+# Blast the viral contigs to the other reigns
+rule blast:
+	input: "tralalaplanplan_{n}.fasta"
+	output: "tralalaplanplan_{n}.blastout"
+	shell: "export BLASTDB=/mnt/cbib/bank/blast && megablast -d nt -i {input} -o {output} -e 0.05 -D 2 -W 16"
+
+# Split viral contigs to speed up blast mapping
+rule splitcont:
+	input:  "virus_cont.fasta"
+	output: expand("tralalaplanplan_{n}.fasta", n=range(NCORES+1) )
+	shell:
+		"""
+let nlpf={NBCONTIGS}/{NCORES}*5
+for n in `seq 0 $(({NCORES}-1))`
+do
+	echo tralalaplanplan_$n.fasta
+	echo "$((n*nlpf+1)),$((n*nlpf+nlpf))p"
+	sed -ne "$((n*nlpf+1)),$((n*nlpf+nlpf))p" virus_cont.fasta > tralalaplanplan_$n.fasta
+done
+if [ "$(({NBCONTIGS}%{NCORES}))" == "" ]
+then
+	sed -ne "$(({NCORES}*nlpf+1)),\$p" > tralalaplanplan_{NCORES}.fasta
+else
+	touch tralalaplanplan_{NCORES}.fasta
+fi
+		"""
+'''
+
+# Make a new resampling in the current directory
+rule resample:
+	input: "/home/lschmitt/ncbi/{reign}/{reign}.fasta"
+	output: "{reign}_cont.fasta"
+	shell: "python {BIN}/generate_fake_contigs.py -n {NBCONTIGS} -r -o {output} {input}"
+
+
