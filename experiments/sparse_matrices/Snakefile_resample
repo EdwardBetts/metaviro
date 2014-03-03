@@ -1,4 +1,4 @@
-NBCONTIGS = 100000
+NBCONTIGS = 10000
 TOPLEVEL = ["virusfiltered", "virus", "arch", "bact", "euk"]
 NCORES = 30
 BIN = "../../../bin"
@@ -8,19 +8,24 @@ BIN = "../../../bin"
 """
 
 rule all:
-	input: expand("{reign}_cont_k{k}.mv", reign=TOPLEVEL, k=range(3,8))
+	input: expand("{reign}_cont_numeric_k{k}.mv", reign=TOPLEVEL[1:], k=range(3,8))
 	shell: "ls -lh *.mv"
 
 rule computedist:
-	input: "{reign}_cont.fasta"
-	output: "{reign}_cont_k{k}.mv"
+	input: "{reign}_cont_numeric.fasta"
+	output: "{reign}_cont_numeric_k{k}.mv"
 	shell:
 		"""
 		{BIN}/run_kmer.bash  -k {wildcards.k} -f {input}
-		python {BIN}/convert_kmer.py -t 10 {wildcards.reign}_cont_k{wildcards.k}.frags
-		rm {wildcards.reign}_cont_k{wildcards.k}.frags
+		python {BIN}/convert_kmer.py -t 10 {wildcards.reign}_cont_numeric_k{wildcards.k}.frags
+		rm {wildcards.reign}_cont_numeric_k{wildcards.k}.frags
 		"""
 
+rule convert_to_numeric:
+	input: "{reign}_cont.fasta"
+	output: "{reign}_cont_numeric.fasta"
+	shell: "module load python/2.7.3 && python ../fasta_to_numeric.py {input} {output}"
+	
 # Separate viral sequences that have no hits from the rest
 rule separate:
 	input: "virus_cont.fasta", "all.hits"

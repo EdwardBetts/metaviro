@@ -1,7 +1,7 @@
 TOPLEVEL1 = ["virus", "arch", "bact", "euk"]
 TOPLEVEL2 = ["virusfiltered", "arch", "bact", "euk"]
 VIRDIR = ["virus", "virusfiltered"]
-KVAL = range(3,8)
+KVAL = range(3,5)
 
 BIN = "../../../bin"
 

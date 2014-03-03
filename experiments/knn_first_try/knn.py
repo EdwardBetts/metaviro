@@ -2,8 +2,7 @@
 """
 Created on Fri Jun 14 13:55:15 2013
 
-Relative Oligonucleotide Frequency vectors for distances based on
-the Pearson correlation
+K-NN
 
 @author: lschmitt
 """
@@ -12,7 +11,7 @@ import argparse, csv, multiprocessing, Queue, sys, numpy, os
 from collections import defaultdict
 #~ from scipy.stats import pearsonr
 from scipy.spatial.distance import euclidean
-from sklearn.metrics.pairwise import euclidean_distances
+
 class basioConverter(multiprocessing.Process):
     """
     Hello, I'm a process class, and I'm in charge of processing contigs 

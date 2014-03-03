@@ -49,7 +49,7 @@ class basioConverter(multiprocessing.Process):
 #            sys.stderr.write(cmd + "\n")
             record = subprocess.check_output(cmd, shell=True).split()
             contig = ''.join(record[1:])
-            if not re.match('^[ATGC]*$', str(contig).upper()):
+            if not re.match('^[ATGC0123]*$', str(contig).upper()):
 #                sys.stderr.write("\ndafuq did I just read?\n")
 #                sys.stderr.write("skipping contig: %s\n\n" % contig)
                 continue

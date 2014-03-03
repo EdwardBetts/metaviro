@@ -39,7 +39,7 @@ def start_new_sequence(tree, length, seqid):
 
 def add_segment(tree, segment, step=1):
     segment = segment.upper()
-    if not re.match('^[ATGC]*$', segment):
+    if not re.match('^[ATGC0123]*$', segment):
         print "segment %s not valid! ignored." % segment
         return False
     if segment not in tree[2]:
