@@ -1,7 +1,7 @@
 TOPLEVEL1 = ["virus", "arch", "bact", "euk"]
 TOPLEVEL2 = ["virusfiltered", "arch", "bact", "euk"]
 VIRDIR = ["virus", "virusfiltered"]
-KVAL = range(3,5)
+KVAL = range(3,4)
 
 BIN = "../../../bin"
 
@@ -9,23 +9,23 @@ QUERY = "1_10k"
 REF = "2_10k"
 
 rule all:
-	input: expand("{query}vs{ref}/{virusdir}/{reign}_cont_kmer_eucl.png", reign=TOPLEVEL1, query=QUERY, ref=REF, virusdir=VIRDIR[:1])
+	input: expand("{query}vs{ref}/{virusdir}/{reign}_cont_numeric_kmer_eucl.png", reign=TOPLEVEL1, query=QUERY, ref=REF, virusdir=VIRDIR[:1])
 
 
 rule plot:
-	input: "{QUERY}vs{REF}/{virusdir}/{reign}_cont_kmer_eucl.csv"
-	output: "{QUERY}vs{REF}/{virusdir}/{reign}_cont_kmer_eucl.png"
+	input: "{QUERY}vs{REF}/{virusdir}/{reign}_cont_numeric_kmer_eucl.csv"
+	output: "{QUERY}vs{REF}/{virusdir}/{reign}_cont_numeric_kmer_eucl.png"
 	shell: "python makeplots.py {input}"
 
 rule summ_virus:
-	input: expand("{query}vs{ref}/virus/{reign}_cont_k{k}.eucl", reign="{reign}", k=KVAL, query=QUERY, ref=REF)
-	output: expand("{query}vs{ref}/virus/{reign}_cont_kmer_eucl.csv", reign="{reign}", query=QUERY, ref=REF)
+	input: expand("{query}vs{ref}/virus/{reign}_cont_numeric_k{k}.eucl", reign="{reign}", k=KVAL, query=QUERY, ref=REF)
+	output: expand("{query}vs{ref}/virus/{reign}_cont_numeric_kmer_eucl.csv", reign="{reign}", query=QUERY, ref=REF)
 	shell: "python summary.py {input}"
 
 rule virus:
-	input: "{QUERY}/{reign}_cont_k{k}.mv", expand("{ref}/{reignref1}_cont_k{foo}.mv", reignref1=TOPLEVEL1, ref=REF, foo="{k}")
-	output: "{QUERY}vs{REF}/virus/{reign}_cont_k{k}.eucl"
-	shell: "python eucl.py -t 10 -o {QUERY}vs{REF}/virus/ {input}"
+	input: "{QUERY}/{reign}_cont_numeric_k{k}.mv", expand("{ref}/{reignref1}_cont_numeric_k{foo}.mv", reignref1=TOPLEVEL1, ref=REF, foo="{k}")
+	output: "{QUERY}vs{REF}/virus/{reign}_cont_numeric_k{k}.eucl"
+	shell: "python knn.py -t 10 -k{wildcards.k} -o {QUERY}vs{REF}/virus/ {input}"
 
 
 

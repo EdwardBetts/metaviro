@@ -83,6 +83,7 @@ if __name__ == '__main__':
     
     argparser = argparse.ArgumentParser()
     argparser.add_argument("-t", "--cpu", help="Max number of subprocesses", default = "10", type=int)
+    argparser.add_argument("-k", "--kval", help="k-mer length", required=True, type=int)
     argparser.add_argument("-o", "--outdir", help="Output dir", default = None)
     argparser.add_argument("query", help=".mvdist query file")
     argparser.add_argument("ref", help=".mvref reference files (accepts multiple files)", nargs='+')
@@ -104,6 +105,30 @@ if __name__ == '__main__':
     work_queue = multiprocessing.Queue()
     results_queue = multiprocessing.Queue()
     all_results = defaultdict(list)
+    
+    
+    data = []
+    rows = []
+    cols = []
+    targ = []
+    contig_to_row = {} # (reign, contig_id) -> row_id
+    rowid = 0
+	for i in range(len(reigns)):
+		with open("%s_cont_numeric_k%d.mv"% (reigns[i], k), "r") as mvfh:
+			contig=""
+			for line in mvfh:
+				line = line.split()
+				contigid = int(line[0].split("_")[0])
+				if (i, contigid) not in contig_to_row:
+					contig_to_row[(i, contigid)] = rowid
+					targ.append(i)
+					rowid+=1
+					
+				rows.append(contig_to_row[(i, contigid)])
+				cols.append(int(line[2], 4)) # base 4 to 10
+				data.append(int(line[3]))
+				
+	csr = csr_matrix((data, (rows, cols)), shape=(len(contig_to_row), 4**k))
     
     # One loop per reference
     for ref_prefix in ref_prefixes:    

@@ -19,11 +19,11 @@ class Timer(object):
 
 timer = Timer()
 
-ncontigs = 0
-with open("virus_cont_numeric.fasta", "r") as fastafile:
-    for line in fastafile:
-        if re.match('>', line):
-            ncontigs+=1
+#ncontigs = 0
+#with open("virus_cont_numeric.fasta", "r") as fastafile:
+#    for line in fastafile:
+#        if re.match('>', line):
+#            ncontigs+=1
 #
 #print "-- COO --"
 #for k in range(3, 8):
@@ -48,14 +48,15 @@ with open("virus_cont_numeric.fasta", "r") as fastafile:
 #    print k, readtime, timer.duration_in_seconds()
 
 reigns = ["arch", "bact", "euk", "virus"]
-contig_to_row = {}
-rowid = 0
+
 print "-- CSR --"
-for k in range(3, 4):
+for k in range(7, 8):
     data = []
     rows = []
     cols = []
     targ = []
+    contig_to_row = {} # (reign, contig_id) -> row_id
+    rowid = 0
     with timer:
          for i in range(len(reigns)):
                 with open("%s_cont_numeric_k%d.mv"% (reigns[i], k), "r") as mvfh:
@@ -76,7 +77,7 @@ for k in range(3, 4):
     readtime = timer.duration_in_seconds()
             
     with timer:
-        csr = csr_matrix((data, (rows, cols)))
+        csr = csr_matrix((data, (rows, cols)), shape=(len(contig_to_row), 4**k))
 
     print k, readtime, timer.duration_in_seconds()
 #
