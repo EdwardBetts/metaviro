@@ -1,4 +1,4 @@
-NBCONTIGS = 10000
+NBCONTIGS = 100000
 TOPLEVEL = ["virusfiltered", "virus", "arch", "bact", "euk"]
 NCORES = 30
 BIN = "../../../bin"
