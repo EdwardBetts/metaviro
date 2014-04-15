@@ -54,7 +54,9 @@ class KNNrunner(multiprocessing.Process):
             
             clf = neighbors.KNeighborsClassifier(n_neighbors, weights="distance")
             clf.fit(self.matrix[training,:].todense(), [targ[i] for i in training])
+            #~ clf.fit(self.matrix[training,:], [targ[i] for i in training])
             classes=clf.predict(self.matrix[testing,:].todense())
+            #~ classes=clf.predict(self.matrix[testing,:])
             
 #            print(confusion_matrix(classes,[targ[i] for i in testing]))
             
@@ -79,8 +81,8 @@ class KNNrunner(multiprocessing.Process):
 
 if __name__ == '__main__':
 
-    processes = 10
-    samplings = 10
+    processes = 5
+    samplings = 5
     tasks_per_process = [samplings/processes]*processes
     for i in range(samplings%processes):
         tasks_per_process[i] += 1
@@ -88,8 +90,8 @@ if __name__ == '__main__':
     n_neighbors = 10
     trainingratio = 0.8
 #    kvals = range(3,8)
-    kvals = [5,7]
-    reignset = [["arch", "bact", "euk", "virus"], ["arch", "bact", "euk", "virusfiltered"]]
+    kvals = [3,5,7]
+    reignset = [["arch", "bact", "euk", "virusfiltered"], ["arch", "bact", "euk", "virusfiltered"]]
     
     git_commit = subprocess.check_output('cd ~/git && git log --format="%H" | head -n1', shell=True).strip()
     resampling_path = os.path.dirname(os.path.abspath("%s_cont_numeric_k%d.mv"% (reignset[0][0], kvals[0])))
@@ -117,7 +119,7 @@ if __name__ == '__main__':
                             
                         rows.append(contig_to_row[(i, contigid)])
                         cols.append(int(line[2], 4)) # base 4 to 10
-                        data.append(int(line[3]))
+                        data.append(float(line[3])/float(line[1]))
             print "creating the matrix..."
             csr = csr_matrix((data, (rows, cols)), shape=(len(contig_to_row), 4**k))
             
