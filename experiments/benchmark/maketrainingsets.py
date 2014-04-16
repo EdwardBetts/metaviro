@@ -29,11 +29,10 @@ if __name__ == '__main__':
     for i in range(samplings%processes):
         tasks_per_process[i] += 1
     
-    n_neighbors = 10
     trainingratio = 0.8
 #    kvals = range(3,8)
-    kvals = [4,6]
-    reignset = [["arch", "bact", "euk", "virus"], ["arch", "bact", "euk", "virusfiltered"]]
+    kvals = [3,4,5,6]
+    reignset = [["arch", "bact", "euk", "virus"]]#, ["arch", "bact", "euk", "virusfiltered"]]
     
     git_commit = subprocess.check_output('cd ~/git && git log --format="%H" | head -n1', shell=True).strip()
     resampling_path = os.path.dirname(os.path.abspath("%s_cont_numeric_k%d.mv"% (reignset[0][0], kvals[0])))
@@ -70,9 +69,10 @@ if __name__ == '__main__':
             print "creating the matrix..."
             matrix = csr_matrix((data, (rows, cols)), shape=(len(contig_to_row), 4**k))
             
+            
             training_indices = []            
             
-            for i in range(5):
+            for i in range(50):
                 training = random.sample(range(matrix.shape[0]), int(trainingratio*matrix.shape[0]))
                 testing = list(set(range(matrix.shape[0])).difference(training))
                 
