@@ -5,7 +5,14 @@ Created on Tue Apr 15 16:12:18 2014
 @author: lschmitt
 """
 
+
+# create matrices from mv file
+
+#from __future__ import with_statement
+
+from metric_learn.lmnn import LMNN
 import sys, os.path
+import numpy as np
 try:
    import cPickle as pickle
 except:
@@ -30,6 +37,13 @@ with open(filename, "r") as fh:
 for i in range(len(length)):
     matrix[i,:]=matrix[i,:]/length[i]
 
+# lmnnify the space (take that, Vador)
+print "distorting space"
+metric = LMNN(np.asarray(matrix), targ)
+metric.fit()
+matrix = metric.transform()
+
+print "loading filter info"
 with open("filtered_contigs.bdat", "r") as fh:
     filter_dict = pickle.load(fh)
 
@@ -56,10 +70,9 @@ with open(outfile, 'w') as outfh:
                         
             testing_tags = [tag[i] for i in testing]
                         
-            classes = classify(training_matrix, training_targets, testing_matrix, options, filename)
+            classes = classify(training_matrix, training_targets, testing_matrix, options)
             
             for i in range(len(testing_tags)):
                 outfh.write( '\t'.join([str(batch_id), classifierstring, testing_tags[i], str(testing_targets[i]), str(classes[i]), str(filter_dict[testing_tags[i]])]) + '\n')
-            
         print
 print "Done."

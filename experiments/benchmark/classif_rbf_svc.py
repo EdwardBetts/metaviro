@@ -5,7 +5,7 @@ Created on Wed Mar 19 15:58:48 2014
 @author: lschmitt
 """
 
-def classify(training_matrix, training_targets, testing_matrix, options):
+def classify(training_matrix, training_targets, testing_matrix, options, data_filename):
     from sklearn import svm
     
     gamma = 0.7

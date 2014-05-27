@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Apr 16 13:42:36 2014
+Created on Fri May  2 13:47:08 2014
 
 @author: lschmitt
 """
@@ -8,11 +8,11 @@ Created on Wed Apr 16 13:42:36 2014
 from skll.metrics import kappa
 from sklearn.metrics import confusion_matrix
 
-nvals = [15]
-csvfile = "knn,n=15-k3_arch_bact_euk_virus_0.csv"
+nvals = ["nbayes"]
+csvfile = "nbayes-k6_arch_bact_euk_virus_3.csv"
 
 for n in nvals:
-    print "### n=%d ###"%n
+    print "### n=%s ###"%str(n)
     batches = []
     for i in range(50):
         batches.append([])
@@ -40,5 +40,3 @@ for n in nvals:
     #    print confusion_matrix(classes,predicted)
     
     print "moy = ", moy15/50
-
-

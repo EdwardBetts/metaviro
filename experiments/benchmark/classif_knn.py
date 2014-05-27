@@ -5,7 +5,7 @@ Created on Wed Mar 19 15:58:48 2014
 @author: lschmitt
 """
 
-def classify(training_matrix, training_targets, testing_matrix, options):
+def classify(training_matrix, training_targets, testing_matrix, options, sata_filename):
     from sklearn import neighbors
     
     n = 15
