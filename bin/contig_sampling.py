@@ -187,8 +187,11 @@ def main(argv=None):
 				record = SeqRecord(Seq(sub_seq,generic_dna),id=seq_id, name=seq_name,description=sequence_description)
 
 				if args.reverse and bool(random.getrandbits(1)):
-					record=record.reverse_complement()
-
+					recordRC=record.reverse_complement()
+					recordRC.id=record.id
+					recordRC.name=record.name
+					recordRC.description=record.description
+					record=recordRC
 				# record = SeqRecord(Seq(sub_seq,generic_dna))
 				all_records.append(record)
 	if args.pretty:
