@@ -153,7 +153,7 @@ def main(argv=None):
 		fasta_name=os.path.split(fasta)[-1]
 		for k,v in n_samples_this_fasta.items():
 			# logger.info("Fasta:%s, Seq: %s,length:%d, N Sample:%d"%(fasta,k, sequence_lengths[k],v))
-			this_contig_length=int(random.normalvariate(args.mean, args.stdev))
+			this_contig_length=int(random.normalvariate(args.avg_length, args.stdev))
 			seq=str(sequences[k].seq)
 
 			for i in range(0,v):
