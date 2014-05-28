@@ -1,0 +1,309 @@
+
+Comparison of classifiers for taxonomic assignments 
+
+Questions: 
+* What's the best classifier across all datasets?
+* What's the best dataset? 
+* What differences when we vary the size of the input k-mers? 
+* Any contigs that are "hard" to classify for a majority of classifiers?
+
+
+**TODO** Check whether "1" in the "filtered" column of the CSV means "was filtered" or the converse
+# Data loading 
+
+```{r libraries}
+library(reshape2)
+library(dplyr)
+library(ggplot2)
+library(data.table)
+library(stringr)
+library(caret)
+```
+
+We list all availables CSV files, parse the input k-mer length and load them all in a table 
+
+```{r }
+setwd("~/Documents/metaviro/experiments/140526 compare classifiers")
+avail_results=list.files("tableaux",pattern=".csv")
+
+# For some reasons, this file is empty 
+
+avail_results=setdiff(avail_results,"rforest-k6_arch_bact_euk_virus_3.csv")
+
+pattern="-k([[:digit:]])_"
+kmer_length=factor(matrix(unlist(str_match_all(avail_results,pattern)),ncol=2,byrow=T)[,2])
+input_tables=data.table(file=avail_results,kmer_length=kmer_length)
+
+a_file="knn,n=9-knn,n=11-knn,n=13-k4_arch_bact_euk_virus_1.csv"
+a_file="adaboost,n=600-adaboost,n=700-adaboost,n=300-adaboost,n=400-adaboost,n=500-k6_arch_bact_euk_virus_3.csv"
+all_classification_results=data.table()
+for(a_file in input_tables$file){
+	print(a_file)
+	a_file_result=data.table(read.table(paste("tableaux",a_file,sep="/"),header=F,sep="\t"))
+
+	# a_file_result=fread(paste("tableaux",a_file,sep="/"),header=F,sep="\t")
+	setnames(a_file_result,c("batch_id","classifier","contig","real_class","predicted_class","filtered"))
+
+	a_file_result$classifier <- factor(a_file_result$classifier,ordered=F)
+	a_file_result$batch_id <- factor(a_file_result$batch_id,ordered=F)
+	a_file_result$real_class <- factor(a_file_result$real_class,levels=0:3,labels=c("arch","bact","euk","virus"))
+	a_file_result$predicted_class <- factor(a_file_result$predicted_class,levels=0:3,labels=c("arch","bact","euk","virus"))
+	a_file_result$filtered=as.logical(a_file_result$filtered)
+	contig_lenght_pattern="len([[:digit:]]+)"
+	a_file_result$contig_length=as.numeric(matrix(unlist(str_match_all(a_file_result[1:10,contig],contig_lenght_pattern)),ncol=2,byrow=T)[,2])
+	a_file_result$file=a_file
+	all_classification_results=rbind(all_classification_results,a_file_result)
+}
+all_classification_results=data.table(merge(all_classification_results,input_tables,by="file"))
+all_classification_results$file<-factor(all_classification_results$file)
+
+save(all_classification_results,file="all_classification_results.RData")
+```
+
+We check that we have same number of classifications per batch / classifier 
+
+```{r }
+load("all_classification_results.RData")
+classes_results=table(all_classification_results[,.N,by=list(kmer_length,classifier,batch_id)]$N)
+classes_results
+```
+This is not the case, we select the classifier for which we have missing data 
+
+```{r missingData}
+most_frequent=names(classes_results[classes_results==max(classes_results)])
+missing_observations=all_classification_results[,.N,by=list(kmer_length,classifier,batch_id)][N!=most_frequent]
+```
+Two situations: 
+* Classifiers (same params) twice in the data (several cases )
+
+```{r }
+missing_observations_files[N>3000]
+```
+* Three setups with missing data 
+
+```{r }
+missing_observations_files[N<=1500]
+
+```
+We get the file back for these 
+
+```{r }
+missing_observations_files=merge(missing_observations,all_classification_results[,paste(unique(file)),by=list(kmer_length,classifier,batch_id)],by=c("kmer_length","classifier","batch_id"))
+```
+
+Summary of filtering 
+
+```{r }
+xtabs(data=all_classification_results[,.N,by=list(contig,filtered,real_class)],~real_class+filtered)
+
+```
+**TODO** We observe that more than 50% of viruses (64%, 1277/(1277+716)) are supposedly filtered, why? 
+
+
+# Summary per classifier 
+We summarize each classification with the kappa statistics 
+
+```{r}
+kappa <- function(subset){
+	if(nrow(subset)<=1300){
+		return(-1)
+	}
+	cm<-confusionMatrix(subset$predicted_class,subset$real_class)
+	return(cm$overall[["Kappa"]])
+}
+
+# all_classification_results[,.N,by=list(classifier,kmer_length,batch_id)]
+all_classification_results_kappa=all_classification_results[,kappa(.SD),by=list(classifier,kmer_length,batch_id)]
+setnames(all_classification_results_kappa,"V1","kappa")
+save(all_classification_results_kappa,file="all_classification_results_kappa.RData")
+```
+
+We analyze  the kappas 
+
+```{r }
+load("all_classification_results_kappa.RData")
+classifier_params=(limma::strsplit2(all_classification_results_kappa$classifier,split=","))
+all_classification_results_kappa=cbind(all_classification_results_kappa,classifier_params)
+setnames(all_classification_results_kappa,c("V1","V2","V3"),c("model","param1","param2"))
+
+mean_kappas=all_classification_results_kappa[,list(mean_kappa=mean(kappa)),by=list(model,param1,param2,classifier,kmer_length,batch_id)][order(mean_kappa)]
+
+ggplot(all_classification_results_kappa[kappa>=0],aes(x=kmer_length,y=kappa,color=model))+geom_point(alpha=0.5)+stat_summary(fun.data="mean_cl_boot",geom = "linerange",width=4,color="black")+facet_wrap(~model,nrow=1)
+
+```
+
+We contrast by classifier, breaking down parameters and kmer_lengths
+
+```{r }
+ggplot(all_classification_results_kappa[kappa>=0],aes(x=classifier,y=kappa,colour=model))+geom_point()+facet_wrap(~kmer_length)+stat_summary(fun.data="mean_cl_boot",width=4,color="black")
+
+ggplot(all_classification_results_kappa[kappa>=0 & kmer_length==3],aes(x=classifier,y=kappa,colour=model))+geom_point()+facet_wrap(~kmer_length)+stat_summary(fun.data="mean_cl_boot",width=4,color="black")+theme(axis.text.x = element_text(angle =90, size =10, vjust=0.5))
+
+```
+
+
+Are there any contigs that are often misclassified ?
+
+```{r oftenMissclassified}
+by_contig=merge(all_classification_results[predicted_class!=real_class,list(misclassified=.N),by=list(contig,contig_length,real_class,kmer_length)],all_classification_results[,list(n_present=.N),by=list(contig,kmer_length,filtered)],by=c("contig","kmer_length"))
+by_contig[order(misclassified)]
+by_contig$species=limma::strsplit2(by_contig$contig,"|",fixed=T)[,4]
+```
+There's clearly some outliers, e.g. 
+
+	181823:  860_virus_gi|422936640|ref|NC_019522.1|_len566           3           321      virus           219       384
+
+We plot them ala diff plot 
+
+```{r }
+ggplot(by_contig,aes(x=n_present,y=misclassified/n_present,color=filtered))+geom_point()+facet_wrap(~kmer_length)
+ggplot(by_contig,aes(x=n_present,y=misclassified/n_present,color=filtered))+geom_point()+facet_grid(real_class~kmer_length)
+ggplot(by_contig,aes(x=n_present,y=misclassified/n_present,color=misclassified/n_present>=0.5))+geom_point()+facet_grid(kmer_length~real_class)
+
+```
+
+How many are more than expected misclassified ?
+
+```{r }
+by_contig[misclassified / n_present >=0.50 ][order(misclassified)][,.N,by=species][order(N)]
+by_contig[(misclassified / n_present >=0.30) & (misclassified / n_present <0.50) ][order(misclassified)]
+
+hist(by_contig[,list(ratio=misclassified / n_present)]$ratio)
+
+```
+
+What are the bacterias that are often misclassified ? 
+
+```{r }
+sort(table(all_classification_results[contig=="1675_bact_gi|401800989|gb|CP003773.1|_len481",predicted_class]))
+sort(table(all_classification_results[contig=="887_bact_gi|408436493|emb|HE579073.1|_len167",predicted_class]))
+sort(table(all_classification_results[contig=="763_bact_gi|408436493|emb|HE579073.1|_len494",predicted_class]))
+sort(table(all_classification_results[contig=="1769_bact_gi|25307955|gb|AE007317.1|_len697",predicted_class]))
+sort(table(all_classification_results[grep("CP001903.1",contig),predicted_class]))
+
+```
+
+Are there any classifier dealing better with viruses?
+
+Is the perf degradation for increasing k-mer size equally affecting all classes ?
+
+How are the classifier correlated in terms of correctly classified contigs ? 
+
+```{r }
+library(corrplot)
+all_classification_results$correctly_classified=all_classification_results$real_class==all_classification_results$predicted_class
+contigs_by_classifiers=dcast(all_classification_results[classifier!="adab" & classifier!="knn"],contig~classifier,fun.aggregate=sum,value.var="correctly_classified")
+corrplot(cor(contigs_by_classifiers[,-c(1)]),order="hclust")
+
+```
+
+
+## Virus specific
+Which classifier model is dealing better with viruses ?
+
+```{r }
+
+virus_spec <- function(subset){
+	# cat(nrow(subset),"\n")
+	if(nrow(subset)<=1300){
+		return(NULL)
+	}
+	cm<-confusionMatrix(subset$predicted_class,subset$real_class)
+	return(as.data.frame(t(cm$byClass["Class: virus",])))
+	# return(data.frame("a"=1,"b"=2))
+}
+
+virus_classification_stats=all_classification_results[,virus_spec(.SD),by=list(classifier,kmer_length,batch_id)]
+setnames(virus_classification_stats,tolower(make.names(colnames(virus_classification_stats))))
+
+classifier_params=(limma::strsplit2(virus_classification_stats$classifier,split=","))
+virus_classification_stats=cbind(virus_classification_stats,classifier_params)
+setnames(virus_classification_stats,c("V1","V2","V3"),c("model","param1","param2"))
+
+
+
+ggplot(virus_classification_stats[kmer_length==3],aes(x=classifier,y=balanced.accuracy,colour=model))+geom_point()+facet_wrap(~kmer_length)+stat_summary(fun.data="mean_cl_boot",width=4,color="black")+theme(axis.text.x = element_text(angle =90, size =10, vjust=0.5))
+ggplot(virus_classification_stats,aes(x=classifier,y=detection.rate,colour=model))+geom_point()+facet_wrap(~kmer_length)+stat_summary(fun.data="mean_cl_boot",width=4,color="black")+theme(axis.text.x = element_text(angle =90, size =10, vjust=0.5))
+
+ggplot(virus_classification_stats,aes(x=classifier,y=sensitivity,colour=model))+geom_point()+facet_wrap(~kmer_length)+stat_summary(fun.data="mean_cl_boot",width=4,color="black")+theme(axis.text.x = element_text(angle =90, size =10, vjust=0.5))
+ggplot(virus_classification_stats,aes(x=classifier,y=specificity,colour=model))+geom_point()+facet_wrap(~kmer_length)+stat_summary(fun.data="mean_cl_boot",width=4,color="black")+theme(axis.text.x = element_text(angle =90, size =10, vjust=0.5))
+ggplot(virus_classification_stats,aes(x=classifier,y=pos.pred.value,colour=model))+geom_point()+facet_wrap(~kmer_length)+stat_summary(fun.data="mean_cl_boot",width=4,color="black")+theme(axis.text.x = element_text(angle =90, size =10, vjust=0.5))
+
+
+```
+
+How come we reach a positive pred value of 1 for nbayes ?
+
+```{r }
+virus_classification_stats[pos.pred.value==1]
+all_classification_results_ppv1=merge(all_classification_results,virus_classification_stats[pos.pred.value==1,list(classifier,kmer_length,batch_id)],by=c("classifier","kmer_length","batch_id"))
+xtabs(data=all_classification_results_ppv1,~predicted_class+real_class)
+```
+That's a setup where all virus go to another class 
+
+
+## Are there contigs that are differentially classified in ≠ batches ?
+```{r }
+all_batches_compared=all_classification_results[,as.list(table(predicted_class)),by=list(contig,filtered,real_class,classifier,kmer_length)]
+all_batches_compared[real_class=="virus",total_instances:=virus+arch+bact+euk]
+save(all_batches_compared,file="all_batches_compared.RData")
+
+```
+
+## Are there contigs that are differentially classified by ≠ models ?
+
+```{r }
+head(dcast(data=all_classification_results[1:10000],contig+filtered+real_class~classifier+kmer_length+batch_id,value.var="predicted_class"))
+```
+
+## Averaged classifier by voting 
+
+
+
+## GC-content associated with misclassification? 
+
+We use biopython to compute the GC-content of all the contigs present
+
+```{shell}
+../../bin/fasta_statistics.py -i -d "," ../../data/5_2k_benchmark/*.fasta -o contig_stats.csv
+```
+
+We also do this by species, on rainman 
+
+```{shell }
+[hsoueidan@rainman bin]$ ./fasta_statistics.py -o ~/contig_stats_all_macha_fastas.csv -i -d ";" ~macha/Louisa/datasets/archea/* ~macha/Louisa/datasets/plants/* ~macha/Louisa/datasets/viruses/* ~macha/Louisa/datasets/prokaryotes/*
+```
+
+
+```{r }
+contig_stats=fread("contig_stats.csv")
+contig_stats$class <- limma::strsplit2(contig_stats$contig,"_",fixed=T)[,2]
+contig_stats$species <- limma::strsplit2(contig_stats$contig,"|",fixed=T)[,4]
+contig_stats[,mean(GC),by=list(species,class)]
+```
+
+Distribution of GC content per class
+
+```{r }
+ggplot(contig_stats[,mean(GC),by=list(species,class)],aes(x=class,y=V1))+geom_point()
+
+```
+
+We see that we have an over-representation of only four archean species :
+
+```{r }
+contig_stats[,.N,by=list(species,class)][order(N)]
+
+ggplot(contig_stats[,.N,by=list(species,class)][order(N)],aes(x=N))+geom_histogram()+facet_wrap(~class,scale="free_y")
+```
+
+We compare the GC per species (macha resampling)
+
+```{r }
+contig_stats_all_species = fread("contig_stats_all_macha_fastas.csv",sep=";")
+contig_stats_all_species$class = limma::strsplit2(contig_stats_all_species$file,"/",fixed=T)[,6]
+ggplot(contig_stats_all_species,aes(x=class,y=GC))+geom_point()+ggtitle("GC content per class; 3574 genomes from ~macha")
+ggsave(file="gc_content_per_classes.png")
+
+
+```

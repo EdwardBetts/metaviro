@@ -85,7 +85,7 @@ def main(argv=None):
 	parser.add_argument('-I',dest="keep_IUPAC",help="Indicate whether to keep ambiguous site",default=False,action="store_true")
 	parser.add_argument('-s',dest="simplify_ncbi_fasta_header",help="If set, headers of fasta file will only contain the GI number from the NCBI full description",default=False,action="store_true")
 	parser.add_argument('-A',dest="append",help="If set, fasta sequences are appended to the output file",default=False,action="store_true")
-	parser.add_argument('-o',dest="output_name",help="Name of output file, default append to this file",default="contigs.fasta",type=str)
+	parser.add_argument('-o',dest="output_name",help="Name of output file",default="contigs.fasta",type=str)
 
 	parser.add_argument('FASTAFILE',action='append',nargs="+",help='list of fasta files')
 	args=parser.parse_args()
