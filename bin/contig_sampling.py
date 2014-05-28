@@ -170,16 +170,11 @@ def main(argv=None):
 
 				sub_seq=seq[start:start+this_contig_length]
 
-				if args.reverse and bool(random.getrandbits(1)):
-					forward_sequence = Seq(str(sub_seq), generic_dna)
-					sub_seq=forward_sequence.reverse_complement()
-
-
 				if (not args.keep_IUPAC) and (set(sub_seq)!=set(['A','C','G','T'])):
 					# contains ambiguous 
 					continue
 				if args.simplify_ncbi_fasta_header:
-					seq_id = sequences[k].id.split("|")[1]+args.key+"_sample_"+str(i)+"_"+fasta_name
+					seq_id = sequences[k].id.split("|")[1]+"_"+args.key+"_sample_"+str(i)+"_"+fasta_name
 					seq_id = seq_id.replace(".","_")
 					seq_name=seq_id
 					sequence_description=seq_id
@@ -190,6 +185,10 @@ def main(argv=None):
 					sequence_description=sequences[k].description
 
 				record = SeqRecord(Seq(sub_seq,generic_dna),id=seq_id, name=seq_name,description=sequence_description)
+
+				if args.reverse and bool(random.getrandbits(1)):
+					record=record.reverse_complement()
+
 				# record = SeqRecord(Seq(sub_seq,generic_dna))
 				all_records.append(record)
 	if args.pretty:
