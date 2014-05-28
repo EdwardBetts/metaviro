@@ -91,6 +91,7 @@ def main(argv=None):
 	parser.add_argument('-A',dest="append",help="If set, fasta sequences are appended to the output file",default=False,action="store_true")
 	parser.add_argument('-o',dest="output_name",help="Name of output file",default="contigs.fasta",type=str)
 	parser.add_argument('-P',dest="pretty",help="Use (and require) prettytable for summary output",default=False,action="store_true")
+	parser.add_argument('-k',dest="key",help="Indicate key that should be used to identify each contig",default="")
 
 	parser.add_argument('FASTAFILE',action='append',nargs="+",help='list of fasta files')
 	args=parser.parse_args()
@@ -178,14 +179,14 @@ def main(argv=None):
 					# contains ambiguous 
 					continue
 				if args.simplify_ncbi_fasta_header:
-					seq_id = sequences[k].id.split("|")[1]+"_sample_"+str(i)+"_"+fasta_name
+					seq_id = sequences[k].id.split("|")[1]+args.key+"_sample_"+str(i)+"_"+fasta_name
 					seq_id = seq_id.replace(".","_")
 					seq_name=seq_id
 					sequence_description=seq_id
 
 				else:
-					seq_id = sequences[k].id+"sample_"+str(i)
-					seq_name=sequences[k].name+"sample_"+str(i)
+					seq_id = sequences[k].id+args.key+"_sample_"+str(i)
+					seq_name=sequences[k].name+args.key+"_sample_"+str(i)
 					sequence_description=sequences[k].description
 
 				record = SeqRecord(Seq(sub_seq,generic_dna),id=seq_id, name=seq_name,description=sequence_description)
