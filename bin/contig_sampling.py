@@ -3,7 +3,7 @@
 import itertools
 import random
 import math
-# import prettytable
+
 import sys
 import collections
 from Bio.Seq import Seq
@@ -89,9 +89,13 @@ def main(argv=None):
 	parser.add_argument('-s',dest="simplify_ncbi_fasta_header",help="If set, headers of fasta file will only contain the GI number from the NCBI full description",default=False,action="store_true")
 	parser.add_argument('-A',dest="append",help="If set, fasta sequences are appended to the output file",default=False,action="store_true")
 	parser.add_argument('-o',dest="output_name",help="Name of output file",default="contigs.fasta",type=str)
+	parser.add_argument('-P',dest="pretty",help="Use (and require) prettytable for summary output",default=False,action="store_true")
 
 	parser.add_argument('FASTAFILE',action='append',nargs="+",help='list of fasta files')
 	args=parser.parse_args()
+
+	if args.pretty:
+		import prettytable
 
 
 	FASTAFILE=args.FASTAFILE[0]
@@ -123,18 +127,26 @@ def main(argv=None):
 	total_length=sum(multi_fasta_lengths.values())
 	n_samples=dict([(k,math.ceil(float(v)/total_length*args.n_contigs)) for k,v in multi_fasta_lengths.items()])
 	all_records=[]
+	if args.pretty:
+		table=prettytable.PrettyTable(["Fasta","length(kb)","N Contigs","N sampled contig","Avg contig/seq","median","min", "max"])
+		table.align["File"] = "l" 
+
 	for fasta,n_samples in n_samples.items():
 		# Get the length of these sequences
 		these_sequence_length = dict([(k,v) for k,v in sequence_lengths.items() if k in fasta_to_sequences[fasta]])
 		total_length=sum(these_sequence_length.values())
 
-		# compute the number of samples per sequences
+		# compute statistics of samples per sequences
 		n_samples_this_fasta=dict([(k,int(math.ceil(float(v)/total_length*n_samples))) for k,v in these_sequence_length.items()])
 		avg_contig_per_sequence=scipy.average(n_samples_this_fasta.values())
 		med_contig_per_sequence=scipy.median(n_samples_this_fasta.values())
 		min_contig_per_sequence=min(n_samples_this_fasta.values())
 		max_contig_per_sequence=max(n_samples_this_fasta.values())
-		logger.info("Fasta: %s,length:%d, N contigs: %d, N sampled contig:%d, Avg contig per seq:%f, med: %d, min seq:%d, max seq:%d "%(fasta, multi_fasta_lengths[fasta],fasta_to_sequences[fasta],n_samples,avg_contig_per_sequence,med_contig_per_sequence,min_contig_per_sequence,max_contig_per_sequence))
+		if args.pretty:
+			table.add_row([fasta, multi_fasta_lengths[fasta]/1000.0,len(fasta_to_sequences[fasta]),n_samples,avg_contig_per_sequence,med_contig_per_sequence,min_contig_per_sequence,max_contig_per_sequence])
+		else:
+
+			logger.info("Fasta: %s,length:%d, N contigs: %d, N sampled contig:%d, Avg contig per seq:%f, med: %d, min seq:%d, max seq:%d "%(fasta, multi_fasta_lengths[fasta],len(fasta_to_sequences[fasta]),n_samples,avg_contig_per_sequence,med_contig_per_sequence,min_contig_per_sequence,max_contig_per_sequence))
 		if(args.preview):
 			continue
 
@@ -178,6 +190,8 @@ def main(argv=None):
 				record = SeqRecord(Seq(sub_seq,generic_dna),id=seq_id, name=seq_name,description=sequence_description)
 				# record = SeqRecord(Seq(sub_seq,generic_dna))
 				all_records.append(record)
+	if args.pretty:
+		print table.get_string()
 	if args.append:
 		output_handle = open(args.output_name, "wa")
 	else:
