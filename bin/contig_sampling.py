@@ -171,8 +171,8 @@ def main(argv=None):
 				sub_seq=seq[start:start+this_contig_length]
 
 				if args.reverse and bool(random.getrandbits(1)):
-					# forward_sequence = Seq(str(sub_seq), generic_dna)
-					sub_seq=sub_seq.reverse_complement()
+					forward_sequence = Seq(str(sub_seq), generic_dna)
+					sub_seq=forward_sequence.reverse_complement()
 
 
 				if (not args.keep_IUPAC) and (set(sub_seq)!=set(['A','C','G','T'])):
