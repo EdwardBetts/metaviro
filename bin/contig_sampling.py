@@ -82,6 +82,9 @@ def main(argv=None):
 
 	parser.add_argument('-n',dest="n_contigs",help="Number of total contigs to sample",default=1e4,type=int)
 	parser.add_argument('-l',dest="avg_length",help="Length of conting to sample",default=500,type=int)
+	parser.add_argument("-s", "--stdev",dest="stdev", help="standard deviation", type=int, default=200)
+	parser.add_argument("-p", dest="preview", help="Only print preview of number of contigs output", default=False,action="store_true")
+
 	parser.add_argument('-I',dest="keep_IUPAC",help="Indicate whether to keep ambiguous site",default=False,action="store_true")
 	parser.add_argument('-s',dest="simplify_ncbi_fasta_header",help="If set, headers of fasta file will only contain the GI number from the NCBI full description",default=False,action="store_true")
 	parser.add_argument('-A',dest="append",help="If set, fasta sequences are appended to the output file",default=False,action="store_true")
@@ -116,7 +119,7 @@ def main(argv=None):
 			multi_fasta_lengths[f]+=len(record)
 			sequences[record.description]=record
 
-	# Determine the number of samples to take from each fasta 
+	# compute the number of samples to take from each fasta 
 	total_length=sum(multi_fasta_lengths.values())
 	n_samples=dict([(k,math.ceil(float(v)/total_length*args.n_contigs)) for k,v in multi_fasta_lengths.items()])
 	all_records=[]
@@ -129,23 +132,31 @@ def main(argv=None):
 		n_samples_this_fasta=dict([(k,int(math.ceil(float(v)/total_length*n_samples))) for k,v in these_sequence_length.items()])
 
 		logger.info("Fasta: %s,length:%d, N Sample:%d"%(fasta, multi_fasta_lengths[fasta],n_samples))
+		if(args.preview:
+			continue
+
 		fasta_name=os.path.split(fasta)[-1]
 		for k,v in n_samples_this_fasta.items():
 			# logger.info("Fasta:%s, Seq: %s,length:%d, N Sample:%d"%(fasta,k, sequence_lengths[k],v))
+			this_contig_length=int(random.normalvariate(args.mean, args.stdev))
 			seq=str(sequences[k].seq)
 
 			for i in range(0,v):
-				contig_length=args.avg_length
 				# Sample start position,
 
-				if len(seq)>=contig_length:
-					start=random.randint(0,len(seq)-contig_length)
-					end=start+contig_length
+				if len(seq)>=this_contig_length:
+					start=random.randint(0,len(seq)-this_contig_length)
+					end=start+this_contig_length
 				else:
 					start=0
-					end=contig_length
+					end=this_contig_length
 
-				sub_seq=seq[start:start+contig_length]
+				sub_seq=seq[start:start+this_contig_length]
+
+                if args.reverse and bool(random.getrandbits(1)):
+                    forward_sequence = Seq(sub_seq, generic_dna)
+                    sub_seq=forward_sequence.reverse_complement()
+
 
 				if (not args.keep_IUPAC) and (set(sub_seq)!=set(['A','C','G','T'])):
 					# contains ambiguous 
