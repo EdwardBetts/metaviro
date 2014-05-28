@@ -84,6 +84,7 @@ def main(argv=None):
 	parser.add_argument('-l',dest="avg_length",help="Length of conting to sample",default=500,type=int)
 	parser.add_argument("-d", "--stdev",dest="stdev", help="standard deviation", type=int, default=200)
 	parser.add_argument("-p", dest="preview", help="Only print preview of number of contigs output", default=False,action="store_true")
+	parser.add_argument("-r", dest="reverse", help="Randomly perform reverse complement", default=False,action="store_true")
 
 	parser.add_argument('-I',dest="keep_IUPAC",help="Indicate whether to keep ambiguous site",default=False,action="store_true")
 	parser.add_argument('-s',dest="simplify_ncbi_fasta_header",help="If set, headers of fasta file will only contain the GI number from the NCBI full description",default=False,action="store_true")
