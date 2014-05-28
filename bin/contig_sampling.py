@@ -132,7 +132,7 @@ def main(argv=None):
 		n_samples_this_fasta=dict([(k,int(math.ceil(float(v)/total_length*n_samples))) for k,v in these_sequence_length.items()])
 
 		logger.info("Fasta: %s,length:%d, N Sample:%d"%(fasta, multi_fasta_lengths[fasta],n_samples))
-		if(args.preview:
+		if(args.preview):
 			continue
 
 		fasta_name=os.path.split(fasta)[-1]
