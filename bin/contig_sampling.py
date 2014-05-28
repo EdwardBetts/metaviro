@@ -128,7 +128,7 @@ def main(argv=None):
 	n_samples=dict([(k,math.ceil(float(v)/total_length*args.n_contigs)) for k,v in multi_fasta_lengths.items()])
 	all_records=[]
 	if args.pretty:
-		table=prettytable.PrettyTable(["Fasta","length(kb)","N Contigs","N sampled contig","Avg contig/seq","median","min", "max"])
+		table=prettytable.PrettyTable(["Fasta","length(kb)","N sequences","N sampled contig","Avg contig/seq","median","min", "max"])
 		table.align["File"] = "l" 
 
 	for fasta,n_samples in n_samples.items():
