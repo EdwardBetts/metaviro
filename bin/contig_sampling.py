@@ -134,7 +134,7 @@ def main(argv=None):
 		med_contig_per_sequence=scipy.median(n_samples_this_fasta.values())
 		min_contig_per_sequence=min(n_samples_this_fasta.values())
 		max_contig_per_sequence=max(n_samples_this_fasta.values())
-		logger.info("Fasta: %s,length:%d, N Sample:%d, Avg contig per seq:%f, med: %d, min seq:%d, max seq:%d "%(fasta, multi_fasta_lengths[fasta],n_samples,avg_contig_per_sequence,med_contig_per_sequence,min_contig_per_sequence,max_contig_per_sequence))
+		logger.info("Fasta: %s,length:%d, N contigs: %d, N sampled contig:%d, Avg contig per seq:%f, med: %d, min seq:%d, max seq:%d "%(fasta, multi_fasta_lengths[fasta],fasta_to_sequences[fasta],n_samples,avg_contig_per_sequence,med_contig_per_sequence,min_contig_per_sequence,max_contig_per_sequence))
 		if(args.preview):
 			continue
 
