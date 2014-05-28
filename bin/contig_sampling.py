@@ -131,7 +131,9 @@ def main(argv=None):
 		# compute the number of samples per sequences
 		n_samples_this_fasta=dict([(k,int(math.ceil(float(v)/total_length*n_samples))) for k,v in these_sequence_length.items()])
 		avg_contig_per_sequence=scipy.average(n_samples_this_fasta.values())
-		logger.info("Fasta: %s,length:%d, N Sample:%d, Avg contig per seq:%f "%(fasta, multi_fasta_lengths[fasta],n_samples,avg_contig_per_sequence))
+		min_contig_per_sequence=min(n_samples_this_fasta.values())
+		max_contig_per_sequence=max(n_samples_this_fasta.values())
+		logger.info("Fasta: %s,length:%d, N Sample:%d, Avg contig per seq:%f, min per seq:%d, max per seq:%d "%(fasta, multi_fasta_lengths[fasta],n_samples,avg_contig_per_sequence,min_contig_per_sequence,max_contig_per_sequence))
 		if(args.preview):
 			continue
 
