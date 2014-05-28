@@ -190,7 +190,7 @@ def main(argv=None):
 					recordRC=record.reverse_complement()
 					recordRC.id=record.id+"_rev"
 					# recordRC.name=record.name
-					# recordRC.description=record.description
+					recordRC.description=""
 					record=recordRC
 				# record = SeqRecord(Seq(sub_seq,generic_dna))
 				all_records.append(record)
