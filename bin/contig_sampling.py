@@ -81,6 +81,7 @@ def main(argv=None):
 
 
 	parser.add_argument('-n',dest="n_contigs",help="Number of total contigs to sample",default=1e4,type=int)
+	parser.add_argument('-S',dest="by_sequence",help="Sampling of contigs is made for each sequence",default=False,action="store_true")
 	parser.add_argument('-l',dest="avg_length",help="Length of conting to sample",default=500,type=int)
 	parser.add_argument("-d", "--stdev",dest="stdev", help="standard deviation", type=int, default=200)
 	parser.add_argument("-p", dest="preview", help="Only print preview of number of contigs output", default=False,action="store_true")
@@ -127,19 +128,31 @@ def main(argv=None):
 
 	# compute the number of samples to take from each fasta 
 	total_length=sum(multi_fasta_lengths.values())
-	n_samples=dict([(k,math.ceil(float(v)/total_length*args.n_contigs)) for k,v in multi_fasta_lengths.items()])
+	if(not args.by_sequence):
+		n_samples=dict([(k,math.ceil(float(v)/total_length*args.n_contigs)) for k,v in multi_fasta_lengths.items()])
+	else:
+		# We take all sequences from each input
+		n_samples=dict([(k,len(v)*args.n_contigs) for k,v in fasta_to_sequences.items()])
+
 	all_records=[]
+
 	if args.pretty:
 		table=prettytable.PrettyTable(["Fasta","length(kb)","N sequences","N sampled contig","Avg contig/seq","median","min", "max"])
 		table.align["File"] = "l" 
 
 	for fasta,n_samples in n_samples.items():
-		# Get the length of these sequences
-		these_sequence_length = dict([(k,v) for k,v in sequence_lengths.items() if k in fasta_to_sequences[fasta]])
-		total_length=sum(these_sequence_length.values())
+		if(not args.by_sequence):
+			# Get the length of these sequences
+			these_sequence_length = dict([(k,v) for k,v in sequence_lengths.items() if k in fasta_to_sequences[fasta]])
+			total_length=sum(these_sequence_length.values())
 
-		# compute statistics of samples per sequences
-		n_samples_this_fasta=dict([(k,int(math.ceil(float(v)/total_length*n_samples))) for k,v in these_sequence_length.items()])
+			# compute statistics of samples per sequences
+			n_samples_this_fasta=dict([(k,int(math.ceil(float(v)/total_length*n_samples))) for k,v in these_sequence_length.items()])
+		else: ## Work by sequence 
+			n_samples_this_fasta=dict()
+			for seq in fasta_to_sequences[fasta]:
+				n_samples_this_fasta[seq]=args.n_contigs
+
 		avg_contig_per_sequence=scipy.average(n_samples_this_fasta.values())
 		med_contig_per_sequence=scipy.median(n_samples_this_fasta.values())
 		min_contig_per_sequence=min(n_samples_this_fasta.values())
@@ -147,8 +160,7 @@ def main(argv=None):
 		if args.pretty:
 			table.add_row([fasta, multi_fasta_lengths[fasta]/1000.0,len(fasta_to_sequences[fasta]),n_samples,avg_contig_per_sequence,med_contig_per_sequence,min_contig_per_sequence,max_contig_per_sequence])
 		else:
-
-			logger.info("Fasta: %s,length:%d, N contigs: %d, N sampled contig:%d, Avg contig per seq:%f, med: %d, min seq:%d, max seq:%d "%(fasta, multi_fasta_lengths[fasta],len(fasta_to_sequences[fasta]),n_samples,avg_contig_per_sequence,med_contig_per_sequence,min_contig_per_sequence,max_contig_per_sequence))
+			logger.info("Fasta: %s,length:%d, N sequences: %d, N sampled contig:%d, Avg contig per seq:%f, med: %d, min seq:%d, max seq:%d "%(fasta, multi_fasta_lengths[fasta],len(fasta_to_sequences[fasta]),n_samples,avg_contig_per_sequence,med_contig_per_sequence,min_contig_per_sequence,max_contig_per_sequence))
 		if(args.preview):
 			continue
 
@@ -197,6 +209,7 @@ def main(argv=None):
 	if args.pretty:
 		print table.get_string()
 	if args.append:
+		logger.info("Appending to file")
 		output_handle = open(args.output_name, "wa")
 	else:
 		output_handle = open(args.output_name, "w")
