@@ -210,9 +210,10 @@ def main(argv=None):
 		print table.get_string()
 	if args.append:
 		logger.info("Appending to file")
-		output_handle = open(args.output_name, "wa")
+		output_handle = open(args.output_name, "a")
 	else:
 		output_handle = open(args.output_name, "w")
+
 	SeqIO.write(all_records, output_handle, "fasta")
 	output_handle.close()
 
