@@ -153,6 +153,8 @@ def main(argv=None):
 			for seq in fasta_to_sequences[fasta]:
 				n_samples_this_fasta[seq]=args.n_contigs
 
+		# total_contigs=sum(n_samples_this_fasta.values())
+
 		avg_contig_per_sequence=scipy.average(n_samples_this_fasta.values())
 		med_contig_per_sequence=scipy.median(n_samples_this_fasta.values())
 		min_contig_per_sequence=min(n_samples_this_fasta.values())
