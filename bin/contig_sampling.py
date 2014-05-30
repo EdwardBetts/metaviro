@@ -167,7 +167,7 @@ def main(argv=None):
 		fasta_name=os.path.split(fasta)[-1]
 		for k,v in n_samples_this_fasta.items():
 			# logger.info("Fasta:%s, Seq: %s,length:%d, N Sample:%d"%(fasta,k, sequence_lengths[k],v))
-			this_contig_length=int(random.normalvariate(args.avg_length, args.stdev))
+			this_contig_length=int(random.gauss(args.avg_length, args.stdev))
 			seq=str(sequences[k].seq)
 
 			for i in range(0,v):
@@ -181,6 +181,8 @@ def main(argv=None):
 					end=this_contig_length
 
 				sub_seq=seq[start:start+this_contig_length]
+				if(len(sub_seq)>=10000):
+					assert False
 
 				if (not args.keep_IUPAC) and (set(sub_seq)!=set(['A','C','G','T'])):
 					# contains ambiguous 
