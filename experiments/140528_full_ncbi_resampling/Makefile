@@ -35,3 +35,6 @@ full_ncbi_contigs_4k_v2_3mers.csv: full_ncbi_contigs_4k_v2.fa
 
 full_ncbi_contigs_4k_v2_7mers.csv: full_ncbi_contigs_4k_v2.fa
 	$(BIN)/kmerize.py -k7 $< -o $@
+
+full_ncbi_contigs_4k_v2_5mers.csv: full_ncbi_contigs_4k_v2.fa
+	$(BIN)/kmerize.py -k5 $< -o $@
