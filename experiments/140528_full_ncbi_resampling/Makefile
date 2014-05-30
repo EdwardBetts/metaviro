@@ -11,5 +11,9 @@ full_ncbi_contigs_4k.fa: $(DATA)/full_ncbi/archea.fa $(DATA)/full_ncbi/bact.fa $
 	$(BIN)/contig_sampling.py $(DATA)/full_ncbi/viruses.fa -ARsP -k "viruses" -n 4000 -o $@ 
 
 
+full_ncbi_contigs_4k_stats.txt: full_ncbi_contigs_4k.fa
+	../../bin/fasta_statistics.py -i $< -d ";" -o $@
+	R -e "library(data.table);stats=fread($<);summary(stats)"
+
 full_ncbi_contigs_4k_3mers.csv: full_ncbi_contigs_4k.fa
 	$(BIN)/kmerize.py -k3 $< -o $@
