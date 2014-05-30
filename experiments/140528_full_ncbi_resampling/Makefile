@@ -28,3 +28,6 @@ full_ncbi_contigs_4k_v2_stats.txt: full_ncbi_contigs_4k_v2.fa
 
 full_ncbi_contigs_4k_3mers.csv: full_ncbi_contigs_4k.fa
 	$(BIN)/kmerize.py -k3 $< -o $@
+
+full_ncbi_contigs_4k_v2_3mers.csv: full_ncbi_contigs_4k_v2.fa
+	$(BIN)/kmerize.py -k3 $< -o $@
