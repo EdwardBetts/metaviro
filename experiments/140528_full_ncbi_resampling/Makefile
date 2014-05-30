@@ -20,11 +20,11 @@ full_ncbi_contigs_4k_v2.fa: $(DATA)/full_ncbi/archea.fa $(DATA)/full_ncbi/bact.f
 
 full_ncbi_contigs_4k_stats.txt: full_ncbi_contigs_4k.fa
 	../../bin/fasta_statistics.py -i $< -d ";" -o $@
-	R --vanilla -e "library(data.table);stats=fread(\"$@\");summary(stats)"
+	R --slave --vanilla -e "library(data.table);stats=fread(\"$@\");summary(stats)"
 
 full_ncbi_contigs_4k_v2_stats.txt: full_ncbi_contigs_4k_v2.fa
 	../../bin/fasta_statistics.py -i $< -d ";" -o $@
-	R --vanilla -e "library(data.table);stats=fread(\"$@\");summary(stats)"
+	R --slave --vanilla -e "library(data.table);stats=fread(\"$@\");summary(stats)"
 
 full_ncbi_contigs_4k_3mers.csv: full_ncbi_contigs_4k.fa
 	$(BIN)/kmerize.py -k3 $< -o $@
