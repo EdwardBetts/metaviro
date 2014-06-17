@@ -66,7 +66,7 @@ def find_fasta_files(src_dir):
 	return all_fastas
 
 def generate_wide_table(all_fastas):
-	global args
+	global args,output_handle
 	basis=[['A','T','G','C']]*args.kmer_length
 	all_kmers=sorted(["".join(x) for x in tuple(itertools.product(*basis))])
 
@@ -87,17 +87,18 @@ def generate_wide_table(all_fastas):
 			for i in range(0,len(seq)-args.kmer_length):
 				kmer=seq[i:i+args.kmer_length]
 				records_to_kmer[fasta_keys][kmer]+=1
-
-	print >>args.outfile, "\t".join(["path","sequence_description","sequence_length","GC"]+all_kmers)
+	if not args.append:
+		print >>output_handle, "\t".join(["path","sequence_description","sequence_length","GC"]+all_kmers)
 	for k,kmer_values in records_to_kmer.items():
 		all_values = list(k)
 		all_values.extend(map(str,[kmer_values.get(x,0) for x in all_kmers]))
 		# print len(all_values)
-		print >>args.outfile, "\t".join(all_values)
+		print >>output_handle, "\t".join(all_values)
 
 def generate_long_table(all_fastas):
-	global args
-	print >>args.outfile, "\t".join(["path","sequence_description","sequence_length","GC","kmer","count"])
+	global args,output_handle
+	if not args.append:	
+		print >>output_handle, "\t".join(["path","sequence_description","sequence_length","GC","kmer","count"])
 	for f in all_fastas: 
 		logger.debug("Processing file %s"%(f))
 		for record in SeqIO.parse(f, "fasta", generic_dna):
@@ -115,14 +116,21 @@ def generate_long_table(all_fastas):
 			# kmer_count[fasta_keys]=collections.defaultdict(int)
 			for i in range(0,len(seq)-args.kmer_length):
 				kmer=seq[i:i+args.kmer_length]
+				if args.star:
+					kmer=list(kmer)
+					for i in range(2,args.kmer_length,3):
+						kmer[i]="*"
+					kmer="".join(kmer)
+
 				kmer_count[kmer]+=1
 			for kmer, count in kmer_count.items():
-				print >>args.outfile,"\t".join(fasta_keys+[kmer,str(count)])
+				print >>output_handle,"\t".join(fasta_keys+[kmer,str(count)])
 
 def generate_count_table(all_fastas,prefix):
 	logger.info("Genrating counts")
-	global args
-	print >>args.outfile, "\t".join(["prefix","kmer","count"])
+	global args,output_handle
+	if not args.append:
+		print >>output_handle, "\t".join(["prefix","kmer","count"])
 	kmer_count=collections.defaultdict(int)
 	try:
 		for f in all_fastas: 
@@ -159,30 +167,39 @@ def generate_count_table(all_fastas,prefix):
 		pass
 	logger.info("Finished counting, outputting")
 	for kmer, count in kmer_count.items():
-		print >>args.outfile,"\t".join([prefix,kmer,str(count)])
+		print >>output_handle,"\t".join([prefix,kmer,str(count)])
 
 	# for k,kmer_values in records_to_kmer.items():
 	# 	all_values = list(k)
 	# 	all_values.extend(map(str,[kmer_values.get(x,0) for x in all_kmers]))
 	# 	# print len(all_values)
-	# 	print >>args.outfile, "\t".join(all_values)
+	# 	print >>output_handle, "\t".join(all_values)
 
 
 
 def main(argv=None):
-	global args
+	global args,output_handle
 	parser=argparse.ArgumentParser(description="Compute kmer counts for all sequences in the input multi fasta file")
 	parser.add_argument('-k',dest="kmer_length",help="mer length",default=3,type=int)
 	parser.add_argument('-r',dest="recursive",help="Perform recursive search for fasta files",action="store_true")
 	parser.add_argument('-L',dest="long",help="Switch output from wide(default) to Long format(One fasta/kmer per line, sparse)",action="store_true")
-	parser.add_argument('-S',dest="star",help="Generated starred k-mers, using * for each third nt",action="store_true")
+	parser.add_argument('-S',dest="star",help="Generated starred k-mers, using * for each third nt (require --long)",action="store_true")
 	parser.add_argument('-I',dest="keep_IUPAC",help="Do not throw k-mer with IUPAC code nt",action="store_true")
-	parser.add_argument('-C',default="None",type=str,dest="counts_prefix",help="Indicate prefix for count output, and switch output from wide(default) to count format(One kmer per line, count in all the FATSTAs in the input)")
-	parser.add_argument('-o', nargs='?', type=argparse.FileType('w'), default=sys.stdout,dest="outfile")
+	parser.add_argument('-A',dest="append",help="open output in append mode",action="store_true")
+	parser.add_argument('-C',default="None",type=str,dest="counts_prefix",help="Indicate prefix for count output, and switch output from wide(default) to count format(One kmer & count per line, count in all the FATSTAs in the input)")
+	parser.add_argument('-o',dest="output_name",help="Name of output file",default="contigs.fasta",type=str)
 
 
 	parser.add_argument('FASTAFILE',action='append',nargs="+",help='list of fasta files')
 	args=parser.parse_args()
+
+	if args.append:
+		logger.info("Appending to file")
+		output_handle = open(args.output_name, "a")
+	else:
+		output_handle = open(args.output_name, "w")
+
+
 
 	FASTAFILE=args.FASTAFILE[0]
 	all_fastas=set()
@@ -193,7 +210,7 @@ def main(argv=None):
 		all_fastas=set(FASTAFILE)
 
 	logger.info("Will process %d fasta files"%(len(all_fastas)))
-	if(args.kmer_length>=10 and not (args.long or args.counts_prefix)):
+	if(args.kmer_length>=9 and not (args.long or args.counts_prefix)):
 		logger.critical("K-mer length %d too large for wide output format"%(args.kmer_length))
 		sys.exit(1)
 

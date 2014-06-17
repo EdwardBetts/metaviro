@@ -93,6 +93,7 @@ def main(argv=None):
 	parser.add_argument('-o',dest="output_name",help="Name of output file",default="contigs.fasta",type=str)
 	parser.add_argument('-P',dest="pretty",help="Use (and require) prettytable for summary output",default=False,action="store_true")
 	parser.add_argument('-k',dest="key",help="Indicate key that should be used to identify each contig",default="")
+	parser.add_argument('-M',dest="max_sequences",help="Maximal number of sequences to consider,-1: all",default=-1,type=int)
 
 	parser.add_argument('FASTAFILE',action='append',nargs="+",help='list of fasta files')
 	args=parser.parse_args()
@@ -126,6 +127,12 @@ def main(argv=None):
 			multi_fasta_lengths[f]+=len(record)
 			sequences[record.description]=record
 
+	if args.max_sequences>0:
+		logger.info("Downsampling to first %d sequences of each input fasta"%(args.max_sequences))
+		for fasta_file,these_sequences in fasta_to_sequences.items():
+			fasta_to_sequences[fasta_file]=these_sequences[0:args.max_sequences]
+
+
 	# compute the number of samples to take from each fasta 
 	total_length=sum(multi_fasta_lengths.values())
 	if(not args.by_sequence):
@@ -133,6 +140,7 @@ def main(argv=None):
 	else:
 		# We take all sequences from each input
 		n_samples=dict([(k,len(v)*args.n_contigs) for k,v in fasta_to_sequences.items()])
+
 
 	all_records=[]
 
@@ -169,11 +177,11 @@ def main(argv=None):
 		fasta_name=os.path.split(fasta)[-1]
 		for k,v in n_samples_this_fasta.items():
 			# logger.info("Fasta:%s, Seq: %s,length:%d, N Sample:%d"%(fasta,k, sequence_lengths[k],v))
-			this_contig_length=int(random.gauss(args.avg_length, args.stdev))
 			seq=str(sequences[k].seq)
 
 			for i in range(0,v):
 				# Sample start position,
+				this_contig_length=int(random.gauss(args.avg_length, args.stdev))
 
 				if len(seq)>=this_contig_length:
 					start=random.randint(0,len(seq)-this_contig_length)
