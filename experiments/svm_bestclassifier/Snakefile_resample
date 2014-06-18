@@ -1,0 +1,47 @@
+NBCONTIGS = 25000
+TOPLEVEL = ["virus", "arch", "bact", "euk"]
+NCORES = 30
+BIN = "../../../bin"
+
+"""
+
+"""
+
+rule all:
+	input: expand("{reign}_cont_numeric_k{k}.mv", reign=TOPLEVEL, k=[3]), "virus_cont.fasta.blastout.virless"
+	shell: "ls -lh *.mv"
+
+rule computedist:
+	input: "{reign}_cont_numeric.fasta"
+	output: "{reign}_cont_numeric_k{k}.mv"
+	shell:
+		"""
+		{BIN}/run_kmer.bash  -k {wildcards.k} -f {input}
+		python {BIN}/convert_kmer.py -t 10 {wildcards.reign}_cont_numeric_k{wildcards.k}.frags
+		rm {wildcards.reign}_cont_numeric_k{wildcards.k}.frags
+		"""
+
+rule convert_to_numeric:
+	input: "{reign}_cont.fasta"
+	output: "{reign}_cont_numeric.fasta"
+	shell: "module load python/2.7.3 && python {BIN}/fasta_to_numeric.py {input} {output}"
+	
+# Filter viral hits out of blast output
+rule filterblastout:
+	input: "virus_cont.fasta.blastout"
+	output: "virus_cont.fasta.blastout.virless"
+	shell: "egrep '^>|^Query=' {input} | egrep -vi '^>.*virus|^>.*viral|^>.*phage|^>.*pahge|^>.*capsid|^>.*cloning vector lambda|^>.*cloning vector.+M13|^>.*M13.+cloning vector'> {output}"
+
+# Blast the viral contigs to the other reigns
+rule blast:
+	input: "virus_cont.fasta"
+	output: "virus_cont.fasta.blastout"
+	shell: "export BLASTDB=/mnt/cbib/bank/blast && module load blast/2.2.25 && megablast -d nt -i {input} -o {output} -e 0.05 -D 2 -W 16"
+
+# Make a new resampling in the current directory
+rule resample:
+	input: "/home/lschmitt/ncbi/{reign}/{reign}.fasta"
+	output: "{reign}_cont.fasta"
+	shell: "python {BIN}/generate_fake_contigs.py -n {NBCONTIGS} -r -o {output} {input}"
+
+

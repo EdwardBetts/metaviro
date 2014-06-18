@@ -2,8 +2,8 @@ library(data.table)
 library(ggplot2)
 library(dplyr)
 library(gridExtra)
-
 library(reshape2)
+
 setwd("~/Documents/metaviro/experiments/140613_more_patterns/")
 # input_kmers=fread("long_kmers_m300_n4.fa_10101.csv")
 # input_file="long_kmers_m300_n4.fa_10111001010100010011.csv"
@@ -21,7 +21,9 @@ setwd("~/Documents/metaviro/experiments/140613_more_patterns/")
 # input_file="long_kmers_m300_n4.fa_101001111011.csv"
 # input_file="long_kmers_m300_n4.fa_111011100111.csv"
 # input_file="long_kmers_m300_n4.fa_1101111100001.csv"
-input_file="long_kmers_m300_n4.fa_1011011111.csv"
+# input_file="long_kmers_m300_n4.fa_101010100001111.csv"
+input_file="long_kmers_m300_n4.fa_111101000010101.csv"
+
 
 
 # Extract pattern to be used as plot title
@@ -98,7 +100,7 @@ g3=ggplot(long_kmer_retrieval_d[bact>=6],aes(x=bact,y=bact_purity,size=bact_f1_s
 
 g4=ggplot(long_kmer_retrieval_d[archea>=6],aes(x=archea,y=arch_purity,size=arch_purity,colour=virus_f1_score))+geom_point()+xlim(0,n_classes_l$arc)+ylim(0,1)+scale_size_continuous(range=c(2,6))+annotations
 
-pdf(file=paste("processed/",input_file,"_retrieval_stats.pdf",sep=""),w=24,h=16)
+pdf(file=paste("processed\\",input_file,"_retrieval_stats.pdf",sep=""),w=24,h=16)
 grid.arrange(g1,g2,g3,g4,main=pattern_name)
 dev.off()
 
@@ -111,6 +113,13 @@ g2=ggplot(long_kmer_retrieval_d[euk>=6],aes(x=euk_precision,y=euk_recall,size=eu
 g3=ggplot(long_kmer_retrieval_d[bact>=6],aes(x=bact_precision,y=bact_recall,size=bact_f1_score,color=virus_f1_score))+geom_point()+xlim(0,1)+ylim(0,1)+scale_size_continuous(range=c(2,6))+annotations
 g4=ggplot(long_kmer_retrieval_d[archea>=6],aes(x=arch_precision,y=arch_recall,size=arch_f1_score,color=euk_f1_score))+geom_point()+xlim(0,1)+ylim(0,1)+scale_size_continuous(range=c(2,6))+annotations
 
-pdf(file=paste("processed/",input_file,"_PR_retrieval_stats.pdf",sep=""),w=24,h=16)
+pdf(file=paste("processed\\",input_file,"_PR_retrieval_stats.pdf",sep=""),w=24,h=16)
 grid.arrange(g1,g2,g3,g4,main=pattern_name)
 dev.off()
+
+
+
+
+
+
+
