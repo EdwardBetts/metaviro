@@ -113,7 +113,7 @@ fi
 ## Jobs!
 
 # Create sequence ids list
-grep "^>" $multifasta | sed -e 's/^>//' > $shareddir/$runid/ids.txt
+grep "^>" $multifasta | sed -e 's/^>//' | cut -d" " -f1 > $shareddir/$runid/ids.txt
 
 # ( °_°)/⌒●~*
 echo "Launching jobs..."
@@ -140,7 +140,7 @@ do
 	samtools faidx $multifasta \$header > /tmp/$runid/\${header}.fasta
 	echo $multifasta \$header
 	$bindir/kmer $k /tmp/$runid/\${header}.fasta
-	rm /tmp/$runid/\${header}.fasta
+	rm "/tmp/$runid/\${header}.fasta"
 	echo ">\${header}" >> /tmp/$runid/job\${PBS_JOBID}.frags
 	cat /tmp/$runid/\${header}.frags >> /tmp/$runid/job\${PBS_JOBID}.frags
 	rm /tmp/$runid/\${header}.frags
