@@ -1,5 +1,6 @@
 ```{r }
 library(data.table)
+library(infotheo)
 library(gridExtra)
 library(reshape2)
 library(ggplot2)
@@ -11,7 +12,9 @@ We load a large pattern
 
 ```{r }
 setwd("~/Documents/metaviro/experiments/140613_more_patterns/")
-spaced_kmers=fread("long_kmers_m300_n4.fa_1110010101.csv")
+#spaced_kmers=fread("spaced_kmers/long_kmers_m300_n4.fa_101011010111.csv")
+
+spaced_kmers=fread("spaced_kmers/long_kmers_m300_n4.fa_111101000010101.csv")
 
 
 seq_attributes=limma::strsplit2(spaced_kmers$sequence_description,"_")
@@ -31,7 +34,8 @@ kmer_by_species$V1=1
 # This give the number of unique species in which we find a kmer 
 kmer_by_unique_species=kmer_by_species[,sum(V1),by=list(kmer,class)][order(V1)]
 
-kmer_by_unique_species_m=dcast.data.table(kmer_by_unique_species,kmer~class)
+kmer_by_unique_species_m=dcast.data.table(kmer_by_unique_species,kmer~class,fill=0)
+
 # We normalize by the number of species in each classes 
 n_classes=spaced_kmers[,.N,by=list(class,species)][,.N,by=class]
 n_classes_l=as.list(n_classes$N)
@@ -66,22 +70,213 @@ cf
 Number of pos / neg docs for each feature at the species level 
 
 ```{r }
-kmer_by_unique_species_count=dcast.data.table(kmer_by_unique_species,kmer~class)
+kmer_by_unique_species_count=dcast.data.table(kmer_by_unique_species,kmer~class,fill=0)
 ggplot(kmer_by_unique_species_count,aes(x=archea+bact+euk,y=viruses))+geom_point()
 ```
 
 We compute the chi^2 stat 
 
 ```{r }
-kmer_contingency=kmer_by_unique_species_count[,list(
+kmer_viral_contingency=kmer_by_unique_species_count[,list(
 	n_viral_no=n_classes_l$viruses - viruses, # N viral species without the k-mer 
 	n_viral=viruses, # N viral species with the k-mer
 	n_no_viral=archea+bact+euk, # N non-viral with the k-mer 
 	n_no_viral_no=sum(unlist(n_classes_l))-n_classes_l$viruses - (archea+bact+euk) # N non-viral without the k-mer 
 	),by=kmer]
 
-kmer_viral_chi2=kmer_contingency[,list(chi2=chisq.test(matrix(c(n_viral_no,n_viral,n_no_viral_no,n_no_viral),byrow=T,ncol=2))$statistic),by=kmer]
-kmer_by_unique_species_count=merge(kmer_by_unique_species_count,kmer_viral_chi2,by="kmer")
+kmer_viral_chi2=kmer_viral_contingency[,list(viral_chi2=chisq.test(matrix(c(n_viral_no,n_viral,n_no_viral_no,n_no_viral),byrow=T,ncol=2))$statistic),by=kmer]
 
-ggplot(kmer_by_unique_species_count,aes(x=archea+bact+euk,y=viruses,colour=chi2))+geom_point()
+
+kmer_euk_contingency=kmer_by_unique_species_count[,list(
+  n_euk_no=n_classes_l$euk - euk, # N euk species without the k-mer 
+	n_euk=euk, # N euk species with the k-mer
+	n_no_euk=archea+bact+viruses, # N non-euk with the k-mer 
+	n_no_euk_no=sum(unlist(n_classes_l))-n_classes_l$euk - (archea+bact+viruses) # N non-euk without the k-mer 
+	),by=kmer]
+
+kmer_euk_chi2=kmer_euk_contingency[,list(euk_chi2=chisq.test(matrix(c(n_euk_no,n_euk,n_no_euk_no,n_no_euk),byrow=T,ncol=2))$statistic),by=kmer]
+
+
+kmer_bact_contingency=kmer_by_unique_species_count[,list(
+  n_bact_no=n_classes_l$bact - bact, # N bact species without the k-mer 
+	n_bact=bact, # N bact species with the k-mer
+	n_no_bact=archea+bact+viruses, # N non-bact with the k-mer 
+	n_no_bact_no=sum(unlist(n_classes_l))-n_classes_l$bact - (archea+euk+viruses) # N non-bact without the k-mer 
+	),by=kmer]
+
+kmer_bact_chi2=kmer_bact_contingency[,list(bact_chi2=chisq.test(matrix(c(n_bact_no,n_bact,n_no_bact_no,n_no_bact),byrow=T,ncol=2))$statistic),by=kmer]
+
+
+kmer_archea_contingency=kmer_by_unique_species_count[,list(
+  n_archea_no=n_classes_l$archea - archea, # N archea species without the k-mer 
+	n_archea=archea, # N archea species with the k-mer
+	n_no_archea=archea+archea+viruses, # N non-archea with the k-mer 
+	n_no_archea_no=sum(unlist(n_classes_l))-n_classes_l$archea - (archea+euk+viruses) # N non-archea without the k-mer 
+	),by=kmer]
+
+kmer_archea_chi2=kmer_archea_contingency[,list(archea_chi2=chisq.test(matrix(c(n_archea_no,n_archea,n_no_archea_no,n_no_archea),byrow=T,ncol=2))$statistic),by=kmer]
+
+
+
+kmer_by_unique_species_count=merge(merge(merge(merge(kmer_by_unique_species_count,kmer_viral_chi2,by="kmer"),kmer_euk_chi2,by="kmer"),kmer_bact_chi2,by='kmer'),kmer_archea_chi2,by="kmer")
+
+g1=ggplot(kmer_by_unique_species_count,aes(x=archea+bact+euk,y=viruses,colour=viral_chi2))+geom_point()
+g2=ggplot(kmer_by_unique_species_count,aes(x=archea+bact+viruses,y=euk,colour=euk_chi2))+geom_point()
+g3=ggplot(kmer_by_unique_species_count,aes(x=archea+euk+viruses,y=bact,colour=bact_chi2))+geom_point()
+g4=ggplot(kmer_by_unique_species_count,aes(x=euk+bact+viruses,y=archea,colour=archea_chi2))+geom_point()
+grid.arrange(g1,g2,g3,g4)
 ```
+
+Instead of a one-vs-all chi2, we compute the chi2 with all classes assignment 
+
+```{r }
+
+kmer_all_contingency=kmer_by_unique_species_count[,list(
+  	n_archea_no=n_classes_l$archea - archea, # N archea species without the k-mer 
+  	n_bact_no=n_classes_l$bact - bact, # N archea species without the k-mer 
+  	n_euk_no=n_classes_l$euk - euk, # N archea species without the k-mer 
+  	n_viruses_no=n_classes_l$viruses - viruses, # N archea species without the k-mer 
+  	n_archea=archea, # N archea species without the k-mer 
+  	n_bact=bact, # N archea species without the k-mer 
+  	n_euk=euk, # N archea species without the k-mer 
+  	n_viruses=viruses # N archea species without the k-mer 
+	),by=kmer]
+
+kmer_chi2=kmer_all_contingency[,list(global_chi2=chisq.test(matrix(c(n_archea_no, n_bact_no, n_euk_no, n_viruses_no, n_archea, n_bact, n_euk, n_viruses),byrow=T,ncol=4))$statistic),by=kmer]
+#setnames(kmer_chi2,c("kmer","global_chi2"))
+kmer_by_unique_species_count=merge(kmer_by_unique_species_count,kmer_chi2,by='kmer')
+
+#10.83 == signif at the 0.001 level a
+g1=ggplot(kmer_by_unique_species_count,aes(x=archea+bact+euk,y=viruses,colour=interaction(global_chi2>=10.83,viral_chi2>=10.83)))+geom_point()+geom_abline(slope=1)
+g2=ggplot(kmer_by_unique_species_count,aes(x=archea+bact+viruses,y=euk,colour=interaction(global_chi2>=10.83,euk_chi2>=10.83)))+geom_point()+geom_abline(slope=1)
+g3=ggplot(kmer_by_unique_species_count,aes(x=archea+euk+viruses,y=bact,colour=interaction(global_chi2>=10.83,bact_chi2>=10.83)))+geom_point()+geom_abline(slope=1)
+g4=ggplot(kmer_by_unique_species_count,aes(x=euk+bact+viruses,y=archea,colour=interaction(global_chi2>=10.83,archea_chi2>=10.83)))+geom_point()+geom_abline(slope=1)
+grid.arrange(g1,g2,g3,g4)
+
+```
+
+
+We compare classifiers using 300 random features vs classifier using top 300 chi2 features 
+
+
+```{r}
+random_features=sample(levels(spaced_kmers$kmer),size=64)
+top_features=as.character(tail(kmer_by_unique_species_count[order(global_chi2)],n=64)$kmer)
+
+
+random_feat_matrix=dcast.data.table(spaced_kmers[kmer %in% random_features],sequence_description+class~kmer,value.var="count",fill=0)
+top_feat_matrix=dcast.data.table(spaced_kmers[kmer %in% top_features],sequence_description+class~kmer,value.var="count",fill=0)
+
+```
+
+```{r}
+library(caret)
+count_cols_rand=colnames(random_feat_matrix)[-(1:2)]
+count_cols_top=colnames(top_feat_matrix)[-(1:2)]
+
+set.seed(3456)
+trainIndex <- createDataPartition(top_feat_matrix$class, p = .8, list = FALSE, times = 1)
+
+seqTrain <- top_feat_matrix[ trainIndex[,1]][,c("class",count_cols_top),with=F]
+seqTest  <- top_feat_matrix[-trainIndex[,1],c("class",count_cols_top),with=F]
+
+fitControl <- trainControl(    method = "repeatedcv", number = 3, repeats = 2)
+
+svmGrid=data.frame(sigma=c(1,10,90),C=c(1))
+
+svmTrainFit <- train(class ~ ., data = seqTrain,
+                 method = "svmRadial",
+                 trControl = fitControl,
+                 #tuneGrid=svmGrid,
+                 ## This last option is actually one
+                 ## for gbm() that passes through
+                 verbose = T)
+
+
+predictions=predict(svmTrainFit,newdata=seqTest[,count_cols_top,with=F])
+confusionMatrix(predictions,seqTest$class)
+
+```
+
+We compare against SVM gamma 90 3-mers
+
+```{r}
+all_3_mers=fread('spaced_kmers/long_kmers_m300_n4.fa_111.csv')
+
+
+seq_attributes=limma::strsplit2(all_3_mers$sequence_description,"_")
+all_3_mers$class=factor(seq_attributes[,2])
+all_3_mers$species=factor(seq_attributes[,1])
+all_3_mers$pattern=factor(all_3_mers$pattern)
+all_3_mers$kmer=factor(all_3_mers$kmer)
+
+all_3_mers_counts=dcast.data.table(all_3_mers,class+sequence_description~kmer,value.var='count',fill=0)
+count_cols_3mers=colnames(all_3_mers_counts)[-(1:2)]
+
+set.seed(3456)
+trainIndex <- createDataPartition(all_3_mers_counts$class, p = .8, list = FALSE, times = 1)
+
+seqTrain <- all_3_mers_counts[ trainIndex[,1]][,c("class",count_cols_3mers),with=F]
+seqTest  <- all_3_mers_counts[-trainIndex[,1],c("class",count_cols_3mers),with=F]
+
+fitControl <- trainControl(    method = "repeatedcv", number = 3, repeats = 2)
+
+svmGrid=expand.grid(sigma=c(1,10,90),C=c(1,10))
+
+svmTrainFit3Mers <- train(class ~ ., data = seqTrain,
+                 method = "svmRadial",
+                 trControl = fitControl,
+                 #tuneGrid=svmGrid,
+                 ## This last option is actually one
+                 ## for gbm() that passes through
+                 verbose = T)
+
+predictions=predict(svmTrainFit3Mers,newdata=seqTrain[,count_cols_3mers,with=F])
+confusionMatrix(predictions,seqTrain$.outcome)
+
+predictions=predict(svmTrainFit3Mers,newdata=seqTest[,count_cols_3mers,with=F])
+confusionMatrix(predictions,seqTest$class)
+
+```
+
+
+We compare against a round-robin schema where each class can suggest features 
+
+```{r}
+
+top_features = unique(c(
+  as.character(head(kmer_by_unique_species_count[order(viral_chi2,decreasing=T),kmer],n=16)),
+  as.character(head(kmer_by_unique_species_count[order(bact_chi2,decreasing=T),kmer],n=16)),
+  as.character(head(kmer_by_unique_species_count[order(euk_chi2,decreasing=T),kmer],n=16)),
+  as.character(head(kmer_by_unique_species_count[order(archea_chi2,decreasing=T),kmer],n=16))))
+  
+  
+top_feat_matrix=dcast.data.table(spaced_kmers[kmer %in% top_features],sequence_description+class~kmer,value.var="count",fill=0)
+count_cols_top=colnames(top_feat_matrix)[-(1:2)]
+
+set.seed(3456)
+trainIndex <- createDataPartition(top_feat_matrix$class, p = .8, list = FALSE, times = 1)
+
+seqTrain <- top_feat_matrix[ trainIndex[,1]][,c("class",count_cols_top),with=F]
+seqTest  <- top_feat_matrix[-trainIndex[,1],c("class",count_cols_top),with=F]
+
+fitControl <- trainControl(    method = "repeatedcv", number = 3, repeats = 2)
+
+svmGrid=expand.grid(sigma=c(1,10,90),C=c(1,10))
+
+svmTrainFit3Mers <- train(class ~ ., data = seqTrain,
+                 method = "svmRadial",
+                 trControl = fitControl,
+                 #tuneGrid=svmGrid,
+                 ## This last option is actually one
+                 ## for gbm() that passes through
+                 verbose = T)
+
+predictions=predict(svmTrainFit3Mers,newdata=seqTest[,count_cols_top,with=F])
+confusionMatrix(predictions,seqTest$class)
+
+```
+
+
+We combine 3-mers with spaced_k_mers ???
+
