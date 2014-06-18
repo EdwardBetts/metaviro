@@ -1,0 +1,87 @@
+```{r }
+library(data.table)
+library(gridExtra)
+library(reshape2)
+library(ggplot2)
+library(caret)
+
+```
+
+We load a large pattern 
+
+```{r }
+setwd("~/Documents/metaviro/experiments/140613_more_patterns/")
+spaced_kmers=fread("long_kmers_m300_n4.fa_1110010101.csv")
+
+
+seq_attributes=limma::strsplit2(spaced_kmers$sequence_description,"_")
+spaced_kmers$class=factor(seq_attributes[,2])
+spaced_kmers$species=factor(seq_attributes[,1])
+spaced_kmers$pattern=factor(spaced_kmers$pattern)
+spaced_kmers$kmer=factor(spaced_kmers$kmer)
+```
+
+What are the sparse k-mers ?
+
+```{r }
+kmer_by_species=spaced_kmers[,sum(count),by=list(kmer,class,species)]
+# We binarize 
+kmer_by_species$V1=1
+
+# This give the number of unique species in which we find a kmer 
+kmer_by_unique_species=kmer_by_species[,sum(V1),by=list(kmer,class)][order(V1)]
+
+kmer_by_unique_species_m=dcast.data.table(kmer_by_unique_species,kmer~class)
+# We normalize by the number of species in each classes 
+n_classes=spaced_kmers[,.N,by=list(class,species)][,.N,by=class]
+n_classes_l=as.list(n_classes$N)
+names(n_classes_l)=as.character(n_classes$class)
+
+kmer_by_unique_species_m$bact = kmer_by_unique_species_m$bact/n_classes_l$bact 
+kmer_by_unique_species_m$euk = kmer_by_unique_species_m$euk/n_classes_l$euk 
+kmer_by_unique_species_m$archea = kmer_by_unique_species_m$archea/n_classes_l$archea 
+kmer_by_unique_species_m$viruses = kmer_by_unique_species_m$viruses/n_classes_l$viruses 
+
+kmer_by_unique_species_m[,sd:=sd(c(archea,bact,euk,viruses)),by=kmer]
+kmer_by_unique_species_m[order(sd)]
+g1=ggplot(kmer_by_unique_species_m,aes(x=bact,y=sd,colour=viruses))+geom_point()+geom_smooth()
+g2=ggplot(kmer_by_unique_species_m,aes(x=euk,y=sd,colour=viruses))+geom_point()+geom_smooth()
+g3=ggplot(kmer_by_unique_species_m,aes(x=archea,y=sd,colour=viruses))+geom_point()+geom_smooth()
+g4=ggplot(kmer_by_unique_species_m,aes(x=viruses,y=sd,colour=euk))+geom_point()+geom_smooth()
+grid.arrange(g1,g2,g3,g4)
+
+ggplot(kmer_by_unique_species_m,aes(x=archea,y=bact,colour=(viruses>=0.4)))+geom_point()+geom_smooth()
+```
+
+
+# Feature selection 
+
+cf 
+	http://www.hpl.hp.com/techreports/2007/HPL-2007-16R1.pdf
+	http://nlp.stanford.edu/IR-book/html/htmledition/assessing-as-a-feature-selection-methodassessing-chi-square-as-a-feature-selection-method-1.html
+	http://blog.datumbox.com/using-feature-selection-methods-in-text-classification/
+	http://courses.ischool.berkeley.edu/i256/f06/papers/yang97comparative.pdf
+
+
+Number of pos / neg docs for each feature at the species level 
+
+```{r }
+kmer_by_unique_species_count=dcast.data.table(kmer_by_unique_species,kmer~class)
+ggplot(kmer_by_unique_species_count,aes(x=archea+bact+euk,y=viruses))+geom_point()
+```
+
+We compute the chi^2 stat 
+
+```{r }
+kmer_contingency=kmer_by_unique_species_count[,list(
+	n_viral_no=n_classes_l$viruses - viruses, # N viral species without the k-mer 
+	n_viral=viruses, # N viral species with the k-mer
+	n_no_viral=archea+bact+euk, # N non-viral with the k-mer 
+	n_no_viral_no=sum(unlist(n_classes_l))-n_classes_l$viruses - (archea+bact+euk) # N non-viral without the k-mer 
+	),by=kmer]
+
+kmer_viral_chi2=kmer_contingency[,list(chi2=chisq.test(matrix(c(n_viral_no,n_viral,n_no_viral_no,n_no_viral),byrow=T,ncol=2))$statistic),by=kmer]
+kmer_by_unique_species_count=merge(kmer_by_unique_species_count,kmer_viral_chi2,by="kmer")
+
+ggplot(kmer_by_unique_species_count,aes(x=archea+bact+euk,y=viruses,colour=chi2))+geom_point()
+```
