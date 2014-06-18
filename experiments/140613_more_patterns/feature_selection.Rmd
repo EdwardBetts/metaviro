@@ -264,7 +264,7 @@ fitControl <- trainControl(    method = "repeatedcv", number = 3, repeats = 2)
 
 svmGrid=expand.grid(sigma=c(1,10,90),C=c(1,10))
 
-svmTrainFit3Mers <- train(class ~ ., data = seqTrain,
+svmTrainFitTop <- train(class ~ ., data = seqTrain,
                  method = "svmRadial",
                  trControl = fitControl,
                  #tuneGrid=svmGrid,
@@ -272,11 +272,44 @@ svmTrainFit3Mers <- train(class ~ ., data = seqTrain,
                  ## for gbm() that passes through
                  verbose = T)
 
-predictions=predict(svmTrainFit3Mers,newdata=seqTest[,count_cols_top,with=F])
+predictions=predict(svmTrainFitTop,newdata=seqTest[,count_cols_top,with=F])
 confusionMatrix(predictions,seqTest$class)
 
 ```
 
 
+We perform a scale centering on the 3-mers 
+
+```{r}
+set.seed(3456)
+trainIndex <- createDataPartition(all_3_mers_counts$class, p = .8, list = FALSE, times = 1)
+
+seqTrain <- all_3_mers_counts[ trainIndex[,1]][,c("class",count_cols_3mers),with=F]
+seqTest  <- all_3_mers_counts[-trainIndex[,1],c("class",count_cols_3mers),with=F]
+
+preProcValues <- preProcess(seqTrain[,count_cols_3mers,with=F], method = c("center", "scale"))
+trainTransformed <- predict(preProcValues, seqTrain[,count_cols_3mers,with=F])
+trainTransformed$class = seqTrain$class
+testTransformed <- predict(preProcValues, seqTest[,count_cols_3mers,with=F])
+testTransformed$class = seqTest$class
+
+
+
+svmTrainFit3Mers <- train(class ~ ., data = trainTransformed,
+                 method = "svmRadial",
+                 trControl = fitControl,
+                 #tuneGrid=svmGrid,
+                 ## This last option is actually one
+                 ## for gbm() that passes through
+                 verbose = T)
+
+
+predictions=predict(svmTrainFit3Mers,newdata=testTransformed[,count_cols_3mers])
+confusionMatrix(predictions,testTransformed$class)
+
+```
+
 We combine 3-mers with spaced_k_mers ???
+
+
 
