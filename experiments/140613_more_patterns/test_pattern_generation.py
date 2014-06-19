@@ -58,7 +58,7 @@ sys.path.append(METAVIROOT+"bin/")
 
 ## Set inputs 
 
-all_fastas=["long_kmers_m300_n4.fa"]
+all_fastas=["long_kmers_mVar_n30.fa"]
 split_delim=None #Whether we should split the FASTA id or not 
 split_delim="_" #Whether we should split the FASTA id or not 
 # output_file="long_kmers_m300_n4_w9_p40.csv"
@@ -73,14 +73,14 @@ existing_files=os.listdir(".")
 ### Generate some random patterns 
 
 ## User defined parameters 
-max_1 = 3
-n_patterns = 30
+max_1 = 8
+n_patterns = 10
 
 
 
 all_patterns=[]
 for i in xrange(n_patterns):
-	number_zeros=random.choice(xrange(0,max_1+1))
+	number_zeros=random.choice(xrange(0,max_1*2))
 	pattern_size=max_1+number_zeros
 	# make a permutation
 	this_pattern=random.sample([1]*max_1 + [0] * number_zeros,k=pattern_size)
@@ -98,7 +98,7 @@ patterns_to_skip=set()
 for p in all_patterns:
 	p_str="".join(map(str,p))
 	for f in all_fastas:
-		output_file=f+"_"+p_str+".csv"
+		output_file="spaced_kmers/"+f+"_"+p_str+".csv"
 		if output_file in existing_files:
 			logger.info("%s already existing for pattern %s and input %s"%(output_file,p_str,f))
 			patterns_to_skip.add(p)

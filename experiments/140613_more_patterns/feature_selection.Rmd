@@ -1,6 +1,7 @@
 ```{r }
 library(data.table)
 library(infotheo)
+library(dplyr)
 library(gridExtra)
 library(reshape2)
 library(ggplot2)
@@ -14,7 +15,8 @@ We load a large pattern
 setwd("~/Documents/metaviro/experiments/140613_more_patterns/")
 #spaced_kmers=fread("spaced_kmers/long_kmers_m300_n4.fa_101011010111.csv")
 
-spaced_kmers=fread("spaced_kmers/long_kmers_m300_n4.fa_111101000010101.csv")
+# spaced_kmers=fread("spaced_kmers/long_kmers_m300_n4.fa_111101000010101.csv")
+spaced_kmers=fread("spaced_kmers/long_kmers_m300_n4.fa_11101011.csv")
 
 
 seq_attributes=limma::strsplit2(spaced_kmers$sequence_description,"_")
@@ -156,7 +158,7 @@ grid.arrange(g1,g2,g3,g4)
 ```
 
 
-We compare classifiers using 300 random features vs classifier using top 300 chi2 features 
+We compare classifiers using 64 random features vs classifier using top 64 chi2 features 
 
 
 ```{r}
@@ -166,13 +168,23 @@ top_features=as.character(tail(kmer_by_unique_species_count[order(global_chi2)],
 
 random_feat_matrix=dcast.data.table(spaced_kmers[kmer %in% random_features],sequence_description+class~kmer,value.var="count",fill=0)
 top_feat_matrix=dcast.data.table(spaced_kmers[kmer %in% top_features],sequence_description+class~kmer,value.var="count",fill=0)
+count_cols_rand=colnames(random_feat_matrix)[-(1:2)]
+count_cols_top=colnames(top_feat_matrix)[-(1:2)]
+
+# We make a balanced data set 
+
+sample_row = function(df,size){df[sample(1:nrow(df),size=size),]}
+balanced_size=min(table(top_feat_matrix$class))
+top_feat_matrix_balanced=rbind(
+    top_feat_matrix[class=="archea"] %.% sample_row(balanced_size),
+    top_feat_matrix[class=="bact"] %.% sample_row(balanced_size),
+    top_feat_matrix[class=="euk"] %.% sample_row(balanced_size),
+    top_feat_matrix[class=="viruses"] %.% sample_row(balanced_size))
 
 ```
 
 ```{r}
 library(caret)
-count_cols_rand=colnames(random_feat_matrix)[-(1:2)]
-count_cols_top=colnames(top_feat_matrix)[-(1:2)]
 
 set.seed(3456)
 trainIndex <- createDataPartition(top_feat_matrix$class, p = .8, list = FALSE, times = 1)
@@ -180,14 +192,14 @@ trainIndex <- createDataPartition(top_feat_matrix$class, p = .8, list = FALSE, t
 seqTrain <- top_feat_matrix[ trainIndex[,1]][,c("class",count_cols_top),with=F]
 seqTest  <- top_feat_matrix[-trainIndex[,1],c("class",count_cols_top),with=F]
 
-fitControl <- trainControl(    method = "repeatedcv", number = 3, repeats = 2)
+fitControl <- trainControl(    method = "repeatedcv", number = 3, repeats = 1)
 
-svmGrid=data.frame(sigma=c(1,10,90),C=c(1))
+svmGrid=expand.grid(sigma=10^(-5:-1),C=c(1,2,3))
 
 svmTrainFit <- train(class ~ ., data = seqTrain,
                  method = "svmRadial",
                  trControl = fitControl,
-                 #tuneGrid=svmGrid,
+                 tuneGrid=svmGrid,
                  ## This last option is actually one
                  ## for gbm() that passes through
                  verbose = T)
@@ -195,6 +207,33 @@ svmTrainFit <- train(class ~ ., data = seqTrain,
 
 predictions=predict(svmTrainFit,newdata=seqTest[,count_cols_top,with=F])
 confusionMatrix(predictions,seqTest$class)
+
+```
+We compare against a balanced dataset 
+
+```{r }
+set.seed(3456)
+trainIndex <- createDataPartition(top_feat_matrix_balanced$class, p = .8, list = FALSE, times = 1)
+
+seqTrain <- top_feat_matrix_balanced[ trainIndex[,1]][,c("class",count_cols_top),with=F]
+seqTest  <- top_feat_matrix_balanced[-trainIndex[,1],c("class",count_cols_top),with=F]
+
+fitControl <- trainControl(    method = "repeatedcv", number = 3, repeats = 1)
+
+svmGrid=expand.grid(sigma=10^(-2:-1),C=c(0.1,1,2,3))
+
+svmTrainFit <- train(class ~ ., data = seqTrain,
+                 method = "svmRadial",
+                 trControl = fitControl,
+                 tuneGrid=svmGrid,
+                 ## This last option is actually one
+                 ## for gbm() that passes through
+                 verbose = T)
+
+
+predictions=predict(svmTrainFit,newdata=seqTest[,count_cols_top,with=F])
+confusionMatrix(predictions,seqTest$class)
+
 
 ```
 
@@ -221,12 +260,12 @@ seqTest  <- all_3_mers_counts[-trainIndex[,1],c("class",count_cols_3mers),with=F
 
 fitControl <- trainControl(    method = "repeatedcv", number = 3, repeats = 2)
 
-svmGrid=expand.grid(sigma=c(1,10,90),C=c(1,10))
+svmGrid=expand.grid(sigma=10^(-2:-1),C=c(0.1,1,2,3))
 
 svmTrainFit3Mers <- train(class ~ ., data = seqTrain,
                  method = "svmRadial",
                  trControl = fitControl,
-                 #tuneGrid=svmGrid,
+                 tuneGrid=svmGrid,
                  ## This last option is actually one
                  ## for gbm() that passes through
                  verbose = T)
@@ -238,6 +277,80 @@ predictions=predict(svmTrainFit3Mers,newdata=seqTest[,count_cols_3mers,with=F])
 confusionMatrix(predictions,seqTest$class)
 
 ```
+
+SVM over 4-mers 
+
+```{r }
+
+all_4_mers=fread('spaced_kmers/long_kmers_m300_n4.fa_1111.csv')
+
+
+seq_attributes=limma::strsplit2(all_4_mers$sequence_description,"_")
+all_4_mers$class=factor(seq_attributes[,2])
+all_4_mers$species=factor(seq_attributes[,1])
+all_4_mers$pattern=factor(all_4_mers$pattern)
+all_4_mers$kmer=factor(all_4_mers$kmer)
+
+all_4_mers_counts=dcast.data.table(all_4_mers,class+sequence_description~kmer,value.var='count',fill=0)
+count_cols_4mers=colnames(all_4_mers_counts)[-(1:2)]
+
+set.seed(3456)
+trainIndex <- createDataPartition(all_4_mers_counts$class, p = .8, list = FALSE, times = 1)
+
+seqTrain <- all_4_mers_counts[ trainIndex[,1]][,c("class",count_cols_4mers),with=F]
+seqTest  <- all_4_mers_counts[-trainIndex[,1],c("class",count_cols_4mers),with=F]
+
+fitControl <- trainControl(    method = "repeatedcv", number = 3, repeats = 2)
+
+svmGrid=expand.grid(sigma=10^(-2:-1),C=c(0.1,1,2,3))
+
+svmTrainFit4Mers <- train(class ~ ., data = seqTrain,
+                 method = "svmRadial",
+                 trControl = fitControl,
+                 tuneGrid=svmGrid,
+                 ## This last option is actually one
+                 ## for gbm() that passes through
+                 verbose = T)
+
+predictions=predict(svmTrainFit4Mers,newdata=seqTrain[,count_cols_4mers,with=F])
+confusionMatrix(predictions,seqTrain$.outcome)
+
+predictions=predict(svmTrainFit4Mers,newdata=seqTest[,count_cols_4mers,with=F])
+confusionMatrix(predictions,seqTest$class)
+```
+
+We retrain on a balanced version of the 4-mers dataset 
+
+```{r }
+balanced_size=min(table(all_4_mers_counts$class))
+all_4_mers_counts_balanced=rbind(
+    all_4_mers_counts[class=="archea"] %.% sample_row(balanced_size),
+    all_4_mers_counts[class=="bact"] %.% sample_row(balanced_size),
+    all_4_mers_counts[class=="euk"] %.% sample_row(balanced_size),
+    all_4_mers_counts[class=="viruses"] %.% sample_row(balanced_size))
+
+
+
+set.seed(3456)
+trainIndex <- createDataPartition(all_4_mers_counts_balanced$class, p = .8, list = FALSE, times = 1)
+
+seqTrain <- all_4_mers_counts_balanced[ trainIndex[,1]][,c("class",count_cols_4mers),with=F]
+seqTest  <- all_4_mers_counts_balanced[-trainIndex[,1],c("class",count_cols_4mers),with=F]
+
+svmTrainFit4Mers_balanced <- train(class ~ ., data = seqTrain,
+                 method = "svmRadial",
+                 trControl = trainControl(method = "none"),
+                 tuneGrid=data.frame(sigma=0.01,C=2),
+                 ## This last option is actually one
+                 ## for gbm() that passes through
+                 verbose = T)
+
+predictions=predict(svmTrainFit4Mers_balanced,newdata=seqTest[,count_cols_4mers,with=F])
+confusionMatrix(predictions,seqTest$class)
+
+```
+This 4-mers SVM over balanced data yields the best accuracy seen so far (0.90, Kappa=0.90), almost perfect classification
+
 
 
 We compare against a round-robin schema where each class can suggest features 
@@ -276,7 +389,7 @@ predictions=predict(svmTrainFitTop,newdata=seqTest[,count_cols_top,with=F])
 confusionMatrix(predictions,seqTest$class)
 
 ```
-
+Not better.
 
 We perform a scale centering on the 3-mers 
 
@@ -309,7 +422,492 @@ confusionMatrix(predictions,testTransformed$class)
 
 ```
 
-We combine 3-mers with spaced_k_mers ???
+# We try on a more complete data sets (more viral species, more non viral sequences)
+
+```{r }
+complete_dset_4mers=fread("spaced_kmers/long_kmers_mVar_n30.fa_1111.csv")
+seq_attributes=limma::strsplit2(complete_dset_4mers$sequence_description,"_")
+complete_dset_4mers$class=factor(seq_attributes[,2])
+complete_dset_4mers$species=factor(seq_attributes[,1])
+complete_dset_4mers$pattern=factor(complete_dset_4mers$pattern)
+complete_dset_4mers$kmer=factor(complete_dset_4mers$kmer)
+
+complete_dset_4mers_counts=dcast.data.table(complete_dset_4mers,class+sequence_description~kmer,value.var='count',fill=0)
+count_cols_4mers=colnames(complete_dset_4mers_counts)[-(1:2)]
+table(complete_dset_4mers_counts$class)
+
+# We balance in terms of sequences 
+balanced_size=min(table(complete_dset_4mers_counts$class))
+complete_dset_4mers_counts_bal=rbind(
+    complete_dset_4mers_counts[class=="archea"] %.% sample_row(balanced_size),
+    complete_dset_4mers_counts[class=="bact"] %.% sample_row(balanced_size),
+    complete_dset_4mers_counts[class=="euk"] %.% sample_row(balanced_size),
+    complete_dset_4mers_counts[class=="viruses"] %.% sample_row(balanced_size))
+
+
+set.seed(3456)
+trainIndex <- createDataPartition(complete_dset_4mers_counts_bal$class, p = .6, list = FALSE, times = 1)
+
+seqTrain <- complete_dset_4mers_counts_bal[ trainIndex[,1]][,c("class",count_cols_4mers),with=F]
+seqTest  <- complete_dset_4mers_counts_bal[-trainIndex[,1],c("class",count_cols_4mers),with=F]
+
+
+svmTrainFit4Mers_balanced_complete <- train(class ~ ., data = seqTrain,
+                 method = "svmRadial",
+                 trControl = trainControl(method = "none"),
+                 tuneGrid=data.frame(sigma=0.01,C=2),
+                 ## This last option is actually one
+                 ## for gbm() that passes through
+                 verbose = T)
+
+predictions=predict(svmTrainFit4Mers_balanced_complete,newdata=seqTest[,count_cols_4mers,with=F])
+confusionMatrix(predictions,seqTest$class)
+
+```
+
+For this dataset we determine whether normalization helps 
+
+```{r }
+preProcValues <- preProcess(seqTrain[,count_cols_4mers,with=F], method = c("center", "scale"))
+trainTransformed <- as.data.frame(predict(preProcValues, seqTrain[,count_cols_4mers,with=F]))
+trainTransformed$class = seqTrain$.outcome
+testTransformed <- predict(preProcValues, seqTest[,count_cols_4mers,with=F])
+testTransformed$class = seqTest$class
+
+svmTrainFit4Mers_balanced_complete_norm <- train(class ~ ., data = trainTransformed,
+                 method = "svmRadial",
+                 trControl = trainControl(method = "none"),
+                 tuneGrid=data.frame(sigma=0.01,C=2),
+                 ## This last option is actually one
+                 ## for gbm() that passes through
+                 verbose = T)
+
+predictions=predict(svmTrainFit4Mers_balanced_complete_norm,newdata=testTransformed[,count_cols_4mers])
+confusionMatrix(predictions,seqTest$class)
+```
+Nope.
+
+We determine whether length normalization helps 
+
+```{r }
+seqTrain_length=apply(seqTrain[,count_cols_4mers,with=F],1,sum)
+seqTrain_length_normalized=seqTrain[,count_cols_4mers,with=F]/seqTrain_length
+seqTrain_length_normalized$class=seqTrain$.outcome
+
+seqTest_length=apply(seqTest[,count_cols_4mers,with=F],1,sum)
+seqTest_length_normalized=seqTest[,count_cols_4mers,with=F]/seqTest_length
+seqTest_length_normalized$class=seqTest$class
+
+svmTrainFit4Mers_balanced_complete_lnorm <- train(class ~ ., data = seqTrain_length_normalized,
+                 method = "svmRadial",
+                 trControl = trainControl(method = "none"),
+                 tuneGrid=data.frame(sigma=0.01,C=2),
+                 verbose = T)
+
+predictions=predict(svmTrainFit4Mers_balanced_complete_lnorm,newdata=seqTest_length_normalized)
+confusionMatrix(predictions,seqTest_length_normalized$class)
+```
+
+Yes it does.
+
+We compare the SVM 4-mers with an SVM built on chi2 signif features over non-sparse spaced k-mers
+
+```{r }
+spaced_kmers=fread("spaced_kmers/long_kmers_mVar_n30.fa_11101.csv")
+
+seq_attributes=limma::strsplit2(spaced_kmers$sequence_description,"_")
+spaced_kmers$class=factor(seq_attributes[,2])
+spaced_kmers$species=factor(seq_attributes[,1])
+spaced_kmers$pattern=factor(spaced_kmers$pattern)
+spaced_kmers$kmer=factor(spaced_kmers$kmer)
+rm(seq_attributes)
 
 
 
+complete_dset_4_spaced_mers_counts=dcast.data.table(spaced_kmers,class+sequence_description~kmer,value.var='count',fill=0)
+count_cols_4mers=colnames(complete_dset_4_spaced_mers_counts)[-(1:2)]
+table(complete_dset_4_spaced_mers_counts$class)
+
+# We balance in terms of sequences 
+balanced_size=min(table(complete_dset_4_spaced_mers_counts$class))
+complete_dset_4_spaced_mers_counts_bal=rbind(
+    complete_dset_4_spaced_mers_counts[class=="archea"] %.% sample_row(balanced_size),
+    complete_dset_4_spaced_mers_counts[class=="bact"] %.% sample_row(balanced_size),
+    complete_dset_4_spaced_mers_counts[class=="euk"] %.% sample_row(balanced_size),
+    complete_dset_4_spaced_mers_counts[class=="viruses"] %.% sample_row(balanced_size))
+
+
+set.seed(3456)
+trainIndex <- createDataPartition(complete_dset_4_spaced_mers_counts_bal$class, p = .6, list = FALSE, times = 1)
+
+seqTrain <- complete_dset_4_spaced_mers_counts_bal[ trainIndex[,1]][,c("class",count_cols_4mers),with=F]
+seqTest  <- complete_dset_4_spaced_mers_counts_bal[-trainIndex[,1],c("class",count_cols_4mers),with=F]
+
+seqTrain_length=apply(seqTrain[,count_cols_4mers,with=F],1,sum)
+seqTrain_length_normalized=seqTrain[,count_cols_4mers,with=F]/seqTrain_length
+seqTrain_length_normalized$class=seqTrain$class
+
+seqTest_length=apply(seqTest[,count_cols_4mers,with=F],1,sum)
+seqTest_length_normalized=seqTest[,count_cols_4mers,with=F]/seqTest_length
+seqTest_length_normalized$class=seqTest$class
+
+
+
+
+svmTrainFit4_spaced_Mers_balanced_complete <- train(class ~ ., data = seqTrain_length_normalized,
+                 method = "svmRadial",
+                 trControl = trainControl(method = "none"),
+                 tuneGrid=data.frame(sigma=0.01,C=2),
+                 ## This last option is actually one
+                 ## for gbm() that passes through
+                 verbose = T)
+
+predictions=predict(svmTrainFit4_spaced_Mers_balanced_complete,newdata=seqTest_length_normalized[,count_cols_4mers,with=F])
+confusionMatrix(predictions,seqTest$class)
+
+
+```
+
+We get 
+
+  Confusion Matrix and Statistics
+
+            Reference
+  Prediction archea bact  euk viruses
+     archea    1100   91   83     122
+     bact        66 1082   42     135
+     euk        141   95 1113     176
+     viruses     77  116  146     951
+
+  Overall Statistics
+                                            
+                 Accuracy : 0.767           
+                   95% CI : (0.7556, 0.7781)
+      No Information Rate : 0.25            
+      P-Value [Acc > NIR] : < 2.2e-16       
+                                            
+                    Kappa : 0.6893          
+   Mcnemar's Test P-Value : 7.686e-10       
+
+  Statistics by Class:
+
+                       Class: archea Class: bact Class: euk Class: viruses
+  Sensitivity                 0.7948      0.7818     0.8042         0.6871
+  Specificity                 0.9287      0.9415     0.9008         0.9184
+  Pos Pred Value              0.7880      0.8166     0.7298         0.7372
+  Neg Pred Value              0.9314      0.9283     0.9324         0.8980
+  Prevalence                  0.2500      0.2500     0.2500         0.2500
+  Detection Rate              0.1987      0.1954     0.2010         0.1718
+  Detection Prevalence        0.2522      0.2393     0.2755         0.2330
+  Balanced Accuracy           0.8618      0.8616     0.8525         0.8027
+
+
+
+
+# 3-mers on the same data set 
+
+```{r }
+
+all_3mers=fread("spaced_kmers/long_kmers_mVar_n30.fa_111.csv")
+
+seq_attributes=limma::strsplit2(all_3mers$sequence_description,"_")
+all_3mers$class=factor(seq_attributes[,2])
+all_3mers$species=factor(seq_attributes[,1])
+all_3mers$pattern=factor(all_3mers$pattern)
+all_3mers$kmer=factor(all_3mers$kmer)
+rm(seq_attributes)
+
+
+
+complete_dset_3mers_counts=dcast.data.table(all_3mers,class+sequence_description~kmer,value.var='count',fill=0)
+count_cols_3mers=colnames(complete_dset_3mers_counts)[-(1:2)]
+table(complete_dset_3mers_counts$class)
+
+# We balance in terms of sequences 
+balanced_size=min(table(complete_dset_3mers_counts$class))
+
+set.seed(3456)
+complete_dset_3mers_counts_bal=rbind(
+    complete_dset_3mers_counts[class=="archea"] %.% sample_row(balanced_size),
+    complete_dset_3mers_counts[class=="bact"] %.% sample_row(balanced_size),
+    complete_dset_3mers_counts[class=="euk"] %.% sample_row(balanced_size),
+    complete_dset_3mers_counts[class=="viruses"] %.% sample_row(balanced_size))
+
+
+
+trainIndex <- createDataPartition(complete_dset_3mers_counts_bal$class, p = .6, list = FALSE, times = 1)
+
+seqTrain <- complete_dset_3mers_counts_bal[ trainIndex[,1]][,c("class",count_cols_3mers),with=F]
+seqTest  <- complete_dset_3mers_counts_bal[-trainIndex[,1],c("class",count_cols_3mers),with=F]
+
+seqTrain_length=apply(seqTrain[,count_cols_3mers,with=F],1,sum)
+seqTrain_length_normalized=seqTrain[,count_cols_3mers,with=F]/seqTrain_length
+seqTrain_length_normalized$class=seqTrain$class
+
+seqTest_length=apply(seqTest[,count_cols_3mers,with=F],1,sum)
+seqTest_length_normalized=seqTest[,count_cols_3mers,with=F]/seqTest_length
+seqTest_length_normalized$class=seqTest$class
+
+
+
+
+svmTrainFit_3mers_balanced_complete <- train(class ~ ., data = seqTrain_length_normalized,
+                 method = "svmRadial",
+                 trControl = trainControl(method = "none"),
+                 tuneGrid=data.frame(sigma=0.01,C=2),
+                 ## This last option is actually one
+                 ## for gbm() that passes through
+                 verbose = T)
+
+predictions=predict(svmTrainFit_3mers_balanced_complete,newdata=seqTest_length_normalized[,count_cols_3mers,with=F])
+confusionMatrix(predictions,seqTest$class)
+```
+We get a slightly worse classifier: 
+
+  Confusion Matrix and Statistics
+
+            Reference
+  Prediction archea bact  euk viruses
+     archea    1073  135  143     155
+     bact        69 1107   62     180
+     euk        130   60 1003     149
+     viruses    112   82  176     900
+
+  Overall Statistics
+                                            
+                 Accuracy : 0.7375          
+                   95% CI : (0.7257, 0.7491)
+      No Information Rate : 0.25            
+      P-Value [Acc > NIR] : < 2.2e-16       
+                                            
+                    Kappa : 0.65            
+   Mcnemar's Test P-Value : 1.139e-12       
+
+  Statistics by Class:
+
+                       Class: archea Class: bact Class: euk Class: viruses
+  Sensitivity                 0.7753      0.7999     0.7247         0.6503
+  Specificity                 0.8957      0.9251     0.9184         0.9109
+  Pos Pred Value              0.7125      0.7807     0.7474         0.7087
+  Neg Pred Value              0.9228      0.9327     0.9092         0.8865
+  Prevalence                  0.2500      0.2500     0.2500         0.2500
+  Detection Rate              0.1938      0.2000     0.1812         0.1626
+  Detection Prevalence        0.2720      0.2561     0.2424         0.2294
+  Balanced Accuracy           0.8355      0.8625     0.8215         0.7806
+
+
+# Classification using a very gapped spaced k-mer space 
+
+```{r }
+
+rm(list=ls())
+gapped_4_spMers=fread("spaced_kmers/long_kmers_mVar_n30.fa_1011001.csv")
+
+seq_attributes=limma::strsplit2(gapped_4_spMers$sequence_description,"_")
+gapped_4_spMers$class=factor(seq_attributes[,2])
+gapped_4_spMers$species=factor(seq_attributes[,1])
+gapped_4_spMers$pattern=factor(gapped_4_spMers$pattern)
+gapped_4_spMers$kmer=factor(gapped_4_spMers$kmer)
+rm(seq_attributes)
+
+gapped_4_spMers_counts=dcast.data.table(gapped_4_spMers,class+sequence_description~kmer,value.var='count',fill=0)
+gapped_4_spMers_counts_cols=colnames(gapped_4_spMers_counts)[-(1:2)]
+table(gapped_4_spMers_counts$class)
+
+# We balance in terms of sequences 
+sample_row = function(df,size){df[sample(1:nrow(df),size=size),]}
+balanced_size=min(table(gapped_4_spMers_counts$class))
+
+set.seed(3456)
+gapped_4_spMers_counts_bal=rbind(
+    gapped_4_spMers_counts[class=="archea"] %.% sample_row(balanced_size),
+    gapped_4_spMers_counts[class=="bact"] %.% sample_row(balanced_size),
+    gapped_4_spMers_counts[class=="euk"] %.% sample_row(balanced_size),
+    gapped_4_spMers_counts[class=="viruses"] %.% sample_row(balanced_size))
+
+
+trainIndex <- createDataPartition(gapped_4_spMers_counts_bal$class, p = .6, list = FALSE, times = 1)
+
+seqTrain <- gapped_4_spMers_counts_bal[ trainIndex[,1]][,c("class",gapped_4_spMers_counts_cols),with=F]
+seqTest  <- gapped_4_spMers_counts_bal[-trainIndex[,1],c("class",gapped_4_spMers_counts_cols),with=F]
+
+seqTrain_length=apply(seqTrain[,gapped_4_spMers_counts_cols,with=F],1,sum)
+seqTrain_length_normalized=seqTrain[,gapped_4_spMers_counts_cols,with=F]/seqTrain_length
+seqTrain_length_normalized$class=seqTrain$class
+
+seqTest_length=apply(seqTest[,gapped_4_spMers_counts_cols,with=F],1,sum)
+seqTest_length_normalized=seqTest[,gapped_4_spMers_counts_cols,with=F]/seqTest_length
+seqTest_length_normalized$class=seqTest$class
+
+
+svm_gapped_4mers <- train(class ~ ., data = seqTrain_length_normalized,
+                 method = "svmRadial",
+                 trControl = trainControl(method = "none"),
+                 tuneGrid=data.frame(sigma=0.01,C=2),
+                 ## This last option is actually one
+                 ## for gbm() that passes through
+                 verbose = T)
+
+predictions=predict(svm_gapped_4mers,newdata=seqTest_length_normalized[,gapped_4_spMers_counts_cols,with=F])
+confusionMatrix(predictions,seqTest$class)
+```
+
+We get 
+
+  Confusion Matrix and Statistics
+
+            Reference
+  Prediction archea bact  euk viruses
+     archea    1050   93   96     123
+     bact        81 1024   53     160
+     euk        147  133 1068     194
+     viruses    106  134  167     907
+
+  Overall Statistics
+                                           
+                 Accuracy : 0.7314         
+                   95% CI : (0.7195, 0.743)
+      No Information Rate : 0.25           
+      P-Value [Acc > NIR] : < 2.2e-16      
+                                           
+                    Kappa : 0.6419         
+   Mcnemar's Test P-Value : 2.328e-09      
+
+  Statistics by Class:
+
+                       Class: archea Class: bact Class: euk Class: viruses
+  Sensitivity                 0.7587      0.7399     0.7717         0.6553
+  Specificity                 0.9249      0.9292     0.8858         0.9020
+  Pos Pred Value              0.7709      0.7769     0.6926         0.6903
+  Neg Pred Value              0.9200      0.9147     0.9209         0.8870
+  Prevalence                  0.2500      0.2500     0.2500         0.2500
+  Detection Rate              0.1897      0.1850     0.1929         0.1638
+  Detection Prevalence        0.2460      0.2381     0.2785         0.2374
+  Balanced Accuracy           0.8418      0.8345     0.8288         0.7787
+
+
+
+# Gapped 5 mers 
+
+```{r }
+rm(list=ls())
+gapped_5mers=fread("spaced_kmers/long_kmers_mVar_n30.fa_101001011.csv")
+
+```
+
+
+# Trying to sparsify count data 
+
+
+# Very sparse count data 
+
+```{r }
+sparse_8mers=fread("spaced_kmers/long_kmers_mVar_n30.fa_1000010011001010101.csv")
+
+seq_attributes=limma::strsplit2(sparse_8mers$sequence_description,"_")
+sparse_8mers$class=factor(seq_attributes[,2])
+sparse_8mers$species=factor(seq_attributes[,1])
+sparse_8mers$pattern=factor(sparse_8mers$pattern)
+sparse_8mers$kmer=factor(sparse_8mers$kmer)
+rm(seq_attributes)
+
+
+kmer_by_species=sparse_8mers[,sum(count),by=list(kmer,class,species)]
+# We binarize 
+kmer_by_species$V1=1
+
+# This give the number of unique species in which we find a kmer 
+kmer_by_unique_species=kmer_by_species[,sum(V1),by=list(kmer,class)][order(V1)]
+
+kmer_by_unique_species_count=dcast.data.table(kmer_by_unique_species,kmer~class,fill=0)
+
+
+n_classes=sparse_8mers[,.N,by=list(class,species)][,.N,by=class]
+n_classes_l=as.list(n_classes$N)
+names(n_classes_l)=as.character(n_classes$class)
+
+```
+
+
+We compute the chi2 
+
+```{r }
+kmer_viral_contingency=kmer_by_unique_species_count[,list(
+  n_viral_no=n_classes_l$viruses - viruses, # N viral species without the k-mer 
+  n_viral=viruses, # N viral species with the k-mer
+  n_no_viral=archea+bact+euk, # N non-viral with the k-mer 
+  n_no_viral_no=sum(unlist(n_classes_l))-n_classes_l$viruses - (archea+bact+euk) # N non-viral without the k-mer 
+  ),by=kmer]
+
+kmer_viral_chi2=kmer_viral_contingency[,list(viral_chi2=chisq.test(matrix(c(n_viral_no,n_viral,n_no_viral_no,n_no_viral),byrow=T,ncol=2))$statistic),by=kmer]
+
+
+kmer_euk_contingency=kmer_by_unique_species_count[,list(
+  n_euk_no=n_classes_l$euk - euk, # N euk species without the k-mer 
+  n_euk=euk, # N euk species with the k-mer
+  n_no_euk=archea+bact+viruses, # N non-euk with the k-mer 
+  n_no_euk_no=sum(unlist(n_classes_l))-n_classes_l$euk - (archea+bact+viruses) # N non-euk without the k-mer 
+  ),by=kmer]
+
+kmer_euk_chi2=kmer_euk_contingency[,list(euk_chi2=chisq.test(matrix(c(n_euk_no,n_euk,n_no_euk_no,n_no_euk),byrow=T,ncol=2))$statistic),by=kmer]
+
+
+kmer_bact_contingency=kmer_by_unique_species_count[,list(
+  n_bact_no=n_classes_l$bact - bact, # N bact species without the k-mer 
+  n_bact=bact, # N bact species with the k-mer
+  n_no_bact=archea+bact+viruses, # N non-bact with the k-mer 
+  n_no_bact_no=sum(unlist(n_classes_l))-n_classes_l$bact - (archea+euk+viruses) # N non-bact without the k-mer 
+  ),by=kmer]
+
+kmer_bact_chi2=kmer_bact_contingency[,list(bact_chi2=chisq.test(matrix(c(n_bact_no,n_bact,n_no_bact_no,n_no_bact),byrow=T,ncol=2))$statistic),by=kmer]
+
+
+kmer_archea_contingency=kmer_by_unique_species_count[,list(
+  n_archea_no=n_classes_l$archea - archea, # N archea species without the k-mer 
+  n_archea=archea, # N archea species with the k-mer
+  n_no_archea=archea+archea+viruses, # N non-archea with the k-mer 
+  n_no_archea_no=sum(unlist(n_classes_l))-n_classes_l$archea - (archea+euk+viruses) # N non-archea without the k-mer 
+  ),by=kmer]
+
+kmer_archea_chi2=kmer_archea_contingency[,list(archea_chi2=chisq.test(matrix(c(n_archea_no,n_archea,n_no_archea_no,n_no_archea),byrow=T,ncol=2))$statistic),by=kmer]
+
+
+kmer_all_contingency=kmer_by_unique_species_count[,list(
+    n_archea_no=n_classes_l$archea - archea, # N archea species without the k-mer 
+    n_bact_no=n_classes_l$bact - bact, # N archea species without the k-mer 
+    n_euk_no=n_classes_l$euk - euk, # N archea species without the k-mer 
+    n_viruses_no=n_classes_l$viruses - viruses, # N archea species without the k-mer 
+    n_archea=archea, # N archea species without the k-mer 
+    n_bact=bact, # N archea species without the k-mer 
+    n_euk=euk, # N archea species without the k-mer 
+    n_viruses=viruses # N archea species without the k-mer 
+  ),by=kmer]
+
+kmer_chi2=kmer_all_contingency[,list(global_chi2=chisq.test(matrix(c(n_archea_no, n_bact_no, n_euk_no, n_viruses_no, n_archea, n_bact, n_euk, n_viruses),byrow=T,ncol=4))$statistic),by=kmer]
+
+kmer_by_unique_species_count=merge(merge(merge(merge(kmer_by_unique_species_count,kmer_viral_chi2,by="kmer"),kmer_euk_chi2,by="kmer"),kmer_bact_chi2,by='kmer'),kmer_archea_chi2,by="kmer")
+kmer_by_unique_species_count=merge(kmer_by_unique_species_count,kmer_chi2,by='kmer')
+
+
+#10.83 == signif at the 0.001 level a
+g1=ggplot(kmer_by_unique_species_count,aes(x=archea+bact+euk,y=viruses,colour=interaction(global_chi2>=10.83,viral_chi2>=10.83)))+geom_point()+geom_abline(slope=1)
+g2=ggplot(kmer_by_unique_species_count,aes(x=archea+bact+viruses,y=euk,colour=interaction(global_chi2>=10.83,euk_chi2>=10.83)))+geom_point()+geom_abline(slope=1)
+g3=ggplot(kmer_by_unique_species_count,aes(x=archea+euk+viruses,y=bact,colour=interaction(global_chi2>=10.83,bact_chi2>=10.83)))+geom_point()+geom_abline(slope=1)
+g4=ggplot(kmer_by_unique_species_count,aes(x=euk+bact+viruses,y=archea,colour=interaction(global_chi2>=10.83,archea_chi2>=10.83)))+geom_point()+geom_abline(slope=1)
+grid.arrange(g1,g2,g3,g4)
+
+```
+
+If we combine the top-most viral specific k-mers, can we recover a significant fraction of viral species ?
+
+```{r }
+top_viral_kmers=tail(kmer_by_unique_species_count[order(viral_chi2),kmer],n=5)
+sparse_8mers[kmer %in% top_viral_kmers][,length(unique(species)),by=list(class)]/n_classes$N
+
+top_bact_kmers=tail(kmer_by_unique_species_count[order(bact_chi2),kmer],n=5)
+sparse_8mers[kmer %in% top_bact_kmers][,length(unique(species)),by=list(class)]/n_classes$N
+
+top_euk_kmers=tail(kmer_by_unique_species_count[order(euk_chi2),kmer],n=5)
+sparse_8mers[kmer %in% top_euk_kmers][,length(unique(species)),by=list(class)]/n_classes$N
+
+```
