@@ -1,11 +1,13 @@
+library(gridExtra)
 library(igraph)
 library(corrplot)
 library(ggplot2)
 library(data.table)
 library(reshape2)
 setwd("C:/Users/hayssam/Documents/GitHub/metaviro/experiments/140623 spectral clustering")
-
-mixed_3mers = fread('../140613_more_patterns/spaced_kmers/long_kmers_m300_n4.fa_111.csv')
+setwd("~/metaviro/experiments/140623 spectral clustering")
+input_pattern="111"
+mixed_3mers = fread(paste('../140613_more_patterns/spaced_kmers/long_kmers_mVar_n30.fa_',input_pattern,".csv",sep=""))
 seq_attributes=limma::strsplit2(mixed_3mers$sequence_description,"_")
 mixed_3mers$class=factor(seq_attributes[,2])
 mixed_3mers$species=factor(seq_attributes[,1])
@@ -26,7 +28,10 @@ mixed_3mers_count_cols=mixed_3mers_count_cols[mixed_3mers_count_cols!='GC_f']
 mixed_3mers_counts=as.matrix(mixed_3mers[,mixed_3mers_count_cols,with=F])
 head(mixed_3mers_counts)
 
-pairwise_dist=dist(mixed_3mers_counts)
+#normalization 
+mixed_3mers_counts_scaled=scale(mixed_3mers_counts)
+
+pairwise_dist=dist(mixed_3mers_counts_scaled)
 dist_m=as.matrix(pairwise_dist)
 colnames(dist_m)=mixed_3mers[,sequence_description]
 rownames(dist_m)=mixed_3mers[,sequence_description]
@@ -35,10 +40,13 @@ pairwise_dist_df=data.table(melt(dist_m))
 setnames(pairwise_dist_df,c("src","tgt","dist"))
 pairwise_dist_df_ranked=pairwise_dist_df[,ranks:=rank(dist),by=src]
 pairwise_dist_df_ranked[ranks<=5][order(src)]
+																								
 
 
-
-ggplot(melt(mixed_3mers[names(head(sort(dist_m[100,])))]),aes(x=variable,y=value,group=sequence_description,colour=sequence_description))+geom_point()+geom_line()
+g1=ggplot(melt(mixed_3mers[names(head(sort(dist_m[150,]),n=10))]),aes(x=variable,y=value,group=sequence_description,colour=class))+geom_point()+geom_line()+theme(legend.position="top")
+g2=ggplot(melt(mixed_3mers[names(head(sort(dist_m[900,]),n=10))]),aes(x=variable,y=value,group=sequence_description,colour=class))+geom_point()+geom_line()+theme(legend.position="top")
+g3=ggplot(melt(mixed_3mers[names(head(sort(dist_m[1212,]),n=10))]),aes(x=variable,y=value,group=sequence_description,colour=class))+geom_point()+geom_line()+theme(legend.position="top")
+grid.arrange(g1,g2,g3)
 
 
 # compare distribution of intra-class vs inter-class
@@ -87,13 +95,15 @@ corrplot(all_mean_dist_m,is.corr=F)
 
 
 # using a graph to model 5 closest neighbors 
-
-pairwise_dist_g=graph.data.frame(pairwise_dist_df_ranked[ranks<=5])
+n_neighbors=2
+pairwise_dist_g=graph.data.frame(pairwise_dist_df_ranked[ranks<=n_neighbors])
 V(pairwise_dist_g)$class=as.character(mixed_3mers[V(pairwise_dist_g)$name,class][,class])
 V(pairwise_dist_g)$species=as.character(mixed_3mers[V(pairwise_dist_g)$name,species][,species])
 V(pairwise_dist_g)$GC=mixed_3mers[V(pairwise_dist_g)$name,GC][,GC]
 V(pairwise_dist_g)$GC_f=as.character(mixed_3mers[V(pairwise_dist_g)$name,GC_f][,GC_f])
-head(get.data.frame(pairwise_dist_g,what='vertices'))
 
+pairwise_dist_g_simple=simplify(pairwise_dist_g)
+head(get.data.frame(pairwise_dist_g_simple,what='vertices'))
+write.graph(pairwise_dist_g_simple,format="gml",file=paste("dist_graph",input_pattern,"_",n_neighbors,".gml",sep=""))
 #degree distrib ? 
 
