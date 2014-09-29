@@ -73,7 +73,7 @@ existing_files=os.listdir(".")
 ### Generate some random patterns 
 
 ## User defined parameters 
-max_1 = 5
+max_1 = 6
 n_patterns = 10
 
 
