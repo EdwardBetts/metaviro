@@ -1,0 +1,546 @@
+diff(data_2_breakpoints)
+data_2_breakpoints
+data_2_breakpoints[which(diff(data_2_breakpoints)!=1)+1]
+data_2_breakpoints[which(diff(data_2_breakpoints)!=1)]
+c(1,data_2_breakpoints[which(diff(data_2_breakpoints)!=1)+1])
+data_2_breakpoints=c(1,data_2_breakpoints[which(diff(data_2_breakpoints)!=1)+1])
+g<-ggplot(data_2, aes(x=X,y=Y,colour=group))+geom_point()+geom_vline(x=data_2_breakpoints)
+g
+data_2$seg1 = cut(data_2$X,breaks=data_2_breakpoints,include.lowest=T)#
+ref_seg= data_2[,.N,by=seg1][order(N,decreasing=T)][1,seg1]#
+data_2[,seg1:= relevel(seg1, ref = as.character(ref_seg))]#
+#
+model1= lm(Y~group*seg1-1,data=data_2)#
+summary(model1)
+ref_seg
+Example nested amplification#
+profiles= fread("#
+group;start;end;mean#
+ctrl; 1; 1000; 10#
+ctrl; 1001; 2000; 4#
+ctrl; 3001; 4000; 0#
+ctrl; 4001; 8000; 3#
+ctrl; 8001; 16000; 2#
+treat; 1; 1000; 10#
+treat; 1001; 2000; 4#
+treat; 3001; 4000; 0#
+treat; 4001; 6500; 4#
+treat; 6501; 7000; 8#
+treat; 7001; 8000; 4#
+treat; 8001; 16000; 2#
+",header=T,verbose=T)#
+str(profiles)#
+build_row = function(group,start,end,mean){data.table(group=group,X=start:end,Y=rnorm(sd=0.1,n=(end-start+1),mean=mean))}#
+data_2 = mdply(.data=profiles,.fun=build_row)#
+#
+data_2_breakpoints=sort(unique(c(profiles$start,profiles$end,range(profiles$start),range(profiles$end))))#
+# Determine neighborhing breakpoints, remove them #
+data_2_breakpoints=c(1,data_2_breakpoints[which(diff(data_2_breakpoints)!=1)+1])#
+g<-ggplot(data_2, aes(x=X,y=Y,colour=group))+geom_point()+geom_vline(x=data_2_breakpoints)#
+g
+data_2$seg1 = cut(data_2$X,breaks=data_2_breakpoints,include.lowest=T)#
+ref_seg= data_2[,.N,by=seg1][order(N,decreasing=T)][1,seg1]#
+data_2[,seg1:= relevel(seg1, ref = as.character(ref_seg))]#
+#
+model1= lm(Y~group*seg1-1,data=data_2)#
+summary(model1)
+model1= lm(Y~group*seg1,data=data_2)
+summary(model1)
+g<- g+scale_x_continuous(breaks=data_2_breakpoints)
+g
+Example nested amplification#
+profiles= fread("#
+group;start;end;mean#
+ctrl; 1; 1000; 2#
+ctrl; 1001; 2000; 4#
+ctrl; 3001; 4000; 2#
+ctrl; 4001; 8000; 3#
+ctrl; 8001; 16000; 2#
+treat; 1; 1000; 2#
+treat; 1001; 2000; 4#
+treat; 3001; 4000; 2#
+treat; 4001; 6500; 4#
+treat; 6501; 7000; 8#
+treat; 7001; 8000; 4#
+treat; 8001; 16000; 2#
+",header=T,verbose=T)#
+str(profiles)#
+build_row = function(group,start,end,mean){data.table(group=group,X=start:end,Y=rnorm(sd=0.1,n=(end-start+1),mean=mean))}#
+data_2 = mdply(.data=profiles,.fun=build_row)#
+#
+data_2_breakpoints=sort(unique(c(profiles$start,profiles$end,range(profiles$start),range(profiles$end))))#
+# Determine neighborhing breakpoints, remove them #
+data_2_breakpoints=c(1,data_2_breakpoints[which(diff(data_2_breakpoints)!=1)+1])#
+g<-ggplot(data_2, aes(x=X,y=Y,colour=group))+geom_point()+geom_vline(x=data_2_breakpoints)#
+g<- g+scale_x_continuous(breaks=data_2_breakpoints)#
+g
+data_2$seg1 = cut(data_2$X,breaks=data_2_breakpoints,include.lowest=T)#
+ref_seg= data_2[,.N,by=seg1][order(N,decreasing=T)][1,seg1]#
+data_2[,seg1:= relevel(seg1, ref = as.character(ref_seg))]#
+#
+model1= lm(Y~group*seg1,data=data_2)#
+summary(model1)
+Example nested amplification#
+profiles= fread("#
+group;start;end;mean#
+ctrl; 1; 1000; 2#
+ctrl; 1001; 2000; 4#
+ctrl; 3001; 4000; 2#
+ctrl; 4001; 8000; 3#
+ctrl; 8001; 16000; 2#
+treat; 1; 1000; 2#
+treat; 1001; 2000; 4#
+treat; 3001; 4000; 2#
+treat; 4001; 6500; 4#
+treat; 6501; 7000; 2#
+treat; 7001; 8000; 4#
+treat; 8001; 16000; 2#
+",header=T,verbose=T)#
+str(profiles)#
+build_row = function(group,start,end,mean){data.table(group=group,X=start:end,Y=rnorm(sd=0.1,n=(end-start+1),mean=mean))}#
+data_2 = mdply(.data=profiles,.fun=build_row)#
+#
+data_2_breakpoints=sort(unique(c(profiles$start,profiles$end,range(profiles$start),range(profiles$end))))#
+# Determine neighborhing breakpoints, remove them #
+data_2_breakpoints=c(1,data_2_breakpoints[which(diff(data_2_breakpoints)!=1)+1])#
+g<-ggplot(data_2, aes(x=X,y=Y,colour=group))+geom_point()+geom_vline(x=data_2_breakpoints)#
+g<- g+scale_x_continuous(breaks=data_2_breakpoints)#
+g
+data_2$seg1 = cut(data_2$X,breaks=data_2_breakpoints,include.lowest=T)#
+ref_seg= data_2[,.N,by=seg1][order(N,decreasing=T)][1,seg1]#
+data_2[,seg1:= relevel(seg1, ref = as.character(ref_seg))]#
+#
+model1= lm(Y~group*seg1,data=data_2)#
+summary(model1)
+library(ggplot2)#
+library(data.table)#
+library(plyr)#
+library(reshape2)#
+ratios = fread("../../data/LT_ratio.tab",verbose=T,header=T)#
+ratios=ratios[Variable=="norm"]#
+segments = fread("../../data/density_based/LT_seg.tab",verbose=T,header=T)#
+#
+a_sample = list(Sample="H15",Chr="chr13")#
+a_patient = na.omit(ratios[Variable=="norm" & Sample==a_sample$Sample & Chr==a_sample$Chr & Window_size==50e4])#
+a_patient_seg = na.omit(segments[Variable=="norm" & Sample==a_sample$Sample & Chr==a_sample$Chr & Window_size==50e4])
+getwd()
+library(data.table)#
+library(ggplot2)#
+library(party)#
+library(entropy)#
+library(limma)#
+library(reshape2)#
+library(caret)
+load("~/datasets/TCGA/BC/tcga_BC_klaas_subset.RData")
+tcga_clinical = fread("~/datasets/TCGA/BC/clinical_patient_brca_excel.csv",verbose=T,sep2="|",header=T, na.strings=c("[Not Available]","NA","[Not Applicable]","null","[Unknown]","[Not Evaluated]"))
+tcga_BC_klaas_subset[,bcr_patient_barcode:=paste(strsplit(as.character(Sample),"-")[[1]][1:3],collapse="-"),by=Sample]
+setdiff(tcga_BC_klaas_subset[,bcr_patient_barcode],tcga_clinical[,bcr_patient_barcode])
+tcga_BC_klaas_subset<-merge(tcga_BC_klaas_subset,tcga_clinical,by="bcr_patient_barcode")
+summary(tcga_clinical)
+tcga_BC_klaas_subset[,age_at_initial_pathologic_diagnosis:=as.numeric(age_at_initial_pathologic_diagnosis)]#
+tcga_BC_klaas_subset[,days_to_death:=as.numeric(days_to_death)]#
+tcga_BC_klaas_subset[,breast_carcinoma_estrogen_receptor_status:=as.factor(breast_carcinoma_estrogen_receptor_status)]#
+tcga_BC_klaas_subset[,breast_carcinoma_progesterone_receptor_status:=as.factor(breast_carcinoma_progesterone_receptor_status)]#
+tcga_BC_klaas_subset[,ER_PR:=paste(breast_carcinoma_estrogen_receptor_status,breast_carcinoma_progesterone_receptor_status),by=Sample]#
+tcga_BC_klaas_subset[,ER_PR:=as.factor(ER_PR)]
+erbb3_levels<-merge(data.table(dcast(tcga_BC_klaas_subset,Sample~symbol,value.var="normalized_count")),	tcga_BC_klaas_subset[,list(Sample,her2_erbb_pos_finding_cell_percent_category,breast_carcinoma_progesterone_receptor_status,breast_carcinoma_estrogen_receptor_status,progesterone_receptor_level_cell_percent_category,age_at_initial_pathologic_diagnosis,her2_immunohistochemistry_level_result,vital_status,histological_type,days_to_death,radiation_therapy,history_of_neoadjuvant_treatment,ER_PR)],by="Sample")
+erbb3_levels<-unique(erbb3_levels)
+ggplot(erbb3_levels[breast_carcinoma_estrogen_receptor_status %in% c("Negative","Positive") & breast_carcinoma_progesterone_receptor_status %in% c("Negative","Positive"),] ,aes(x=ERBB3,y=IGF2BP3,color=ER_PR))+geom_point(alpha=0.5)
+ggplot(erbb3_levels,aes(x=ERBB3,y=IGF2BP3,color=days_to_death))+geom_point(alpha=0.5)
+ggplot(tcga_BC_klaas_subset[symbol %in% c("ERBB3","IGF2BP3","IGF1R")],aes(x=interaction(breast_carcinoma_estrogen_receptor_status,breast_carcinoma_progesterone_receptor_status),y=scaled_estimate,colour=symbol))+geom_boxplot()
+ggplot(erbb3_levels[ER_PR=="Negative Negative"] ,aes(x=ERBB3,y=IGF2BP3,color=ER_PR))+geom_point()
+ggplot(erbb3_levels ,aes(x=ERBB3,y=IGF2BP3,color=ER_PR))+geom_point()
+ggplot(erbb3_levels[ER_PR=="Negative Negative"] ,aes(x=ERBB3,y=IGF2BP3,color=ER_PR))+geom_point()
+ggplot(erbb3_levels ,aes(x=IGF2BP3,y=ERBB3,color=ER_PR))+geom_point()
+ggplot(erbb3_levels ,aes(x=IGF1R,y=ERBB3,color=ER_PR))+geom_point()
+tn_samples = erbb3_levels[ER_PR=="Negative Negative"]#
+tn_samples[ERBB3>=quantile(tn_samples$ERBB3)["75%"],ERBB3_d:="High"]#
+tn_samples[ERBB3<=quantile(tn_samples$ERBB3)["25%"],ERBB3_d:="Low"]#
+tn_samples[IGF2BP3>=quantile(tn_samples$IGF2BP3)["75%"],IGF2BP3_d:="High"]#
+tn_samples[IGF2BP3<=quantile(tn_samples$IGF2BP3)["25%"],IGF2BP3_d:="Low"]#
+#
+tn_samples[,IGF2BP3_d:=as.factor(IGF2BP3_d)]#
+tn_samples[,ERBB3_d:=as.factor(ERBB3_d)]#
+xtabs(~IGF2BP3_d+ERBB3_d,tn_samples)
+tn_samples = erbb3_levels[ER_PR=="Negative Negative"]
+tn_samples[ERBB3>=quantile(tn_samples$ERBB3)["75%"],ERBB3_d:="High"]#
+tn_samples[ERBB3<=quantile(tn_samples$ERBB3)["25%"],ERBB3_d:="Low"]#
+tn_samples[IGF1R>=quantile(tn_samples$IGF1R)["75%"],IGF1R_d:="High"]#
+tn_samples[IGF1R<=quantile(tn_samples$IGF1R)["25%"],IGF1R_d:="Low"]
+tn_samples[,IGF1R_d:=as.factor(IGF1R_d)]
+tn_samples[,ERBB3_d:=as.factor(ERBB3_d)]
+xtabs(~IGF1R_d+ERBB3_d,tn_samples)
+tn_samples = erbb3_levels
+tn_samples[ERBB3>=quantile(tn_samples$ERBB3)["75%"],ERBB3_d:="High"]#
+tn_samples[ERBB3<=quantile(tn_samples$ERBB3)["25%"],ERBB3_d:="Low"]#
+tn_samples[IGF2BP3>=quantile(tn_samples$IGF2BP3)["75%"],IGF2BP3_d:="High"]#
+tn_samples[IGF2BP3<=quantile(tn_samples$IGF2BP3)["25%"],IGF2BP3_d:="Low"]#
+#
+tn_samples[,IGF2BP3_d:=as.factor(IGF2BP3_d)]#
+tn_samples[,ERBB3_d:=as.factor(ERBB3_d)]#
+xtabs(~IGF2BP3_d+ERBB3_d,tn_samples)
+ggplot(erbb3_levels[ER_PR!="Negative Negative"] ,aes(x=ERBB3,y=IGF2BP3,color=ER_PR))+geom_point()
+library(devtools)
+load_all(pkg="~/datasets/ccb")
+source("http://bioconductor.org/biocLite.R")#
+    biocLite("org.Mm.eg.db")
+load_all(pkg="~/datasets/ccb")
+biocLite("GSVA")
+load_all(pkg="~/datasets/ccb")
+install.packages("ggdendro")
+load_all(pkg="~/datasets/ccb")
+tcga.diseases()
+tcga.rnaseq.rpkm("BRCA")
+ls()
+tt=tcga.rnaseq.rpkm("BRCA")
+ls()
+tt
+getwd()
+str(tt)
+library(data.table)#
+library(devtools)#
+library(ggplot2)#
+library(party)#
+library(entropy)#
+library(limma)#
+library(reshape2)#
+library(caret)
+load("~/datasets/TCGA/BC/tcga_BC_klaas_subset.RData")
+ls()
+tcga_BC_klaas_subset
+tcga_BC_klaas_subset[grepl("10A",Barcode,fixed=T),]
+tcga_BC_klaas_subset[,bcr_patient_barcode:=paste(strsplit(as.character(Sample),"-")[[1]][1:3],collapse="-"),by=Sample]
+tcga_BC_klaas_subset[,.N,by=bcr_patient_barcode]
+tcga_BC_klaas_subset[,.N,by=bcr_patient_barcode][order(N)]
+tcga_BC_klaas_subset[bcr_patient_barcode=="TCGA-BH-A1FE"]
+barcode=strsplit2(tcga_BC_klaas_subset$Barcode,"-")
+barcode
+barcode=data.table(strsplit2(tcga_BC_klaas_subset$Barcode,"-"))
+barcode
+strsplit("10A","\d+")
+strsplit("10A","\\d+")
+strsplit("10A","\\[a-z]+")
+strsplit("10A","[a-z]+")
+strsplit("10A","[A-Z]+")
+barcode$sample_type=strsplit2(barcode$V4,"[A-Z]+")
+barcode
+barcode$vial=strsplit2(barcode$V4,"[0-9]+")
+strsplit2(barcode$V4,"[0-9]+")
+barcode$vial=strsplit2(barcode$V4,"[0-9]+")[,2]
+barcode
+tcga_BC_klaas_subset$participant = barcode$V3#
+tcga_BC_klaas_subset$sample = barcode$sample#
+tcga_BC_klaas_subset$vial = barcode$vial
+table(tcga_BC_klaas_subset$sample_type)
+tcga_BC_klaas_subset
+table(tcga_BC_klaas_subset$sample)
+tcga_BC_klaas[,.N,by=list(participant,gene_id,sample)]
+tcga_BC_klaas_subset[,.N,by=list(participant,gene_id,sample)]
+tcga_BC_klaas_subset[,.N,by=list(participant,gene_id,sample)][order(N)]
+table(tcga_BC_klaas_subset[,.N,by=list(participant,gene_id,sample)]$N==1)
+subtypes <- tcga_clinical[,list(bcr_patient_barcode, breast_carcinoma_estrogen_receptor_status,breast_carcinoma_progesterone_receptor_status)]#
+  subtypes$breast_carcinoma_her2_neu_status <- ifelse(is.na(tcga_clinical$lab_proc_her2_neu_immunohistochemistry_receptor_status),#
+                                                      tcga_clinical$lab_procedure_her2_neu_in_situ_hybrid_outcome_type,#
+                                                      tcga_clinical$lab_proc_her2_neu_immunohistochemistry_receptor_status)#
+#
+  # subtypes$clinical_subtype = apply(subtypes[-1], 1, function(x) {#
+  #   # Return NA if any of the fields is NA#
+  #   if(any(is.na(x))) return(NA)#
+  #   s = paste(unique(subset(c('ER/PR', 'ER/PR', 'HER2'), x=='Positive')), collapse=' ')#
+  #   return(ifelse(s == '', 'TN', s))#
+  # })#
+  orig_names=c("bcr_patient_barcode", "breast_carcinoma_estrogen_receptor_status", "breast_carcinoma_progesterone_receptor_status", "breast_carcinoma_her2_neu_status")#
+  new_names=c("bcr_patient_barcode", "ER", "PR", "HER2")#
+  setnames(subtypes,orig_names,new_names)#
+#
+tcga_BC_klaas_subset=data.table(merge(tcga_BC_klaas_subset,subtypes,by="bcr_patient_barcode"))
+tcga_clinical = fread("~/datasets/TCGA/BC/clinical_patient_brca_excel.csv",verbose=T,sep2="|",header=T, na.strings=c("[Not Available]","NA","[Not Applicable]","null","[Unknown]","[Not Evaluated]"))
+tcga_BC_klaas_subset[,bcr_patient_barcode:=paste(strsplit(as.character(Sample),"-")[[1]][1:3],collapse="-"),by=Sample]
+load("~/datasets/TCGA/BC/tcga_BC_klaas_subset.RData")
+tcga_clinical = fread("~/datasets/TCGA/BC/clinical_patient_brca_excel.csv",verbose=T,sep2="|",header=T, na.strings=c("[Not Available]","NA","[Not Applicable]","null","[Unknown]","[Not Evaluated]"))#
+#
+tcga_BC_klaas_subset[,bcr_patient_barcode:=paste(strsplit(as.character(Sample),"-")[[1]][1:3],collapse="-"),by=Sample]
+setdiff(tcga_BC_klaas_subset[,bcr_patient_barcode],tcga_clinical[,bcr_patient_barcode])
+grep("A5ZW",tcga_clinical$bcr_patient_barcode)
+tcga_BC_klaas_subset<-merge(tcga_BC_klaas_subset,tcga_clinical,by="bcr_patient_barcode")
+barcode=data.table(strsplit2(tcga_BC_klaas_subset$Barcode,"-"))#
+barcode$sample_type=strsplit2(barcode$V4,"[A-Z]+")#
+barcode$vial=strsplit2(barcode$V4,"[0-9]+")[,2]#
+tcga_BC_klaas_subset$participant = barcode$V3#
+tcga_BC_klaas_subset$sample = barcode$sample#
+tcga_BC_klaas_subset$vial = barcode$vial
+table(tcga_BC_klaas_subset[,.N,by=list(participant,gene_id,sample)]$N==1)
+subtypes <- tcga_clinical[,list(bcr_patient_barcode, breast_carcinoma_estrogen_receptor_status,breast_carcinoma_progesterone_receptor_status)]#
+  subtypes$breast_carcinoma_her2_neu_status <- ifelse(is.na(tcga_clinical$lab_proc_her2_neu_immunohistochemistry_receptor_status),#
+                                                      tcga_clinical$lab_procedure_her2_neu_in_situ_hybrid_outcome_type,#
+                                                      tcga_clinical$lab_proc_her2_neu_immunohistochemistry_receptor_status)#
+#
+  # subtypes$clinical_subtype = apply(subtypes[-1], 1, function(x) {#
+  #   # Return NA if any of the fields is NA#
+  #   if(any(is.na(x))) return(NA)#
+  #   s = paste(unique(subset(c('ER/PR', 'ER/PR', 'HER2'), x=='Positive')), collapse=' ')#
+  #   return(ifelse(s == '', 'TN', s))#
+  # })#
+  orig_names=c("bcr_patient_barcode", "breast_carcinoma_estrogen_receptor_status", "breast_carcinoma_progesterone_receptor_status", "breast_carcinoma_her2_neu_status")#
+  new_names=c("bcr_patient_barcode", "ER", "PR", "HER2")#
+  setnames(subtypes,orig_names,new_names)#
+#
+tcga_BC_klaas_subset=data.table(merge(tcga_BC_klaas_subset,subtypes,by="bcr_patient_barcode"))
+how many outliers ?#
+up_limit=IQR(pop2$IGF2BP3)*1.5#
+pop2[IGF2BP3>up_limit]#
+pop2[IGF2BP3<=up_limit]#
+#
+# If we average by bcr_patient_barcode #
+pop2_avg = pop2[,list(IGF2BP3=mean(IGF2BP3),ERBB3=mean(ERBB3)),by=bcr_patient_barcode]#
+up_limit=IQR(pop2_avg$IGF2BP3)*1.5#
+pop2_avg[IGF2BP3>up_limit]#
+pop2_avg[IGF2BP3<=up_limit]
+erbb3_levels<-merge(data.table(dcast(tcga_BC_klaas_subset,Sample~symbol,value.var="normalized_count")),	tcga_BC_klaas_subset[,list(bcr_patient_barcode,Sample,her2_erbb_pos_finding_cell_percent_category,breast_carcinoma_progesterone_receptor_status,breast_carcinoma_estrogen_receptor_status,progesterone_receptor_level_cell_percent_category,age_at_initial_pathologic_diagnosis,her2_immunohistochemistry_level_result,vital_status,histological_type,days_to_death,radiation_therapy,history_of_neoadjuvant_treatment,ER,PR,HER2,ER_PR_HER2)],by="Sample")
+tcga_BC_klaas_subset[,age_at_initial_pathologic_diagnosis:=as.numeric(age_at_initial_pathologic_diagnosis)]#
+tcga_BC_klaas_subset[,days_to_death:=as.numeric(days_to_death)]#
+tcga_BC_klaas_subset[,breast_carcinoma_estrogen_receptor_status:=as.factor(breast_carcinoma_estrogen_receptor_status)]#
+tcga_BC_klaas_subset[,breast_carcinoma_progesterone_receptor_status:=as.factor(breast_carcinoma_progesterone_receptor_status)]#
+tcga_BC_klaas_subset[,ER_PR_HER2:=paste(ER,PR,HER2),by=Sample]#
+tcga_BC_klaas_subset[,ER_PR_HER2:=as.factor(ER_PR_HER2)]
+erbb3_levels<-merge(data.table(dcast(tcga_BC_klaas_subset,Sample~symbol,value.var="normalized_count")),	tcga_BC_klaas_subset[,list(bcr_patient_barcode,Sample,her2_erbb_pos_finding_cell_percent_category,breast_carcinoma_progesterone_receptor_status,breast_carcinoma_estrogen_receptor_status,progesterone_receptor_level_cell_percent_category,age_at_initial_pathologic_diagnosis,her2_immunohistochemistry_level_result,vital_status,histological_type,days_to_death,radiation_therapy,history_of_neoadjuvant_treatment,ER,PR,HER2,ER_PR_HER2)],by="Sample")
+erbb3_levels<-unique(erbb3_levels)
+ggplot(erbb3_levels ,aes(x=ERBB3,y=IGF1R,color=ER_PR_HER2))+geom_point()
+erbb3_levels
+tcga_BC_klaas_subset
+tcga_BC_klaas_subset$sample_type = barcode$sample
+erbb3_levels<-merge(data.table(dcast(tcga_BC_klaas_subset,Sample~symbol,value.var="normalized_count")),	tcga_BC_klaas_subset[,list(bcr_patient_barcode,Sample,her2_erbb_pos_finding_cell_percent_category,breast_carcinoma_progesterone_receptor_status,breast_carcinoma_estrogen_receptor_status,progesterone_receptor_level_cell_percent_category,age_at_initial_pathologic_diagnosis,her2_immunohistochemistry_level_result,vital_status,histological_type,days_to_death,radiation_therapy,history_of_neoadjuvant_treatment,ER,PR,HER2,ER_PR_HER2,sample_type)],by="Sample")
+ggplot(erbb3_levels,aes(x=sample_type,y=IGF2BP3))+geom_boxplot()
+ggplot(erbb3_levels,aes(x=ERBB3,y=IGF2BP3))+geom_point()+facet_wrap(~sample_type)()
+ggplot(erbb3_levels,aes(x=ERBB3,y=IGF2BP3))+geom_point()+facet_wrap(~sample_type)
+ggplot(erbb3_levels,aes(x=ERBB3,y=IGF2BP3))+geom_point()+facet_grid(ER_PR_HER2~sample_type)
+library(data.table)
+hsa=fread("~/Documents/XMODULES/data/th17_latest/called/DE_calls/human/Th0_4h.tsv")
+mmus=fread("~/Documents/XMODULES/data/th17_latest/called/DE_calls/mouse/DE_4h.tsv")
+hsa
+hsa[FDR<=0.1]
+mmus[FDR<=0.1]
+mmus[FDR<=0.1 & abs(logFC)>=1.5]
+hsa[FDR<=0.1 & abs(logFC)>=1.5]
+dpois(0:10,1/2)
+plot(dpois(0:10,1/2))
+plot(dpois(0:100,1/2))
+dpois(0:100,1/2)
+library(edgeR)#
+library(ggplot2)#
+library(data.table)
+library(data.table)
+load("~/Documents/POLYBIM/experiments/140228 RM4 analysis/data/all_patients.Rdata")
+all_patients
+all_patients[sokal_value>=1]
+xtabs(~had_M4MR+had_CMR_f,all_patients[sokal_value>=1]
+)
+11/35
+11/35*23
+a<-available.packages()#
+class(a)#
+head(a)
+head(head(a))
+head(a[,1:5])
+head(a[,1:8])
+dim(a)
+library(GenomicFeatures)
+countDF <- qCount(proj, txdb, reportLevel="gene", orientation="any")
+write.table(countDF, "results/countDF.txt", quote=FALSE, sep="\t", col.names = NA)
+countDF <- read.table("./results/countDF")
+rawdata <- read.table("../../data/jean_marc/data_euca_RNA-seq.csv",sep=",",dec=".",header=TRUE,na.strings = ".",#
+                    colClasses=c(rep("factor",1),rep("numeric",12)))
+read.delim("../../data/jean_marc/targets.tsv")
+Rep <- factor(c(1,1,2,2,1,1,2,2,1,1,2,2))
+Tissue <- factor(c("F","X","F","X","F","X","F","X","F","X","F","X"))
+Clone <- factor(c("G198","G198","G198","G198","G204","G204","G204","G204","G309","G309","G309","G309"))
+data.frame(Sample=colnames(y),Rep,Tissue,Clone)
+this_design=data.frame(Sample=colnames(y),Rep,Tissue,Clone)
+design <- model.matrix(~-1+Clone+Clone:Tissue)#
+rownames(design) <- colnames(y)#
+design#
+#######estimation de la dispersion###########
+y.filtarge <- estimateGLMCommonDisp(y.filtrage, design, verbose=TRUE)#
+#
+########gene-wise dispersion estimates#
+y.filtrage <- estimateGLMTrendedDisp(y.filtrage, design)#
+y.filtrage <- estimateGLMTagwiseDisp(y.filtrage, design)#
+plotBCV(y.filtrage)#
+#
+##########Differential expression pour les tissus#
+fit <- glmFit(y.filtrage, design)#
+#
+#########pour les genes DE dans les tissus dans le clone 198#
+lrt <- glmLRT(fit, coef="CloneG198:TissueX")#
+topTags(lrt)#
+#
+o <- order(lrt$table$PValue)#
+head(order(lrt$table$PValue))#
+cpm(y)[o[1:10],]#
+#
+summary(de <- decideTestsDGE(lrt))#
+#
+detags <- rownames(y.filtrage)[as.logical(de)]#
+plotSmear(lrt, de.tags=detags)#
+abline(h=c(-1, 1), col="blue")
+libsizes=y.filtrage$samples
+libsizes$sample <- row.names(libsizes)
+libsizes
+head(cpm(y.filtrage))
+sample(1:10)
+sample(1:10,n=5)
+repl(sample(1:10)[1])
+rep(sample(1:10)[1])
+?rep(sample(1:10)[1])
+?rep(sample(1:10)[1],times=10)
+rep(sample(1:10)[1],times=10)
+rep(sample(1:10)[1],times=100)
+rep(sample(1:10)[1],each=100)
+??replicate
+?replicate(sample(1:10)[1],each=100)
+replicate(n=10,sample(1:10)[1])
+rand_input <- data.table(lectures_sam = 1:10)
+library(data.table)
+rand_input <- data.table(lectures_sam = 1:10)
+rand_input[,lectures_aurelien:=5-lectures_sam]
+rand_input[,practical_sam:=24-lectures_aurelien-lectures_sam]
+rand_input[,practical_aurelien:=practical_sam]
+rand_input
+rand_input <- data.table(lectures_sam = 1:7)#
+rand_input[,lectures_aurelien:=7-lectures_sam]#
+rand_input[,practical_sam:=24-lectures_aurelien-lectures_sam]#
+rand_input[,practical_aurelien:=practical_sam]
+rand_input
+rand_input[,do.call(salary,.SD)]
+salary <- function(lectures_sam,practical_sam,lectures_aurelien,practical_aurelien) {#
+	return(practical_sam*45 + practical_aurelien*45 + lectures_aurelien*60 + lectures_sam*60)#
+}
+rand_input[,do.call(salary,.SD)]
+salary <- function(lectures_sam,practical_sam,lectures_aurelien,practical_aurelien) {#
+	return(c(practical_sam*45+ lectures_sam*60, practical_aurelien*45 + lectures_aurelien*60)#
+}
+rand_input[,do.call(salary,.SD)]
+salary <- function(lectures_sam,practical_sam,lectures_aurelien,practical_aurelien) {#
+	return(list(sam=practical_sam*45+ lectures_sam*60, aurelien=practical_aurelien*45 + lectures_aurelien*60))#
+}
+rand_input[,do.call(salary,.SD)]
+rand_input[,salaries:=do.call(salary,.SD)]
+cbind(rand_input,rand_input[,do.call(salary,.SD)])
+rand_input
+rand_input <- data.table(lectures_sam = 1:7)#
+rand_input[,lectures_aurelien:=7-lectures_sam]#
+rand_input[,practical_sam:=24-lectures_aurelien-lectures_sam]#
+rand_input[,practical_aurelien:=practical_sam]
+rand_input
+rand_input[,do.call(salary,.SD)]
+cbind(rand_input,rand_input[,do.call(salary,.SD)])
+rand_input <- cbind(rand_input,rand_input[,do.call(salary,.SD)])
+?expand.grid()
+expand.grid(max_hours=1:10,lectures_sam=1:10)
+rand_input <- data.table(expand.grid(max_hours=1:10,lectures_sam=1:10))
+rand_input
+rand_input <- rand_input[lectures_sam<=max_hours]
+rand_input[,lectures_aurelien:=max_hours-lectures_sam]
+rand_input[,practical_sam:=24-lectures_aurelien-lectures_sam]
+rand_input[,practical_aurelien:=practical_sam]
+rand_input <- cbind(rand_input,rand_input[,do.call(salary,.SD)])
+rand_input
+rand_input <- cbind(rand_input,rand_input[,do.call(salary,.SD[2:5])])
+rand_input <- cbind(rand_input,rand_input[,do.call(salary,.SD[3:5])])
+rand_input <- cbind(rand_input,rand_input[,do.call(salary,.SD[,2:5])])
+rand_input <- cbind(rand_input,rand_input[,do.call(salary,as.list(.SD[,2:5]))])
+rand_input
+rand_input <- cbind(rand_input,rand_input[,do.call(salary,as.list(.SD[,2:5])),by=1:nrow(rand_input)])
+rand_input
+rand_input <- data.table(expand.grid(max_hours=1:10,lectures_sam=1:10))
+rand_input <- rand_input[lectures_sam<=max_hours]
+rand_input[,lectures_aurelien:=max_hours-lectures_sam]
+rand_input[,practical_sam:=24-lectures_aurelien-lectures_sam]
+rand_input[,practical_aurelien:=practical_sam]
+rand_input
+rand_input[,salary(lectures_sam,practical_sam,lectures_aurelien,practical_aurelien)]
+library(data.table)#
+rand_input <- data.table(expand.grid(max_hours=1:10,lectures_sam=1:10))#
+rand_input <- rand_input[lectures_sam<=max_hours]#
+rand_input[,lectures_aurelien:=max_hours-lectures_sam]#
+rand_input[,practical_sam:=24-lectures_aurelien-lectures_sam]#
+rand_input[,practical_aurelien:=practical_sam]#
+rand_input <- cbind(rand_input,rand_input[,salary(lectures_sam,practical_sam,lectures_aurelien,practical_aurelien)])
+rand_input
+rand_input[,delta:=abs(sam-aurelien)]
+rand_input[order(delta)]
+rand_input[,total:=sam+aurelien]
+rand_input
+rand_input[order(delta)]
+head(rand_input[order(delta)],n=5)
+setwd("~/Documents/metaviro/experiments/140529_contig_variability")#
+library(data.table)#
+library(ggplot2)#
+library(reshape2)#
+kmers=fread("full_ncbi_contigs_per_sequences_3mer.csv")#
+seq_attributes=limma::strsplit2(kmers$sequence_description,"_")#
+kmers$class=seq_attributes[,2]#
+kmers$species=seq_attributes[,1]
+kmers
+kmers[,5:(ncol(kmers)-2)]
+kmers[,5:(ncol(kmers)-2),with=F]
+colnames(kmers)[5:(ncol(kmers)-2)]
+kmer_columns=colnames(kmers)[5:(ncol(kmers)-2)]
+kmers[,.N,by=list(species,class)][,.N,by=class]
+library(caret,quietly = TRUE)#
+test.ratio=0.80 #
+learning_data=data.frame(kmers[,c("class",kmer_columns),with=F])#
+inTrain <- createDataPartition(learning_data$class, p = test.ratio, list = FALSE)#
+trainExpr <- learning_data[inTrain,]#
+testExpr <- learning_data[-inTrain,]#
+#
+trainClass <- trainExpr$class#
+testClass <- testExpr$class#
+#
+trainExpr$class<-NULL#
+testExpr$class<-NULL#
+#
+cat("learning_data and folds generated: ",dim(learning_data),"\n")#
+# library(doMC)#
+# registerDoMC(cores = 2)#
+# registerDoMC(cores = 6)#
+#
+preProcValues <- preProcess(trainExpr, method = c("center", "scale"))#
+#
+trainExpr = predict(preProcValues,trainExpr)#
+testExpr=predict(preProcValues,testExpr)
+knn_opts = data.frame(.k=c(9,11,15))#
+this_train_control = trainControl(method="cv", number=1,verboseIter=T)#
+print("Start training")#
+model_performance <- train(x = trainExpr, y = trainClass,method = "knn",trControl=this_train_control,tuneGrid=knn_opts)
+head(trainExpr)
+class(trainExpr)
+str(trainExpr)
+head(trainClass)
+learning_data$class=factor(learning_data$class)
+inTrain <- createDataPartition(learning_data$class, p = test.ratio, list = FALSE)#
+trainExpr <- learning_data[inTrain,]#
+testExpr <- learning_data[-inTrain,]#
+#
+trainClass <- trainExpr$class#
+testClass <- testExpr$class#
+#
+trainExpr$class<-NULL#
+testExpr$class<-NULL#
+#
+cat("learning_data and folds generated: ",dim(learning_data),"\n")#
+# library(doMC)#
+# registerDoMC(cores = 2)#
+# registerDoMC(cores = 6)#
+#
+preProcValues <- preProcess(trainExpr, method = c("center", "scale"))#
+#
+trainExpr = predict(preProcValues,trainExpr)#
+testExpr=predict(preProcValues,testExpr)#
+knn_opts = data.frame(.k=c(9,11,15))#
+this_train_control = trainControl(method="cv", number=1,verboseIter=T)#
+print("Start training")#
+model_performance <- train(x = trainExpr, y = trainClass,method = "knn",trControl=this_train_control,tuneGrid=knn_opts)
+install.packages("caret")
+library(caret,quietly = TRUE)
+library(caret)

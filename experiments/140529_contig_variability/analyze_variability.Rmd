@@ -1,0 +1,345 @@
+We start with a fixed number of randomly sampled contigs for each input sequences.
+
+
+```{r loading}
+setwd("~/Documents/metaviro/experiments/140529_contig_variability")
+library(data.table)
+library(ggplot2)
+library(reshape2)
+kmers=fread("full_ncbi_contigs_per_sequences_3mer.csv")
+seq_attributes=limma::strsplit2(kmers$sequence_description,"_")
+kmers$class=seq_attributes[,2]
+kmers$species=seq_attributes[,1]
+kmer_columns=colnames(kmers)[5:(ncol(kmers)-2)]
+```
+
+How many ≠ species per class? 
+
+```{r }
+kmers[,.N,by=list(species,class)][,.N,by=class]
+
+```
+
+
+We plot the distribution for a given species 
+
+```{r }
+
+a_bact_species=kmers[species==kmers[class=="bact"][1,species]]
+rowSums(a_bact_species[,kmer_columns,with=F])
+kmers_melted=melt(a_bact_species[,c("sequence_description","sequence_length", kmer_columns),with=F],id.vars=c("sequence_description","sequence_length"))
+ggplot(kmers_melted,aes(x=variable,y=value,color=sequence_description,group=sequence_description))+geom_point()+geom_line()
+```
+
+We determine the correlation between 10 bact and 10 arch species 
+
+```{r }
+selected_species=c(kmers[class=="virus"][1:5,species],kmers[class=="arch"][1:5,species])
+sub_sample_kmers=kmers[species %in% selected_species]
+kmers_melted=melt(sub_sample_kmers[,c("sequence_description","class","species","sequence_length",kmer_columns),with=F],id.vars=c("sequence_description","class","species","sequence_length"))
+# We normalize 
+kmers_melted[,value:=value/sequence_length]
+ggplot(kmers_melted,aes(x=variable,y=value,color=class,group=sequence_description))+geom_point()+geom_line()+facet_wrap(~species,ncol=1,scale="free_y")
+```
+
+We do a permutation of the species 
+
+```{r }
+kmers_melted_permuted=kmers_melted
+permutation=sample(nrow(kmers_melted_permuted))
+kmers_melted_permuted$value = kmers_melted[permutation,value]
+ggplot(kmers_melted_permuted,aes(x=variable,y=value,color=class,group=sequence_description))+geom_point()+geom_line()+facet_wrap(~species,ncol=1,scale="free_y")
+
+
+```
+
+We compare for a given species
+
+```{r }
+library(gridExtra)
+g1=ggplot(kmers_melted[species=="162329288"],aes(x=variable,y=value,color=class,group=sequence_description))+geom_point()+facet_wrap(~species,ncol=1,scale="free_y")+ylim(0,0.1)+geom_line()
+g2=ggplot(kmers_melted_permuted[species=="162329288"],aes(x=variable,y=value,color=class,group=sequence_description))+geom_point()+facet_wrap(~species,ncol=1,scale="free_y")+ylim(0,0.1)+geom_line()
+grid.arrange(g1,g2)
+
+```
+
+We plot the correlation 
+
+```{r }
+library(corrplot)
+sub_sample_kmers_df=data.frame(sub_sample_kmers[,kmer_columns,with=F],row.names=sub_sample_kmers$sequence_description)[1:40,]
+corrplot(cor(t(sub_sample_kmers_df)),order="hclust")
+
+
+```
+
+We plot the average kmer freq for each sequence (thus across 10 contigs)
+
+```{r }
+ggplot(kmers_melted,aes(x=variable,y=value,color=class))+geom_boxplot()
+
+```
+
+For all samples
+
+```{r }
+selected_species=c(kmers[class=="virus",species],kmers[class=="arch",species],kmers[class=="bact",species],kmers[class=="euk",species])
+sub_sample_kmers=kmers[species %in% selected_species]
+kmers_melted=melt(sub_sample_kmers[,c("sequence_description","class","species","sequence_length",kmer_columns),with=F],id.vars=c("sequence_description","class","species","sequence_length"))
+kmers_melted$value <- kmers_melted$value / kmers_melted$sequence_length
+
+kmers_melted$variable_f <- as.numeric(factor(kmers_melted$variable))
+# ggplot(kmers_melted[variable_f<=12],aes(x=factor(variable),y=value,fill=class))+geom_boxplot()+ylim(0,50)
+# ggplot(kmers_melted[12<variable_f & variable_f<=24],aes(x=factor(variable),y=value,fill=class))+geom_boxplot()+ylim(0,50)
+# ggplot(kmers_melted[24<variable_f & variable_f<=36],aes(x=factor(variable),y=value,fill=class))+geom_boxplot()+ylim(0,0.1)
+# ggplot(kmers_melted[36<variable_f & variable_f<=48],aes(x=factor(variable),y=value,fill=class))+geom_boxplot()+ylim(0,0.1)
+ggplot(kmers_melted[48<variable_f & variable_f<=64],aes(x=factor(variable),y=value,fill=class))+geom_boxplot()+ylim(0,0.1)
+
+
+```
+
+Correlation between k-mers by classes 
+
+```{r }
+sub_sample_kmers_df=data.frame(kmers[,kmer_columns,with=F],row.names=kmers$sequence_description)
+kmer_cor=cor(sub_sample_kmers_df)
+
+kmer_order = corrplot(kmer_cor,order="hclust")
+kmer_order=colnames(kmer_order)
+
+```
+
+We do it class by class
+
+```{r }
+sub_sample_kmers_df_bact=data.frame(kmers[class=="bact"][,kmer_columns,with=F],row.names=kmers[class=="bact"]$sequence_description)
+sub_sample_kmers_df_virus=data.frame(kmers[class=="virus"][,kmer_columns,with=F],row.names=kmers[class=="virus"]$sequence_description)
+sub_sample_kmers_df_euk=data.frame(kmers[class=="euk"][,kmer_columns,with=F],row.names=kmers[class=="euk"]$sequence_description)
+sub_sample_kmers_df_arch=data.frame(kmers[class=="arch"][,kmer_columns,with=F],row.names=kmers[class=="arch"]$sequence_description)
+
+kmer_cor_bact=cor(sub_sample_kmers_df_bact)[kmer_order,kmer_order]
+kmer_cor_virus=cor(sub_sample_kmers_df_virus)[kmer_order,kmer_order]
+kmer_cor_euk=cor(sub_sample_kmers_df_euk)[kmer_order,kmer_order]
+kmer_cor_arch=cor(sub_sample_kmers_df_arch)[kmer_order,kmer_order]
+
+par(mfrow=c(2,2))
+corrplot(kmer_cor_bact,main="bact")
+corrplot(kmer_cor_virus,main="virus")
+corrplot(kmer_cor_euk,main="euk")
+corrplot(kmer_cor_arch,main="arch")
+
+
+corrplot(abs(kmer_cor_virus-kmer_cor_arch),is.corr=F,order="hclust")
+```
+
+Do we have k-mers highly correlated with the class variable ?
+
+```{r }
+kmer_corr_with_class=sort(apply(kmers[,kmer_columns,with=F],MARGIN=2,FUN=function(col){cor(col,as.numeric(factor(kmers$class)))}))
+dotchart(kmer_corr_with_class)
+
+```
+**TODO** Same on the full sequences, not contigs
+
+Do we have differences in GC?  
+
+```{r }
+ggplot(kmers,aes(x=class,y=GC))+geom_boxplot()
+ggplot(kmers,aes(x=class,y=sequence_length))+geom_boxplot()+ylim(0,1000)
+```
+
+
+We classify using caret
+
+```{r }
+library(caret)
+test.ratio=0.8
+
+sub_sample = function(table,size){table[sample(1:nrow(table),size=min(nrow(table),size)),]}
+
+sub_data=rbind(sub_sample(kmers[class=="arch"],1000),sub_sample(kmers[class=="bact"],1000),sub_sample(kmers[class=="virus"],1000),sub_sample(kmers[class=="euk"],1000))
+
+learning_data=data.frame(sub_data[,c("class",kmer_columns),with=F])
+learning_data$class=as.numeric(factor(learning_data$class))
+inTrain <- createDataPartition(learning_data$class, p = test.ratio, list = FALSE)
+trainExpr <- learning_data[inTrain,]
+testExpr <- learning_data[-inTrain,]
+
+trainClass <- trainExpr$class
+testClass <- testExpr$class
+
+trainExpr$class<-NULL
+testExpr$class<-NULL
+
+cat("learning_data and folds generated: ",dim(learning_data),"\n")
+
+
+# library(doMC)
+# registerDoMC(cores = 2)
+# registerDoMC(cores = 6)
+
+preProcValues <- preProcess(trainExpr, method = c("center", "scale"))
+
+trainExpr = predict(preProcValues,trainExpr)
+testExpr=predict(preProcValues,testExpr)
+
+
+```
+
+We can launch the training 
+
+```{r}
+knn_opts = data.frame(.k=c(9,11,15))
+this_train_control = trainControl(method="cv", number=1,verboseIter=T)
+print("Start training")
+model_performance <- train(x = trainExpr, y = trainClass,method = "knn",trControl=this_train_control,tuneGrid=knn_opts)
+
+
+print(training_method)
+print(model_performance)
+
+
+final_pred = data.table(extractPrediction(list(model_performance),testX=testExpr,testY=testClass))
+knn_cm_train=confusionMatrix(final_pred[dataType=="Training",pred], final_pred[dataType=="Training",obs])
+knn_cm_test=confusionMatrix(final_pred[dataType=="Test",pred], final_pred[dataType=="Test",obs])
+
+print(knn_cm_test)
+print(knn_cm_train)
+
+
+```
+
+**TODO** Why fail with caret?
+
+```{r }
+library(class)
+knn_res=knn(trainExpr,testExpr,trainClass,k=11)
+```
+
+**TODO** Very slow !
+
+
+Using my own code 
+
+```{r }
+
+library(caret)
+library(fields)
+library(limma)
+folds=createFolds(trainClass,k=2)
+
+k_range = c(9,11,13)
+
+
+## Calculate distance and nearest neighbors
+# a_d_mat = 1-cor(t(learning_data))
+# # a_d_mat = as.matrix(dist(learning_data))
+# # a_d_mat<-KLdiv(t(learning_data))
+
+# rownames(a_d_mat)<-learning_data$domain
+# colnames(a_d_mat)<-learning_data$domain
+# NN = t(apply(a_d_mat[test_set, training_set], 1, rank))
+
+
+# Alternative version, where we compute only the distances that we will measure 
+# a_d_mat=1-cor(t(learning_data[test_set,]),t(learning_data[training_set,]))
+
+
+#### More memory savy approach: Columns are sorted and we only keep the top K columns in the NN object 
+all_estimates=data.table()
+for( i in 1:length(folds)){
+	fold=folds[i][[1]]
+	this_validation_set= fold
+	this_training_set=setdiff(1:length(inTrain), fold)
+
+	a_d_mat=rdist(trainExpr[this_validation_set,],trainExpr[this_training_set,])
+	# a_d_mat=1-cor(t(trainExpr[this_validation_set,]),t(trainExpr[this_training_set,]))
+
+
+	rownames(a_d_mat)<-trainExpr[this_validation_set,]$domain
+	colnames(a_d_mat)<-trainExpr[this_training_set,]$domain
+	#corrplot(a_d_mat,is.corr=F)
+
+	NN_restricted = as.matrix(t(apply(a_d_mat, 1, order))[,1:max(k_range)],nrows=length(this_validation_set))
+	for(k in k_range){
+		cat(i,k,"\n")
+		these_pred = apply(NN_restricted, 1, function(nn){
+		    tab = table(trainClass[this_training_set][nn[1:k]])
+		    names(tab)[which.max(tab)]
+		})
+		est<-confusionMatrix(these_pred,trainClass[this_validation_set])
+		est$overall$k=k
+		est$overall$fold=i
+		all_estimates<-rbind(all_estimates,est$overall)
+		# Inspect the results
+		# corrplot(table(these_pred, learning_classes[this_validation_set]),is.corr=F,method="square",main=paste("k=",k))
+	}
+}
+
+print(all_estimates[,mean(Accuracy),by=k])
+# We choose the best model
+best_k <- all_estimates[,mean(Accuracy),by=k][order(V1,decreasing=T)][1,k]
+
+a_d_mat=rdist(learning_data[-inTrain,2:ncol(learning_data)],learning_data[+inTrain,2:ncol(learning_data)])
+# a_d_mat=1-cor(t(learning_data[-inTrain,value_cols]),t(learning_data[+inTrain,value_cols]))
+
+
+rownames(a_d_mat)<-learning_data[-inTrain,'class']
+colnames(a_d_mat)<-learning_data[inTrain,'class']
+
+#corrplot(a_d_mat,is.corr=F)
+
+NN_restricted = as.matrix(t(apply(a_d_mat, 1, order))[,1:best_k],nrows=length(inTrain))
+training_labels=learning_data[inTrain]
+these_pred = apply(NN_restricted, 1, function(nn){
+    tab = table(training_labels[nn[1:k]])
+    names(tab)[which.max(tab)]
+})
+cm_test<-confusionMatrix(these_pred,learning_data[-inTrain,"class"])
+
+
+
+```
+
+
+We compare to a setup with only the most correlated K-mers are choosen
+
+```{r }
+# best_kmers=names(head(kmer_corr_with_class,n=3))
+best_kmers=names(tail(kmer_corr_with_class,n=3))
+
+a_d_mat=rdist(learning_data[-inTrain,best_kmers],learning_data[+inTrain,best_kmers])
+# a_d_mat=1-cor(t(learning_data[-inTrain,value_cols]),t(learning_data[+inTrain,value_cols]))
+
+
+rownames(a_d_mat)<-learning_data[-inTrain,'class']
+colnames(a_d_mat)<-learning_data[inTrain,'class']
+
+#corrplot(a_d_mat,is.corr=F)
+
+NN_restricted = as.matrix(t(apply(a_d_mat, 1, order))[,1:best_k],nrows=length(inTrain))
+training_labels=learning_data[inTrain]
+these_pred = apply(NN_restricted, 1, function(nn){
+    tab = table(training_labels[nn[1:k]])
+    names(tab)[which.max(tab)]
+})
+cm_test<-confusionMatrix(these_pred,learning_data[-inTrain,"class"])
+cm_test
+
+```
+
+We see that only selecting a subset of the k-mers (supposedly the most correlated) actually worsens the kappa of the test set 
+
+
+
+Trying with recursive trees 
+
+```{r }
+library(party)
+training_data=cbind(trainExpr,trainClass)
+training_data$trainClass <- factor(as.numeric(factor(training_data$trainClass)))
+
+tt=ctree(trainClass~.,data=training_data)
+predicted = predict(tt,testExpr)
+cm_test<-confusionMatrix(predicted,factor(as.numeric(factor(testClass))))
+```

@@ -1,0 +1,169 @@
+We want to determine whether viruses are more spread than the other classes
+
+```{r libraries}
+library(data.table)
+library(cluster)
+library(ggplot2)
+library(corrplot)
+library(plyr)
+library(dplyr)
+library(reshape2)
+setwd("~/Documents/metaviro/experiments/140528_full_ncbi_resampling")
+kmers=fread("full_ncbi_contigs_4k_v2_3mers.csv")
+kmers_columns=colnames(kmers)[5:ncol(kmers)]
+sequence_attributes=limma::strsplit2(kmers$sequence_description,"_")
+kmers$species=factor(sequence_attributes[,1])
+kmers$class=factor(sequence_attributes[,2])
+kmers$contig_index=as.numeric(sequence_attributes[,4])
+kmers$is_RC=sequence_attributes[,7]=="rev"
+normalized_kmers=kmers[,kmers_columns,with=F]/kmers$sequence_length
+```
+
+* We downsample 
+
+```{r }
+downsample_idx=sample(1:nrow(normalized_kmers),2500)
+
+kmers_ds=kmers[downsample_idx,]
+kmers_ds$idx=1:nrow(kmers_ds)
+normalized_kmers_ds=normalized_kmers[downsample_idx,]
+dim(kmers_ds)
+```
+
+* We compute the pairwise distance matrix 
+
+```{r }
+pairwise_dist = dist(normalized_kmers_ds)
+pairwise_dist_m=as.matrix(pairwise_dist)
+pairwise_dist_m[lower.tri(pairwise_dist_m,diag=T)]<-NA
+
+rownames(pairwise_dist_m)=kmers_ds$species
+colnames(pairwise_dist_m)=kmers_ds$species
+dim(pairwise_dist_m)
+pairwise_dist_m=data.table(melt(pairwise_dist_m))
+pairwise_dist_m=na.omit(pairwise_dist_m)
+
+
+pairwise_dist_m$Var1=factor(pairwise_dist_m$Var1)
+pairwise_dist_m$Var2=factor(pairwise_dist_m$Var2)
+
+str(pairwise_dist_m)
+# Add the class annotation 
+class_annot=unique(kmers_ds[,list(species,class)])
+setkey(class_annot,"species")
+
+
+pairwise_dist_m$src_class=class_annot[J(pairwise_dist_m[,Var1])][,class]
+pairwise_dist_m$tgt_class=class_annot[J(pairwise_dist_m[,Var2])][,class]
+
+str(pairwise_dist_m)
+
+
+```
+
+
+* Averages
+
+```{r }
+avg_dist=pairwise_dist_m[,median(value),by=list(src_class,tgt_class)][order(V1)]
+avg_dist=dcast(avg_dist,src_class~tgt_class)
+rownames(avg_dist) = avg_dist$src_class
+avg_dist$src_class<-NULL
+corrplot(as.matrix(avg_dist)*100,is.corr=F)
+heatmap(as.numeric(avg_dist),is.corr=F)
+
+```
+No information, except that euk and bact are far apart, and that avg euk - euk distance is the largest of the diags 
+
+* pair wise boxplots 
+
+```{r }
+ggplot(pairwise_dist_m,aes(x=src_class,y=value))+geom_boxplot()+facet_wrap(~tgt_class)
+
+```
+
+* Les copains autour (k-NN)
+
+```{r }
+pairwise_dist_m[,ranked_dist:=rank(value),by=Var1]
+
+matched_friends=pairwise_dist_m[ranked_dist<=7]
+
+```
+
+We determine the most frequent class in the neighborhood 
+
+```{r }
+
+
+matched_friends[,vir_counts:={foo=table(tgt_class);foo["viruses"]},by=list(Var1,src_class)]
+matched_friends[,bact_counts:={foo=table(tgt_class);foo["bact"]},by=list(Var1,src_class)]
+matched_friends[,arch_counts:={foo=table(tgt_class);foo["archea"]},by=list(Var1,src_class)]
+matched_friends[,euk_counts:={foo=table(tgt_class);foo["euk"]},by=list(Var1,src_class)]
+matched_friends[,k_disagreeing:=vir_counts+ bact_counts+ arch_counts+ euk_counts]
+
+matched_friends=unique(matched_friends[,list(Var1,src_class,vir_counts, bact_counts, arch_counts, euk_counts,k_disagreeing)])
+
+
+matched_friends[src_class=="viruses",k_disagreeing:=k_disagreeing-vir_counts]
+matched_friends[src_class=="archea",k_disagreeing:=k_disagreeing-arch_counts]
+matched_friends[src_class=="bact",k_disagreeing:=k_disagreeing-bact_counts]
+matched_friends[src_class=="euk",k_disagreeing:=k_disagreeing-euk_counts]
+
+
+# matched_friends[,mean(k_disagreeing),by=src_class]
+
+matched_friends[k_disagreeing>=5,.N,by=src_class]
+
+ggplot(matched_friends,aes(x=src_class,fill=src_class,y=k_disagreeing))+geom_histogram()
+ggplot(matched_friends,aes(fill=src_class,x=factor(k_disagreeing)))+geom_histogram()
+
+matched_friends[k_disagreeing==4,.N,by=src_class]
+matched_friends[,.N,by=src_class]
+
+sum(matched_friends[,.N,by=list(src_class,k_disagreeing)][order(src_class,k_disagreeing)]$N)
+```
+
+
+```{r test}
+ddply(matched_friends,.variables=c("Var1","src_class"),.fun=table)
+
+find_most_frequent=function(vec){
+	print(vec)
+	sorted_table=sort(table(vec),decreasing=T)
+	print(sorted_table)
+	return(sorted_table[1])
+}
+
+matched_friends[1:10,find_most_frequent(tgt_class),by=list(Var1,src_class)]
+
+confusionMatrix(matched_friends[,src_class],matched_friends[,V1])
+```
+
+* MCA analysis 
+
+```{r }
+library(FactoMineR)
+
+
+
+res.mca=PCA(kmers_ds[,c("class",kmers_columns),with=F],quali.sup=c(1))
+plot.PCA(res.mca,invisible=c("quali"),habillage=c(1),label="none")
+plot.PCA(res.mca,invisible=c("quali"),habillage=c(1),axes=c(1,3),label="none")
+plot.PCA(res.mca,invisible=c("quali"),habillage=c(1),axes=c(2,3),label="none")
+dimdesc(res.mca)
+
+```
+
+We do a hierachical clustering 
+
+```{r }
+h_clust=HCPC(res.mca) #very slow due to drawing! 
+
+clustered_data=data.table(h_clust$data.clust)
+dcast(clustered_data[,.N,by=list(clust,class)],class~clust)
+
+```
+HCPC show no good association with the class labels 
+
+* Other approaches, where we compute the distances to the class centroids (possibly having multiple class centroids)

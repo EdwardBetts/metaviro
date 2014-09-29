@@ -1,0 +1,131 @@
+We test whether very randomly spaced k-mers (e.g 10nt, starred randomly) can be used as basis of separation between classes
+
+```{r }
+library(data.table)
+library(caret)
+library(reshape2)
+library(party)
+library(gridExtra)
+library(ggplot2)
+library(dplyr)
+library(plyr)
+library(corrplot)
+setwd("/Users/hayssam/metaviro/experiments/140609_spaced_kmers")
+```
+
+
+```{r eval=F}
+long_kmers=read.table("test.csv",sep="\t")
+long_kmers=data.table(long_kmers)
+setnames(long_kmers,c("path","sequence_description","sequence_length","GC","pattern","kmer","count"))
+seq_attributes=limma::strsplit2(long_kmers$sequence_description,"_")
+long_kmers$class=factor(seq_attributes[,2])
+long_kmers$species=factor(seq_attributes[,1])
+long_kmers$pattern=factor(long_kmers$pattern)
+long_kmers$kmer=factor(long_kmers$kmer)
+save(long_kmers,file="spaced_kmers.RData")
+```
+
+
+Descriptive stats
+
+```{r }
+load("spaced_kmers.RData")
+long_kmers[,.N,by=class]
+```
+
+K-mers by class ?
+
+```{r }
+long_kmers[,sum(count),by=list(kmer,class)][order(V1)] %.% tail(n=30)
+kmer_by_classes=dcast(long_kmers[,sum(count),by=list(kmer,class)][order(V1)][V1>=20],kmer~class,value.var="V1")
+```
+
+
+
+How many ≠ species retrieved by a single k-mer ? 
+
+```{r }
+long_kmer_retrieval=long_kmers[,length(unique(species)),by=list(kmer,class)][order(V1)]
+save(long_kmer_retrieval,file="long_kmer_retrieval.RData")
+```
+
+Any viral specificity?
+
+```{r}
+load("long_kmer_retrieval.RData")
+long_kmer_retrieval %.% tail(n=10)
+long_kmer_retrieval_d = data.table(dcast(long_kmer_retrieval,kmer~class,value.var="V1",fill=0))
+
+long_kmer_retrieval_d[order(viruses)]
+long_kmer_retrieval_d[,purity:=viruses/(archea+bact+euk+viruses)]
+long_kmer_retrieval_d[,euk_purity:=euk/(archea+bact+euk+viruses)]
+long_kmer_retrieval_d[,bact_purity:=bact/(archea+bact+euk+viruses)]
+long_kmer_retrieval_d[,arch_purity:=archea/(archea+bact+euk+viruses)]
+
+long_kmer_retrieval_d[,virus_recall:=viruses/30]
+long_kmer_retrieval_d[,virus_precision:=purity]
+long_kmer_retrieval_d[,virus_f1_score:=virus_recall*virus_precision/(virus_precision+virus_recall)]
+
+long_kmer_retrieval_d[,euk_recall:=euk/30]
+long_kmer_retrieval_d[,euk_precision:=euk_purity]
+long_kmer_retrieval_d[,euk_f1_score:=euk_recall*euk_precision/(euk_precision+euk_recall)]
+
+long_kmer_retrieval_d[,bact_recall:=bact/30]
+long_kmer_retrieval_d[,bact_precision:=bact_purity]
+long_kmer_retrieval_d[,bact_f1_score:=bact_recall*bact_precision/(bact_precision+bact_recall)]
+
+long_kmer_retrieval_d[,arch_recall:=archea/30]
+long_kmer_retrieval_d[,arch_precision:=arch_purity]
+long_kmer_retrieval_d[,arch_f1_score:=arch_recall*arch_precision/(arch_precision+arch_recall)]
+
+
+
+long_kmer_retrieval_d[viruses>=10][order(purity)]
+
+g1=ggplot(long_kmer_retrieval_d[viruses>=6],aes(x=viruses,y=purity,size=euk_purity,colour=arch_purity))+geom_point()+ylim(0,1)
+g2=ggplot(long_kmer_retrieval_d[euk>=6],aes(x=euk,y=euk_purity,size=purity,colour=arch_purity))+geom_point()+ylim(0,1)
+g3=ggplot(long_kmer_retrieval_d[bact>=6],aes(x=bact,y=bact_purity,size=purity,colour=arch_purity))+geom_point()+ylim(0,1)
+g4=ggplot(long_kmer_retrieval_d[archea>=6],aes(x=archea,y=arch_purity,size=purity,colour=euk_purity))+geom_point()+ylim(0,1)
+grid.arrange(g1,g2,g3,g4)
+
+
+ggplot(long_kmer_retrieval_d[viruses>=5],aes(x=virus_precision,y=virus_recall,colour=virus_f1_score))+geom_point()+xlim(0,1)+ylim(0,1)
+ggsave("virus_prec_recall.pdf")
+
+ggplot(long_kmer_retrieval_d[euk>=5],aes(x=euk_precision,y=euk_recall,colour=euk_f1_score))+geom_point()+xlim(0,1)+ylim(0,1)
+ggsave("euk_prec_recall.pdf")
+long_kmer_retrieval_d[!is.nan(euk_f1_score)][order(euk_f1_score)] %.% tail(n=3)
+```
+
+We select 3 champions per class
+
+```{r }
+champions=unique(as.character(c(
+	as.character((long_kmer_retrieval_d[!is.nan(virus_f1_score)][order(virus_f1_score)] %.% tail(n=30))$kmer),
+	as.character((long_kmer_retrieval_d[!is.nan(bact_f1_score)][order(bact_f1_score)] %.% tail(n=30))$kmer),
+	as.character((long_kmer_retrieval_d[!is.nan(arch_f1_score)][order(arch_f1_score)] %.% tail(n=30))$kmer),
+	as.character((long_kmer_retrieval_d[!is.nan(euk_f1_score)][order(euk_f1_score)] %.% tail(n=30))$kmer)
+	)))
+long_kmers[kmer %in% champions,.N,by=list(class,species)][,length(unique(species)),by=class]
+
+table(long_kmers[kmer %in% champions,class])
+
+champions_counts=dcast(long_kmers[kmer %in% champions],class+species~kmer,fun.aggregate=sum,value.var="count")
+champions_counts$species<-NULL
+
+tt=ctree(data=champions_counts,class~.)
+pdf(width=60,h=12,file="spaced_k_mers_reg_tree.pdf")
+plot(tt)
+dev.off()
+
+confusionMatrix(as.character(predict(tt,champions_counts)),as.character(champions_counts$class))
+```
+
+We should seek a combination of k-mer maximizing the overall F1-score of the viral classes 
+
+
+It seems as if there's no k-mer that is purely specific to the viruses anymore, is this the case ?
+
+
+

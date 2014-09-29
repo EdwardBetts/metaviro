@@ -1,0 +1,198 @@
+We perform an instance hardness difficulty assessment, following the paper of [Smith 2014](x-devonthink-item://EB3EF18E-04E6-4FB9-9CE1-6F99C6156027)
+
+
+```{r libraries}
+library(reshape2)
+library(dplyr)
+library(ggplot2)
+library(data.table)
+library(stringr)
+library(caret)
+setwd("/Users/hayssam/Documents/metaviro/experiments/140925 classification hardness/")
+load("../140526 compare classifiers/all_classification_results.RData")
+```
+
+
+*Identification of hard instances 
+
+```{r}
+
+by_contig=merge(all_classification_results[predicted_class!=real_class,list(misclassified=.N),by=list(contig,contig_length,real_class,kmer_length)],all_classification_results[,list(n_present=.N),by=list(contig,kmer_length,filtered)],by=c("contig","kmer_length"))
+by_contig[,instance_hardness:=misclassified/n_present]
+by_contig[order(instance_hardness)]
+
+
+all_classification_results[contig=="988_bact_gi|296321890|gb|CP001903.1|_len330"]
+all_classification_results[,list(n_present=.N),by=list(contig,kmer_length)][contig=="988_bact_gi|296321890|gb|CP001903.1|_len330"]
+
+
+by_contig[order(misclassified)]
+by_contig$species=limma::strsplit2(by_contig$contig,"|",fixed=T)[,4]
+
+
+by_contig[,mean(misclassified/n_present),by=real_class]
+
+ggplot(by_contig,aes(x=n_present,y=misclassified/n_present,color=misclassified/n_present>=0.5))+geom_point()+facet_grid(kmer_length~real_class)
+
+
+summary(by_contig[,misclassified/n_present])
+by_contig[misclassified/n_present>=0.71][,.N,by=list(real_class,kmer_length)][order(N)]
+```
+
+Is the difficulty related to the contig lenght ? 
+
+```{r }
+ggplot(by_contig,aes(x=contig_length,y=instance_hardness))+geom_point()+geom_smooth()
+
+```
+
+No 
+
+* Are difficult contigs more present in the filtered sets? 
+
+```{r }
+by_contig[,mean(instance_hardness),by=list(real_class,filtered)]
+
+```
+
+Seems like there's a difference, but I can't understand the meaning of the filtered column. 
+
+# Applying instance level hardness heuristics 
+
+We analyze the instances themselves (for k-mer==3) and determine which are the difficult instances according to Smith heuristics.
+
+We load the source data 
+
+```{r }
+all_instances=data.table()
+rootfolder="/Users/hayssam/Documents/metaviro/experiments/benchmark/5_2k/"
+all_files= list.files(rootfolder,pattern="k3.mv")
+for (file in all_files){ 
+	these_kmers=fread(paste(rootfolder,file,sep=""))
+	setnames(these_kmers,c("contig","contig_length","kmer","count"))
+	all_instances=rbind(all_instances,these_kmers)
+}
+save(all_instances,file="data/all_benchmark_instances.RData")
+```
+
+* We build a matrix of normalized kmers 
+
+```{r }
+all_instances_kmers=data.table(dcast(all_instances,contig+contig_length~kmer,value.var="count",fill=0))
+
+
+kmers_columns=colnames(all_instances_kmers)[3:ncol(all_instances_kmers)]
+sequence_attributes=limma::strsplit2(all_instances_kmers$contig,"|",fixed=T)
+classes=limma::strsplit2(sequence_attributes[,1],"_",fixed=T)[,2]
+contig_idx=limma::strsplit2(sequence_attributes[,1],"_",fixed=T)[,1]
+all_instances_kmers$species=factor(sequence_attributes[,2])
+all_instances_kmers$class=factor(classes)
+all_instances_kmers$contig_index=as.numeric(contig_idx)
+
+all_instances_kmers[,.N,by=class]
+
+
+```
+We check that we have all the data 
+
+```{r }
+setdiff(all_instances_kmers$contig,all_instances_kmers$contig)
+setdiff(all_instances_kmers$contig,all_instances_kmers$contig)
+
+```
+
+We do.
+
+
+
+## Disjunct class percentage  (DCP)
+
+We try the C5.0 approach 
+
+```{r }
+library(C50)
+normalized_kmers=all_instances_kmers[,kmers_columns,with=F]/all_instances_kmers$contig_length
+
+run_idx=createDataPartition(all_instances_kmers$class,p=1,list=F)[,1]
+test_idx=setdiff(1:nrow(normalized_kmers),run_idx)
+# run_idx=sample(1:nrow(normalized_kmers),size=2000)
+kmers[run_idx,.N,by=class][order(N)]
+
+classification_tree=C5.0(x=normalized_kmers[run_idx,],y=all_instances_kmers[run_idx,class])
+summary.C5.0(classification_tree)
+
+str(classification_tree)
+
+new_pred=predict.C5.0(classification_tree,normalized_kmers[test_idx,])
+confusionMatrix(new_pred,all_instances_kmers[test_idx,class])
+
+new_pred=predict.C5.0(classification_tree,normalized_kmers[test_idx,],type="prob")
+pred_results=data.table(new_pred)
+pred_results$real_class=all_instances_kmers[test_idx,class]
+pred_results[,mean(virus),by="real_class"][order(V1)]
+pred_results[,mean(euk),by="real_class"][order(V1)]
+pred_results[,mean(arch),by="real_class"][order(V1)]
+pred_results[,mean(bact),by="real_class"][order(V1)]
+```
+
+
+Don't know how to extract the disjunct and thus the DCP 
+
+Trying with CART 
+
+```{r }
+library(rpart)
+learning_data=cbind(normalized_kmers[run_idx,],all_instances_kmers[run_idx,class])
+part_tree <- rpart(V2~.,method="class",control=rpart.control(minsplit=1,minbucket=1),data=learning_data)
+predictions=data.table(predict(part_tree,learning_data))
+
+post(part_tree, file = "tree.ps")
+
+predictions$predicted_class=colnames(predictions)[apply(predictions,1,which.max)]
+predictions$real_class=learning_data$V2
+confusionMatrix(predictions$predicted_class,predictions$real_class)
+
+```
+
+We assign each instance to the leaf node of classification 
+
+```{r }
+learning_data$end_node=part_tree$where
+
+# Summarize by end node 
+
+dcast(learning_data[,.N,by=list(V2,end_node)],end_node~V2)
+plot(part_tree)
+```
+The tree is not complex enough to yield anything interesting. We try to interpret the tree from C5.0 
+
+
+```{r }
+tree_description=summary(classification_tree)$output
+class_regex="[:alpha:] \\([:digit:]/[:digit:]\\)"
+class_regex="([:digit:]*)/([:digit:]*)"
+class_regex="([a-z]+) (\\(([0-9]+)/([0-9]+)|\\(([0-9]+)\\))"
+str_match_all(":   :...302 > 0.01626016: arch (6/2)",class_regex)
+str_match_all(":   :...302 > 0.01626016: arch (6)",class_regex)
+matches=str_match_all(tree_description,class_regex)[[1]]
+
+bucket_contents=data.table(matches)
+bucket_contents$idx=1:nrow(bucket_contents)
+
+# bucket_contents[,test:=as.numeric(as.character(V4))]
+
+bucket_contents[,corresponding_class:=as.numeric(as.character(V4)),by=idx]
+bucket_contents[is.na(corresponding_class),corresponding_class:=as.numeric(as.character(V6)),by=idx]
+bucket_contents[,other_classes:=as.numeric(as.character(V5)),by=idx]
+bucket_contents[is.na(other_classes),other_classes:=0]
+bucket_contents[,total:=other_classes+corresponding_class]
+
+```
+
+
+```{r }
+bucket_contents[,m:=log(corresponding_class)-log(other_classes)]
+bucket_contents[,a:=1/2*(log(corresponding_class)+log(other_classes))]
+ggplot(bucket_contents,aes(x=a,y=m,colour=V2,size=total))+geom_point()+scale_size_continuous(range=c(0.5,12))
+ggsave("MA-plot C5.0 louisa sampling.pdf")
+```

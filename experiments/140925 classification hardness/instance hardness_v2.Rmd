@@ -1,0 +1,275 @@
+We perform an instance hardness difficulty assessment, following the paper of [Smith 2014](x-devonthink-item://EB3EF18E-04E6-4FB9-9CE1-6F99C6156027)
+
+
+```{r libraries}
+library(reshape2)
+library(dplyr)
+library(ggplot2)
+library(data.table)
+library(stringr)
+library(caret)
+setwd("/Users/hayssam/Documents/metaviro/experiments/140925 classification hardness/")
+
+```
+
+
+# Applying instance level hardness heuristics 
+
+We analyze balanced instances (for k-mer==3) and determine which are the difficult instances according to Smith heuristics.
+
+We load the source data 
+
+```{r }
+all_instances_kmers=fread("../140528_full_ncbi_resampling/full_ncbi_contigs_4k_v2_5mers.csv")
+```
+
+* We build a matrix of normalized kmers 
+
+```{r }
+
+kmers_columns=colnames(all_instances_kmers)[5:ncol(all_instances_kmers)]
+sequence_attributes=limma::strsplit2(all_instances_kmers$sequence_description,"_",fixed=T)
+
+all_instances_kmers$species=factor(sequence_attributes[,1])
+all_instances_kmers$class=factor(sequence_attributes[,2])
+all_instances_kmers$contig_index=as.numeric(sequence_attributes[,4])
+
+all_instances_kmers[,.N,by=class]
+
+
+```
+
+## Disjunct class percentage  (DCP)
+
+We try the C5.0 approach 
+
+```{r }
+library(C50)
+normalized_kmers=all_instances_kmers[,kmers_columns,with=F]/all_instances_kmers$sequence_length
+
+run_idx=createDataPartition(all_instances_kmers$class,p=0.2,list=F)[,1]
+test_idx=setdiff(1:nrow(normalized_kmers),run_idx)
+# run_idx=sample(1:nrow(normalized_kmers),size=2000)
+all_instances_kmers[run_idx,.N,by=class][order(N)]
+
+classification_tree=C5.0(x=normalized_kmers[run_idx,],y=all_instances_kmers[run_idx,class])
+summary.C5.0(classification_tree)
+
+new_pred=predict.C5.0(classification_tree,normalized_kmers[test_idx,])
+confusionMatrix(new_pred,all_instances_kmers[test_idx,class])
+
+new_pred=predict.C5.0(classification_tree,normalized_kmers[test_idx,],type="prob")
+pred_results=data.table(new_pred)
+pred_results$real_class=all_instances_kmers[test_idx,class]
+pred_results[,mean(virus),by="real_class"][order(V1)]
+pred_results[,mean(euk),by="real_class"][order(V1)]
+pred_results[,mean(arch),by="real_class"][order(V1)]
+pred_results[,mean(bact),by="real_class"][order(V1)]
+```
+
+We compute leaf node content
+
+
+```{r }
+tree_description=summary(classification_tree)$output
+class_regex="([a-z]+) (\\(([0-9]+)/([0-9]+)|\\(([0-9]+)\\))"
+matches=str_match_all(tree_description,class_regex)[[1]]
+
+bucket_contents=data.table(matches)
+bucket_contents$idx=1:nrow(bucket_contents)
+
+# bucket_contents[,test:=as.numeric(as.character(V4))]
+
+bucket_contents[,corresponding_class:=as.numeric(as.character(V4)),by=idx]
+bucket_contents[is.na(corresponding_class),corresponding_class:=as.numeric(as.character(V6)),by=idx]
+bucket_contents[,other_classes:=as.numeric(as.character(V5)),by=idx]
+bucket_contents[is.na(other_classes),other_classes:=0]
+bucket_contents[,total:=other_classes+corresponding_class]
+
+```
+
+
+```{r }
+bucket_contents[,m:=log(corresponding_class)-log(other_classes)]
+bucket_contents[,a:=1/2*(log(corresponding_class)+log(other_classes))]
+ggplot(bucket_contents,aes(x=a,y=m,colour=V2,size=total))+geom_point()+scale_size_continuous(range=c(0.5,12))
+
+```
+
+
+* We downsample a balanced dataset for distance computations
+
+```{r }
+
+all_instances_kmers$idx=1:nrow(all_instances_kmers)
+
+n_tgt_samples=2500
+
+downsample_idx=c(
+	sample(all_instances_kmers[class=="bact",idx],n_tgt_samples/4),
+	sample(all_instances_kmers[class=="euk",idx],n_tgt_samples/4),
+	sample(all_instances_kmers[class=="archea",idx],n_tgt_samples/4),
+	sample(all_instances_kmers[class=="viruses",idx],n_tgt_samples/4))
+
+kmers_ds=kmers[downsample_idx,]
+kmers_ds$idx=1:nrow(kmers_ds)
+
+normalized_kmers_ds=normalized_kmers[downsample_idx,]
+
+kmers_ds[,.N,by=class]
+
+```
+
+* We compute the pairwise distance matrix 
+
+```{r }
+pairwise_dist = dist(normalized_kmers_ds)
+
+pairwise_dist_m=as.matrix(pairwise_dist)
+# pairwise_dist_m[lower.tri(pairwise_dist_m,diag=T)]<-NA
+
+rownames(pairwise_dist_m)=as.character(kmers_ds$sequence_description)
+colnames(pairwise_dist_m)=as.character(kmers_ds$sequence_description)
+dim(pairwise_dist_m)
+
+pairwise_dist_m=data.table(melt(pairwise_dist_m))
+
+# Add the class annotation 
+class_annot=unique(kmers_ds[,list(sequence_description,species,class)])
+setkey(class_annot,"sequence_description")
+
+pairwise_dist_m$src_class=class_annot[J(pairwise_dist_m[,Var1])][,class]
+pairwise_dist_m$tgt_class=class_annot[J(pairwise_dist_m[,Var2])][,class]
+
+pairwise_dist_m[,.N,by=list(src_class,tgt_class)][order(tgt_class)]
+
+```
+
+
+* Averages
+
+```{r }
+avg_dist=pairwise_dist_m[,mean(value),by=list(src_class,tgt_class)][order(V1)]
+avg_dist=dcast(avg_dist,src_class~tgt_class)
+rownames(avg_dist) = avg_dist$src_class
+avg_dist$src_class<-NULL
+corrplot(as.matrix(avg_dist)*100,is.corr=F)
+
+```
+
+
+* kNN stats 
+
+```{r }
+
+pairwise_dist_m=pairwise_dist_m[Var1!=Var2]
+
+# look for missing species 
+
+pairwise_dist_m[,ranked_dist:=rank(value),by=Var1]
+matched_friends=pairwise_dist_m[ranked_dist<=15]
+matched_friends[order(Var1)]
+
+
+```
+
+
+Neighbor stat 
+
+```{r }
+matched_friends[,vir_counts:={foo=table(tgt_class);foo["viruses"]},by=list(Var1,src_class)]
+matched_friends[,bact_counts:={foo=table(tgt_class);foo["bact"]},by=list(Var1,src_class)]
+matched_friends[,arch_counts:={foo=table(tgt_class);foo["archea"]},by=list(Var1,src_class)]
+matched_friends[,euk_counts:={foo=table(tgt_class);foo["euk"]},by=list(Var1,src_class)]
+matched_friends[,k_disagreeing:=vir_counts+ bact_counts+ arch_counts+ euk_counts]
+
+matched_friends=unique(matched_friends[,list(Var1,src_class,vir_counts, bact_counts, arch_counts, euk_counts,k_disagreeing)])
+
+
+matched_friends[src_class=="viruses",k_disagreeing:=k_disagreeing-vir_counts]
+matched_friends[src_class=="archea",k_disagreeing:=k_disagreeing-arch_counts]
+matched_friends[src_class=="bact",k_disagreeing:=k_disagreeing-bact_counts]
+matched_friends[src_class=="euk",k_disagreeing:=k_disagreeing-euk_counts]
+
+
+# matched_friends[,mean(k_disagreeing),by=src_class]
+
+matched_friends[k_disagreeing>=5,.N,by=src_class]
+
+# ggplot(matched_friends,aes(x=src_class,fill=src_class,y=k_disagreeing))+geom_histogram()
+ggplot(matched_friends,aes(fill=src_class,x=factor(k_disagreeing)))+geom_histogram()
+ggplot(matched_friends,aes(fill=src_class,x=factor(k_disagreeing)))+geom_histogram()+facet_wrap(~src_class)
+# ggplot(matched_friends,aes(x=src_class,fill=factor(k_disagreeing)))+geom_histogram()
+
+# As a boxplot 
+ggplot(matched_friends,aes(x=src_class,y=k_disagreeing))+geom_boxplot()
+ggplot(matched_friends,aes(x=src_class,y=k_disagreeing,fill=src_class))+geom_violin()
+
+```
+
+
+# Based on correlation 
+
+```{r }
+
+pairwise_cor = cor(t(normalized_kmers_ds))
+
+pairwise_cor_m=as.matrix(pairwise_cor)
+# pairwise_cor_m[lower.tri(pairwise_cor_m,diag=T)]<-NA
+
+rownames(pairwise_cor_m)=as.character(kmers_ds$sequence_description)
+colnames(pairwise_cor_m)=as.character(kmers_ds$sequence_description)
+dim(pairwise_cor_m)
+
+pairwise_cor_m=data.table(melt(pairwise_cor_m))
+
+# Add the class annotation 
+class_annot=unique(kmers_ds[,list(sequence_description,species,class)])
+setkey(class_annot,"sequence_description")
+
+pairwise_cor_m$src_class=class_annot[J(pairwise_cor_m[,Var1])][,class]
+pairwise_cor_m$tgt_class=class_annot[J(pairwise_cor_m[,Var2])][,class]
+
+pairwise_cor_m[,.N,by=list(src_class,tgt_class)][order(tgt_class)]
+
+
+pairwise_cor_m=pairwise_cor_m[Var1!=Var2]
+
+# look for missing species 
+
+pairwise_cor_m[,ranked_cor:=rank(-1*value),by=Var1]
+matched_friends_cor=pairwise_cor_m[ranked_cor<=33]
+matched_friends_cor[order(Var1)]
+
+```
+
+
+Nieghbor stats 
+
+```{r }
+matched_friends_cor[,vir_counts:={foo=table(tgt_class);foo["viruses"]},by=list(Var1,src_class)]
+matched_friends_cor[,bact_counts:={foo=table(tgt_class);foo["bact"]},by=list(Var1,src_class)]
+matched_friends_cor[,arch_counts:={foo=table(tgt_class);foo["archea"]},by=list(Var1,src_class)]
+matched_friends_cor[,euk_counts:={foo=table(tgt_class);foo["euk"]},by=list(Var1,src_class)]
+matched_friends_cor[,k_disagreeing:=vir_counts+ bact_counts+ arch_counts+ euk_counts]
+
+matched_friends_cor=unique(matched_friends_cor[,list(Var1,src_class,vir_counts, bact_counts, arch_counts, euk_counts,k_disagreeing)])
+
+
+matched_friends_cor[src_class=="viruses",k_disagreeing:=k_disagreeing-vir_counts]
+matched_friends_cor[src_class=="archea",k_disagreeing:=k_disagreeing-arch_counts]
+matched_friends_cor[src_class=="bact",k_disagreeing:=k_disagreeing-bact_counts]
+matched_friends_cor[src_class=="euk",k_disagreeing:=k_disagreeing-euk_counts]
+
+
+matched_friends_cor[k_disagreeing>=5,.N,by=src_class]
+
+modes_by_class=matched_friends_cor[,mean(k_disagreeing)+0.0,by=src_class]
+
+# ggplot(matched_friends,aes(x=src_class,fill=src_class,y=k_disagreeing))+geom_histogram()
+ggplot(matched_friends_cor,aes(fill=src_class,x=factor(k_disagreeing)))+geom_histogram()+ggtitle("correlation based")+geom_vline(x=modes_by_class$V1)
+ggplot(matched_friends_cor,aes(x=src_class,y=k_disagreeing))+geom_boxplot()+ggtitle("correlation based")
+
+ggplot(matched_friends_cor,aes(x=src_class,y=k_disagreeing,fill=src_class))+geom_violin()+ggtitle("correlation based")
+
+```

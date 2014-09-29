@@ -34,8 +34,8 @@ pattern="-k([[:digit:]])_"
 kmer_length=factor(matrix(unlist(str_match_all(avail_results,pattern)),ncol=2,byrow=T)[,2])
 input_tables=data.table(file=avail_results,kmer_length=kmer_length)
 
-a_file="knn,n=9-knn,n=11-knn,n=13-k4_arch_bact_euk_virus_1.csv"
 a_file="adaboost,n=600-adaboost,n=700-adaboost,n=300-adaboost,n=400-adaboost,n=500-k6_arch_bact_euk_virus_3.csv"
+a_file="knn,n=9-knn,n=11-knn,n=13-k4_arch_bact_euk_virus_1.csv"
 all_classification_results=data.table()
 for(a_file in input_tables$file){
 	print(a_file)
@@ -50,7 +50,12 @@ for(a_file in input_tables$file){
 	a_file_result$predicted_class <- factor(a_file_result$predicted_class,levels=0:3,labels=c("arch","bact","euk","virus"))
 	a_file_result$filtered=as.logical(a_file_result$filtered)
 	contig_lenght_pattern="len([[:digit:]]+)"
-	a_file_result$contig_length=as.numeric(matrix(unlist(str_match_all(a_file_result[1:10,contig],contig_lenght_pattern)),ncol=2,byrow=T)[,2])
+	# compute contig length 
+	contigs=unique(a_file_result[,list(contig)])
+
+	contigs$contig_length=as.numeric(unlist(str_match_all(contigs[,contig],contig_lenght_pattern))[seq(2,nrow(contigs)*2,2)])
+	a_file_result=a_file_result=merge(a_file_result,contigs,by="contig")
+
 	a_file_result$file=a_file
 	all_classification_results=rbind(all_classification_results,a_file_result)
 }
@@ -115,6 +120,8 @@ kappa <- function(subset){
 # all_classification_results[,.N,by=list(classifier,kmer_length,batch_id)]
 all_classification_results_kappa=all_classification_results[,kappa(.SD),by=list(classifier,kmer_length,batch_id)]
 setnames(all_classification_results_kappa,"V1","kappa")
+
+all_classification_results_kappa[order(kappa)]
 save(all_classification_results_kappa,file="all_classification_results_kappa.RData")
 ```
 
