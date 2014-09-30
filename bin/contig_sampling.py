@@ -83,6 +83,7 @@ def main(argv=None):
 	parser.add_argument('-n',dest="n_contigs",help="Number of total contigs to sample",default=1e4,type=int)
 	parser.add_argument('-S',dest="by_sequence",help="Sampling of contigs is made for each sequence",default=False,action="store_true")
 	parser.add_argument('-l',dest="avg_length",help="Length of conting to sample",default=500,type=int)
+	parser.add_argument('-m',dest="min_length",help="Minimal length of conting to sample",default=200,type=int)
 	parser.add_argument("-d", "--stdev",dest="stdev", help="standard deviation", type=int, default=200)
 	parser.add_argument("-p", dest="preview", help="Only print preview of number of contigs output", default=False,action="store_true")
 	parser.add_argument("-R", dest="reverse", help="Randomly perform reverse complement", default=False,action="store_true")
@@ -94,6 +95,7 @@ def main(argv=None):
 	parser.add_argument('-P',dest="pretty",help="Use (and require) prettytable for summary output",default=False,action="store_true")
 	parser.add_argument('-k',dest="key",help="Indicate key that should be used to identify each contig",default="")
 	parser.add_argument('-M',dest="max_sequences",help="Maximal number of sequences to consider,-1: all",default=-1,type=int)
+	parser.add_argument('-F',dest="max_input_fastas",help="Maximal number of fastas files to process; -1: all",default=-1,type=int)
 
 	parser.add_argument('FASTAFILE',action='append',nargs="+",help='list of fasta files')
 	args=parser.parse_args()
@@ -114,6 +116,10 @@ def main(argv=None):
 	if len(all_fastas)<1:
 		logger.critical("No fasta files found, bailing out")
 		sys.exit(1)
+	if args.max_input_fastas != -1:
+		logger.info("Downsampling input list of FASTA files down to %d"%(args.max_input_fastas))
+		all_fastas=random.sample(list(all_fastas), k=args.max_input_fastas)
+
 	multi_fasta_lengths=collections.defaultdict(int)
 	sequence_lengths={} # Assuming description is unique
 	fasta_to_sequences=collections.defaultdict(list)
@@ -122,15 +128,21 @@ def main(argv=None):
 
 	for f in all_fastas: 
 		for record in SeqIO.parse(f, "fasta", generic_dna):
+			if (args.max_sequences>0) and (len(fasta_to_sequences[f])==args.max_sequences):
+				continue
+			if len(record) < args.min_length:
+				logger.info("(%d/%d): Skipping rec from input %s"%(len(multi_fasta_lengths),len(all_fastas),f))
+				continue
 			fasta_to_sequences[f].append(record.description)
 			sequence_lengths[record.description]=len(record)
 			multi_fasta_lengths[f]+=len(record)
 			sequences[record.description]=record
+		logger.info("(%d/%d): parsed input %s for %d sequences" %(len(multi_fasta_lengths),len(all_fastas),f,len(fasta_to_sequences[f])))
 
-	if args.max_sequences>0:
-		logger.info("Downsampling to first %d sequences of each input fasta"%(args.max_sequences))
-		for fasta_file,these_sequences in fasta_to_sequences.items():
-			fasta_to_sequences[fasta_file]=these_sequences[0:args.max_sequences]
+	# if args.max_sequences>0:
+	# 	logger.info("Downsampling to first %d sequences of each input fasta"%(args.max_sequences))
+	# 	for fasta_file,these_sequences in fasta_to_sequences.items():
+	# 		fasta_to_sequences[fasta_file]=these_sequences[0:args.max_sequences]
 
 
 	# compute the number of samples to take from each fasta 
@@ -149,6 +161,9 @@ def main(argv=None):
 		table.align["File"] = "l" 
 
 	for fasta,n_samples in n_samples.items():
+		if n_samples==0:
+			logger.info("WARNING: FASTA %s has no sequences"%(fasta))
+			continue
 		if(not args.by_sequence):
 			# Get the length of these sequences
 			these_sequence_length = dict([(k,v) for k,v in sequence_lengths.items() if k in fasta_to_sequences[fasta]])
@@ -174,13 +189,12 @@ def main(argv=None):
 		if(args.preview):
 			continue
 
-		fasta_name=os.path.split(fasta)[-1]
+		fasta_name='/'.join(os.path.split(fasta)[-2:])
 		for k,v in n_samples_this_fasta.items():
 			# logger.info("Fasta:%s, Seq: %s,length:%d, N Sample:%d"%(fasta,k, sequence_lengths[k],v))
 			seq=str(sequences[k].seq)
 
-			for i in range(0,v):
-				# Sample start position,
+			for i in range(0,v):				# Sample start position,
 				this_contig_length=int(random.gauss(args.avg_length, args.stdev))
 
 				if len(seq)>=this_contig_length:
@@ -191,6 +205,8 @@ def main(argv=None):
 					end=this_contig_length
 
 				sub_seq=seq[start:start+this_contig_length]
+				if (len(sub_seq)<= args.min_length):
+					continue
 				if(len(sub_seq)>=10000):
 					assert False
 

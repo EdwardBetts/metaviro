@@ -3,6 +3,11 @@
 
 
 import sys
+from os.path import dirname, realpath, sep, pardir
+
+sys.path.append(dirname(realpath(__file__)))
+
+import N50 
 import collections
 from Bio.Seq import Seq
 from Bio.SeqUtils import CheckSum
@@ -52,8 +57,7 @@ class SequenceStat(object):
 def process_individual_sequences(records):
 	global args
 	print >>args.outfile,args.delimiter.join(map(str,[\
-	"file","contig","length","GC"
-	]))
+	"file","contig","length","GC"]))
 
 	for r in records:
 		print >>args.outfile,args.delimiter.join(map(str,[\

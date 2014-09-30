@@ -192,7 +192,7 @@ pl.show()
 
 
 X_train,X_test,Y_train,Y_test=train_test_split(pca_coord,normalized_counts["class"],test_size=0.2,random_state=421)
-clf=SVC()
+clf=SVC(C=4.152687927300392,gamma=0.0024489968943694645,kernel='rbf')
 clf.fit(X_train,Y_train)
 predictions=clf.predict(X_test)
 mmat=confusion_matrix(predictions,Y_test)
