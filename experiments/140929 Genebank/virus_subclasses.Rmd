@@ -1,0 +1,496 @@
+We perform an analysis of virus hardness when we restrict to viruses. 
+
+
+```{r libraries}
+library(reshape2)
+library(dplyr)
+library(plyr)
+library(ggplot2)
+library(data.table)
+library(stringr)
+library(corrplot)
+library(caret)
+
+library(foreach)
+library(doParallel)
+n_cores=2
+registerDoParallel(cores=n_cores)
+
+setwd("~/metaviro/experiments/140929 Genebank/")
+
+```
+We load the source data 
+
+```{r }
+all_instances_kmers=fread("../../data/Genebank/GB_20mb_per_domain_k3.csv")
+# all_instances_kmers=fread("../140528_full_ncbi_resampling/full_ncbi_contigs_4k_v2_3mers.csv")
+```
+
+* We build a matrix of normalized kmers 
+
+```{r }
+
+kmers_columns=colnames(all_instances_kmers)[5:ncol(all_instances_kmers)]
+sequence_attributes=limma::strsplit2(all_instances_kmers$sequence_description,"_",fixed=T)
+
+all_instances_kmers$species=factor(sequence_attributes[,1])
+all_instances_kmers$class=factor(sequence_attributes[,2])
+all_instances_kmers$contig_index=as.numeric(sequence_attributes[,4])
+
+
+
+# all_instances_kmers$bioproject_accession=as.numeric()
+
+all_instances_kmers[,.N,by=class]
+```
+
+We restrict to viruses and load the annotations
+
+```{r }
+viruses_kmers=all_instances_kmers[class=="virus"] # 10814 contigs 
+
+viruses_bp_accession_numbers=cbind("species"=sequence_attributes[,1],data.table(limma::strsplit2(sequence_attributes[,5],"/|-")))
+setnames(viruses_bp_accession_numbers,"V2","BioProject.ID")
+viruses_bp_accession_numbers$BioProject.ID=as.integer(as.character(viruses_bp_accession_numbers$BioProject.ID))
+viruses_bp_accession_numbers=unique(viruses_bp_accession_numbers[V1=="viruses"])
+
+viruses_kmers=merge(viruses_kmers,viruses_bp_accession_numbers[,list(species,BioProject.ID)],by="species")
+
+virus_annotations=fread("../../data/GENOME_REPORTS/viruses.txt")
+setnames(virus_annotations,make.names(colnames(virus_annotations)))
+# virus_annotations$BioProject.ID=as.integer(as.character(virus_annotations$BioProject.ID))
+
+annotated_virus_kmers=merge(viruses_kmers,virus_annotations,by="BioProject.ID")
+
+# Any additional duplicates?
+annotated_virus_kmers[,.N,by=species][order(N)] # 5539 species, with 1 or 2 contigs each 
+
+
+
+```
+
+* Classes of viruses 
+
+```{r }
+annotated_virus_kmers[,.N,by='Host'][order(N)] #Vast majority of plants viruses, followed by bacteria then vertebrates. 
+annotated_virus_kmers[,.N,by='Group'][order(N)] #Vast majority of plants viruses, followed by bacteria then vertebrates. 
+dcast(annotated_virus_kmers,Group~Host)
+
+```
+
+We remove classes with not enough instances 
+
+```{r }
+annotated_virus_kmers[Host=="algea",Host:="algae"]
+annotated_virus_kmers[Host=="human",Host:="vertebrates, human"]
+groups_to_remove=annotated_virus_kmers[,.N,by=list(Group)][order(N)][N<=65,Group]
+hosts_to_remove=annotated_virus_kmers[,.N,by="Host"][order(N)][N<=65,Host]
+annotated_virus_kmers[Host %in% hosts_to_remove,Host:=NA]
+annotated_virus_kmers[Group %in% groups_to_remove,Group:="unclassified"]
+
+dcast(annotated_virus_kmers,Group~Host)
+```
+
+
+We normalize and type 
+
+
+```{r }
+normalized_kmers_counts=annotated_virus_kmers[,kmers_columns,with=F]/annotated_virus_kmers$sequence_length
+
+normalized_kmers=cbind(normalized_kmers_counts, annotated_virus_kmers[,list(species,BioProject.ID,Group,SubGroup,Host,Status,"Segments"=Segmemts,Genes,Proteins,"org"=X.Organism.Name,"org.GC"=GC.,"size"=Size..Kb.)] )
+
+normalized_kmers$org.GC=as.numeric(normalized_kmers$org.GC)
+normalized_kmers$size=as.numeric(normalized_kmers$size)
+normalized_kmers$Genes=as.numeric(normalized_kmers$Genes)
+normalized_kmers$Proteins=as.numeric(normalized_kmers$Proteins)
+
+normalized_kmers$Status=as.factor(normalized_kmers$Status)
+normalized_kmers$Group=as.factor(normalized_kmers$Group)
+normalized_kmers$SubGroup=as.factor(normalized_kmers$SubGroup)
+normalized_kmers$Host=as.factor(normalized_kmers$Host)
+normalized_kmers$species=as.factor(normalized_kmers$species)
+normalized_kmers$org=as.factor(normalized_kmers$org)
+str(normalized_kmers)
+```
+
+We plot a PCA of the 3-mers and check any class overlap 
+
+```{r }
+
+pc_kmers=princomp(normalized_kmers_counts)
+coord_pca=predict(pc_kmers)[,1:3]
+normalized_kmers_pca=cbind(normalized_kmers,coord_pca)
+
+ggplot(normalized_kmers_pca,aes(x=Comp.1,y=Comp.2,colour=Host))+geom_point(alpha=0.5)
+```
+
+Any obvious k-mer assoc with the group ?
+
+```{r }
+library(party)
+t=ctree(Host~org.GC,data=normalized_kmers_pca[!is.na(Host)][1:5000]) # training 
+# plot(t)
+
+host_predictions=predict(t,data=normalized_kmers_pca[!is.na(Host)][5001:10000])
+confusionMatrix(host_predictions,normalized_kmers_pca[!is.na(Host)][5001:10000,Host])
+
+```
+
+We set up the parallel kNN computation 
+
+```{r }
+library(fields)
+compute_closest= function(feat_matrix,selected_features,selected_obs,n_closer,selected_labels=NA){
+	selected_obs=na.omit(selected_obs)
+	dist_m=rdist(feat_matrix[selected_obs,selected_features,with=F],feat_matrix[,selected_features,with=F])
+	ranked = apply(dist_m,MARGIN=1,function(r)rank(r,ties.method="min"))
+	if(is.na(selected_labels)){
+		ldply(1:length(selected_obs),function(i){	
+			cat(i,"\n")
+			selected_i=which(ranked[,i]<=n_closer); 
+			data.table(src=selected_obs[i],tgt=selected_i,rank=ranked[selected_i,i],dist=dist_m[i,selected_i])
+		})
+
+	}else{
+		ldply(1:length(selected_obs),function(i){	
+			selected_i=which(ranked[,i]<=n_closer); 
+			tgt_attributes=feat_matrix[selected_i,selected_labels,with=F];
+			src_attributes=feat_matrix[selected_obs[i],selected_labels,with=F];
+			setnames(src_attributes,paste("src",selected_labels,sep="_"));
+			setnames(tgt_attributes,paste("tgt",selected_labels,sep="_"));
+			cbind(src_attributes,data.table(src=selected_obs[i],tgt=selected_i,rank=ranked[selected_i,i],dist=dist_m[i,selected_i]),tgt_attributes)
+		})
+	}
+}
+
+```
+
+
+# Computations 
+
+
+```{r}
+
+n_closer_neighbors=73
+input_size=nrow(normalized_kmers_pca)
+nas_to_add=((input_size %/% n_cores)+1)*n_cores - input_size
+input_splits= matrix(c(1:input_size,rep(NA,nas_to_add)),byrow=T,ncol=n_cores)
+
+# Single unit test
+labels_to_return=c("Group","SubGroup","Host","Status","Segments","Genes","Proteins","org","org.GC","species")
+compute_closest(normalized_kmers_pca,kmers_columns,1,50,selected_labels=labels_to_return)
+
+res= data.table(foreach(i=iter(input_splits,by='col'),.combine='rbind',.inorder=F) %dopar% 
+	# compute_closest(mixed_3mers,mixed_3mers_count_cols, i[,1],n_closer=n_closer_neighbors,selected_labels=c("class","species","sequence_description")))
+	compute_closest(normalized_kmers_pca,kmers_columns,i[,1],n_closer_neighbors,selected_labels=labels_to_return))
+save(res,file="73_closes_virus_neighbors.RData")
+
+
+
+```
+
+
+
+
+
+
+* How many viruses are close to viruses of the same group ? 
+
+```{r }
+res_no_diag=res[src!=tgt]
+res_no_diag[src==1]
+
+res_neighbors_group=data.table(dcast(res_no_diag,src+src_Group+src_SubGroup~tgt_Group))
+res_neighbors_group[,.N,by=src_Group]
+
+res_neighbors_group_m=melt(res_neighbors_group,id.vars=c("src","src_Group","src_SubGroup"))
+res_neighbors_group_m[,mismatch:=F]
+res_neighbors_group_m[src_Group!=variable,mismatch:=T]
+
+res_neighbors_group_matches=res_neighbors_group_m[,sum(value),by=list(src,src_Group,src_SubGroup,mismatch)]
+res_neighbors_group_matches_disagreeing=res_neighbors_group_matches[mismatch==T]
+res_neighbors_group_matches_disagreeing[,mean(V1),by=src_Group][order(V1)]
+
+ggplot(res_neighbors_group_matches_disagreeing,aes(x=factor(V1),fill=src_Group))+geom_bar()
+
+
+```
+
+We restrict to majority classes and perform balanced sampling 
+
+```{r }
+majority_group=normalized_kmers_pca[,.N,by=Group][order(N)][N>1000,Group]
+# normalized_kmers_pca_maj_group=normalized_kmers_pca[Group %in% majority_group]
+
+# balanced sampling 
+
+
+normalized_kmers_pca$idx=1:nrow(normalized_kmers_pca)
+
+n_tgt_samples_per_group=normalized_kmers_pca[,.N,by=Group][order(N)][N>1000,min(N)] # 1490 contigs 
+
+downsample_idx=c(
+	sample(normalized_kmers_pca[Group == majority_group[1],idx],1490),
+	sample(normalized_kmers_pca[Group == majority_group[2],idx],1490),
+	sample(normalized_kmers_pca[Group == majority_group[3],idx],1490),
+	sample(normalized_kmers_pca[Group == majority_group[4],idx],1490))
+
+normalized_kmers_pca_ds=normalized_kmers_pca[downsample_idx,]
+normalized_kmers_pca_ds[,.N,by=Group]
+normalized_kmers_pca_ds$idx=1:nrow(normalized_kmers_pca_ds)
+```
+
+We compute the closest neighbors restricted to the majority group
+
+```{r }
+input_size=nrow(normalized_kmers_pca_ds)
+nas_to_add=((input_size %/% n_cores)+1)*n_cores - input_size
+input_splits= matrix(c(1:input_size,rep(NA,nas_to_add)),byrow=T,ncol=n_cores)
+
+res_maj_group= data.table(foreach(i=iter(input_splits,by='col'),.combine='rbind',.inorder=F) %dopar% 
+	# compute_closest(mixed_3mers,mixed_3mers_count_cols, i[,1],n_closer=n_closer_neighbors,selected_labels=c("class","species","sequence_description")))
+	compute_closest(normalized_kmers_pca_ds,kmers_columns,i[,1],n_closer_neighbors,selected_labels=labels_to_return))
+save(res_maj_group,file="73_closes_virus_neighbors_maj_groups.RData")
+```
+
+
+We tabulate 
+
+```{r }
+res_maj_group_no_diag=res_maj_group[src!=tgt & rank<=53]
+# res_maj_group_no_diag[src==1]
+
+res_maj_group_neighbors_group=data.table(dcast(res_maj_group_no_diag,src+src_Group~tgt_Group))
+res_maj_group_neighbors_group$src_Group=as.character(res_maj_group_neighbors_group$src_Group)
+res_maj_group_neighbors_group[,.N,by=src_Group]
+
+
+res_maj_group_neighbors_group_m=melt(res_maj_group_neighbors_group,id.vars=c("src","src_Group"))
+res_maj_group_neighbors_group_m[,.N,by=src_Group]
+res_maj_group_neighbors_group_m[,.N,by=variable]
+
+
+res_maj_group_neighbors_group_m[,mismatch:=F]
+res_maj_group_neighbors_group_m[src_Group!=variable,mismatch:=T]
+
+res_maj_group_neighbors_group_matches=res_maj_group_neighbors_group_m[,sum(value),by=list(src,src_Group,src_SubGroup,mismatch)]
+res_maj_group_neighbors_group_matches_disagreeing=res_maj_group_neighbors_group_matches[mismatch==T]
+res_maj_group_neighbors_group_matches_disagreeing[,mean(V1),by=src_Group][order(V1)]
+
+group_summaries=res_maj_group_neighbors_group_matches_disagreeing[,sum(V1),by=list(src,src_Group)]
+
+
+ggplot(group_summaries,aes(x=factor(V1),fill=src_Group))+geom_bar()
+
+```
+
+How many have a majority in their neighbor ? 
+
+```{r }
+res_neighbors_group_matches
+res_neighbors_group_matches[V1>=36] # more than half 
+
+```
+
+
+* Are virus subgroup more compact than groups? 
+
+```{r }
+
+most_frequent_subgroups=tail(normalized_kmers_pca[,.N,by=SubGroup][order(N)],n=4)$SubGroup
+min_size=min(tail(normalized_kmers_pca[,.N,by=SubGroup][order(N)],n=4)$N)
+# Downsample the 6 most frequent subGroups 
+
+
+downsample_idx=unlist(llply(most_frequent_subgroups,function(g){sample(normalized_kmers_pca[SubGroup == g,idx],min_size)}))
+normalized_kmers_pca_ds_SG=normalized_kmers_pca[downsample_idx]
+normalized_kmers_pca_ds_SG[,.N,by=Group]
+normalized_kmers_pca_ds_SG[,.N,by=SubGroup]
+
+
+input_size=nrow(normalized_kmers_pca_ds_SG)
+nas_to_add=((input_size %/% n_cores)+1)*n_cores - input_size
+input_splits= matrix(c(1:input_size,rep(NA,nas_to_add)),byrow=T,ncol=n_cores)
+
+res_maj_sub_group= data.table(foreach(i=iter(input_splits,by='col'),.combine='rbind',.inorder=F) %dopar% 
+	compute_closest(normalized_kmers_pca_ds_SG,kmers_columns,i[,1],n_closer_neighbors,selected_labels=labels_to_return))
+
+```
+
+
+We tabulate 
+
+```{r }
+res_maj_sub_group_no_diag=res_maj_sub_group[src!=tgt & rank<=53]
+# res_maj_sub_group_no_diag[src==1]
+
+res_maj_sub_group_neighbors_group=data.table(dcast(res_maj_sub_group_no_diag,src+src_Group+src_SubGroup~tgt_SubGroup))
+res_maj_sub_group_neighbors_group$src_SubGroup=as.character(res_maj_sub_group_neighbors_group$src_SubGroup)
+res_maj_sub_group_neighbors_group[,.N,by=src_SubGroup]
+
+
+res_maj_sub_group_neighbors_sub_group_m=melt(res_maj_sub_group_neighbors_group,id.vars=c("src","src_Group","src_SubGroup"))
+res_maj_sub_group_neighbors_sub_group_m[src==1]
+head(res_maj_sub_group_neighbors_sub_group_m[value!=0][order(value)],n=100)
+res_maj_sub_group_neighbors_sub_group_m[,.N,by=src_SubGroup]
+res_maj_sub_group_neighbors_sub_group_m[,.N,by=variable]
+res_maj_sub_group_neighbors_sub_group_m[src %in% c(3,7,8)][order(src)]
+
+
+res_maj_sub_group_neighbors_sub_group_m[,mismatch:=F]
+res_maj_sub_group_neighbors_sub_group_m[src_SubGroup!=variable,mismatch:=T]
+head(res_maj_sub_group_neighbors_sub_group_m[mismatch==T][order(src)],n=20)
+
+res_maj_sub_group_neighbors_sub_group_matches=res_maj_sub_group_neighbors_sub_group_m[,sum(value),by=list(src,src_SubGroup,variable,mismatch)]
+res_maj_sub_group_neighbors_sub_group_matches_disagreeing=res_maj_sub_group_neighbors_sub_group_matches[mismatch==T]
+sub_groups_summaries=res_maj_sub_group_neighbors_sub_group_matches_disagreeing[,sum(V1),by=list(src,src_SubGroup,mismatch)]
+
+ggplot(sub_groups_summaries,aes(x=factor(V1),fill=src_SubGroup))+geom_bar()
+
+```
+
+
+We PCA and plot 
+
+```{r }
+pc_kmers=princomp(normalized_kmers_pca_ds_SG[,kmers_columns,with=F])
+
+coord_pca=predict(pc_kmers)[,1:3]
+colnames(coord_pca)=paste("vir_SG",colnames(coord_pca),sep="")
+
+normalized_kmers_pca_ds_SG=cbind(normalized_kmers_pca_ds_SG,coord_pca)
+
+ggplot(normalized_kmers_pca_ds_SG,aes(x=vir_SGComp.1,y=vir_SGComp.2,colour=SubGroup))+geom_point()+facet_wrap(~SubGroup)
+ggplot(normalized_kmers_pca_ds_SG,aes(x=vir_SGComp.2,y=vir_SGComp.3,colour=SubGroup))+geom_point()+facet_wrap(~SubGroup)
+
+
+```
+
+
+**It seems that sub-groups are very easy to discriminate in euclidean space, we check with a naive kNN** 
+
+
+```{r }
+library(caret)
+library(mlbench)
+
+inTrain <- createDataPartition(y = normalized_kmers_pca_ds_SG$SubGroup, p = .9, list = FALSE)
+training <- normalized_kmers_pca_ds_SG[ inTrain[,1],c(kmers_columns,"SubGroup"),with=F]
+testing  <- normalized_kmers_pca_ds_SG[-inTrain[,1],c(kmers_columns,"SubGroup"),with=F]
+
+knn3_results=knn3Train(training[,kmers_columns,with=F],testing[,kmers_columns,with=F],as.character(training$SubGroup),k=9,prob=F)
+confusionMatrix(knn3_results,as.character(testing$SubGroup))
+
+
+```
+
+Indeed we have pretty good performances. If we instead focus on the four majority group :
+
+```{r }
+
+normalized_kmers_pca$idx=1:nrow(normalized_kmers_pca)
+most_frequent_subgroups=tail(normalized_kmers_pca[,.N,by=SubGroup][SubGroup!="unclassified"][order(N)],n=4)$SubGroup
+min_size=min(tail(normalized_kmers_pca[,.N,by=SubGroup][SubGroup!="unclassified"][order(N)],n=4)$N)
+# Downsample the 6 most frequent subGroups 
+
+
+downsample_idx=unlist(llply(most_frequent_subgroups,function(g){sample(normalized_kmers_pca[SubGroup == g,idx],min_size)}))
+normalized_kmers_pca_ds_SG=normalized_kmers_pca[downsample_idx]
+normalized_kmers_pca_ds_SG[,.N,by=Group]
+normalized_kmers_pca_ds_SG[,.N,by=SubGroup]
+
+inTrain <- createDataPartition(y = normalized_kmers_pca_ds_SG$SubGroup, p = .8, list = FALSE)
+training <- normalized_kmers_pca_ds_SG[ inTrain[,1],c(kmers_columns,"SubGroup"),with=F]
+testing  <- normalized_kmers_pca_ds_SG[-inTrain[,1],c(kmers_columns,"SubGroup"),with=F]
+
+knn3_results=knn3Train(training[,kmers_columns,with=F],testing[,kmers_columns,with=F],as.character(training$SubGroup),k=7,prob=F)
+confusionMatrix(knn3_results,as.character(testing$SubGroup))
+
+
+```
+
+We instead try to classify groups 
+
+```{r }
+normalized_kmers_pca$idx=1:nrow(normalized_kmers_pca)
+most_frequent_groups=tail(normalized_kmers_pca[,.N,by=Group][Group!="unclassified"][order(N)],n=4)$Group
+min_size=min(tail(normalized_kmers_pca[,.N,by=Group][Group!="unclassified"][order(N)],n=4)$N)
+# Downsample the 6 most frequent Groups 
+
+
+downsample_idx=unlist(llply(most_frequent_groups,function(g){sample(normalized_kmers_pca[Group == g,idx],min_size)}))
+normalized_kmers_pca_ds_SG=normalized_kmers_pca[downsample_idx]
+normalized_kmers_pca_ds_SG[,.N,by=Group]
+
+inTrain <- createDataPartition(y = normalized_kmers_pca_ds_SG$Group, p = .8, list = FALSE)
+training <- normalized_kmers_pca_ds_SG[ inTrain[,1],c(kmers_columns,"Group"),with=F]
+testing  <- normalized_kmers_pca_ds_SG[-inTrain[,1],c(kmers_columns,"Group"),with=F]
+
+knn3_results=knn3Train(training[,kmers_columns,with=F],testing[,kmers_columns,with=F],as.character(training$Group),k=7,prob=F)
+confusionMatrix(knn3_results,as.character(testing$Group))
+
+```
+
+
+Let's add some plant contigs 
+
+
+```{r }
+plant_kmers=all_instances_kmers[class=="euk"]
+plant_kmers_ds=plant_kmers[sample(1:nrow(plant_kmers),min_size),]
+
+plant_kmers_ds_counts=plant_kmers_ds[,kmers_columns,with=F]/plant_kmers_ds$sequence_length
+plant_kmers_ds_counts$Group="euk"
+
+hybrid_dset=rbind(normalized_kmers_pca[,c(kmers_columns,"Group"),with=F],plant_kmers_ds_counts)
+hybrid_dset$idx=1:nrow(hybrid_dset)
+
+# Determine groups to keep
+most_frequent_groups=tail(hybrid_dset[,.N,by=Group][Group!="unclassified"][order(N)],n=5)$Group
+# Determine minimal number of items per groups 
+min_size=min(tail(hybrid_dset[,.N,by=Group][Group!="unclassified"][order(N)],n=5)$N)
+# Balanced downsample by groups
+downsample_idx=unlist(llply(most_frequent_groups,function(g){sample(hybrid_dset[Group == g,idx],min_size)}))
+
+hybrid_dset_ds=hybrid_dset[downsample_idx]
+hybrid_dset_ds[,.N,by=Group]
+
+
+inTrain <- createDataPartition(y = hybrid_dset_ds$Group, p = .8, list = FALSE)
+training <- hybrid_dset_ds[ inTrain[,1],c(kmers_columns,"Group"),with=F]
+testing  <- hybrid_dset_ds[-inTrain[,1],c(kmers_columns,"Group"),with=F]
+
+knn3_results=knn3Train(training[,kmers_columns,with=F],testing[,kmers_columns,with=F],as.character(training$Group),k=7,prob=F)
+confusionMatrix(knn3_results,as.character(testing$Group))
+
+```
+
+
+
+
+
+# Determining a p-value of mean class disagreement 
+
+We consider the hardness of the group classification tasks. 
+
+```{r }
+
+most_frequent_groups=tail(normalized_kmers_pca[,.N,by=Group][order(N)],n=4)$Group
+min_size=min(tail(normalized_kmers_pca[,.N,by=Group][order(N)],n=4)$N)
+# Downsample the 6 most frequent Groups 
+
+
+downsample_idx=unlist(llply(most_frequent_groups,function(g){sample(normalized_kmers_pca[Group == g,idx],min_size)}))
+normalized_kmers_pca_ds_SG=normalized_kmers_pca[downsample_idx]
+normalized_kmers_pca_ds_SG[,.N,by=Group]
+
+
+input_size=nrow(normalized_kmers_pca_ds_SG)
+nas_to_add=((input_size %/% n_cores)+1)*n_cores - input_size
+input_splits= matrix(c(1:input_size,rep(NA,nas_to_add)),byrow=T,ncol=n_cores)
+
+res_maj_sub_group= data.table(foreach(i=iter(input_splits,by='col'),.combine='rbind',.inorder=F) %dopar% 
+	compute_closest(normalized_kmers_pca_ds_SG,kmers_columns,i[,1],n_closer_neighbors,selected_labels=labels_to_return))
+
+```
