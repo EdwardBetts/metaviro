@@ -125,7 +125,7 @@ corrplot(as.matrix(avg_dist)*100,is.corr=F)
 pairwise_dist_m=pairwise_dist_m[Var1!=Var2]
 
 pairwise_dist_m[,ranked_dist:=rank(value),by=Var1]
-matched_friends=pairwise_dist_m[ranked_dist<=65]
+matched_friends=pairwise_dist_m[ranked_dist<=33]
 matched_friends[order(Var1)]
 
 

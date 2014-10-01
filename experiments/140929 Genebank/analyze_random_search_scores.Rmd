@@ -1,0 +1,7 @@
+
+
+```{r }
+library(data.table)
+scores=fread("random_search_scores_1000iter_5mers.csv")
+setnames(scores,)
+```

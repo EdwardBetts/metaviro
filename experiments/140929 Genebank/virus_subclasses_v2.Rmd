@@ -16,95 +16,25 @@ dcast(annotated_virus_kmers,Group~Host)
 ```
 
 
-
-We compute a PCA of the 3-mers and check any class overlap 
-
-```{r }
-
-pc_kmers=princomp(normalized_kmers_counts)
-coord_pca=predict(pc_kmers)[,1:3]
-normalized_kmers_pca=cbind(normalized_kmers,coord_pca)
-
-ggplot(normalized_kmers_pca,aes(x=Comp.1,y=Comp.2,colour=Host))+geom_point(alpha=0.5)+facet_wrap(~Host)
-```
-
-Any obvious k-mer assoc with the group ?
+We plot a PCA of the 3-mers and check any class overlap 
 
 ```{r }
-library(party)
-t=ctree(Host~org.GC,data=normalized_kmers_pca[!is.na(Host)][1:5000]) # training 
-# plot(t)
-
-host_predictions=predict(t,data=normalized_kmers_pca[!is.na(Host)][5001:10000])
-confusionMatrix(host_predictions,normalized_kmers_pca[!is.na(Host)][5001:10000,Host])
-
+ggplot(normalized_kmers,aes(x=Comp.1,y=Comp.2,colour=Host))+geom_point(alpha=0.5)+facet_wrap(~Host)
 ```
 
-We set up the parallel kNN computation 
-
-```{r }
-library(fields)
-compute_closest= function(feat_matrix,selected_features,selected_obs,n_closer,selected_labels=NA){
-	selected_obs=na.omit(selected_obs)
-	dist_m=rdist(feat_matrix[selected_obs,selected_features,with=F],feat_matrix[,selected_features,with=F])
-	ranked = apply(dist_m,MARGIN=1,function(r)rank(r,ties.method="min"))
-	if(is.na(selected_labels)){
-		ldply(1:length(selected_obs),function(i){	
-			cat(i,"\n")
-			selected_i=which(ranked[,i]<=n_closer); 
-			data.table(src=selected_obs[i],tgt=selected_i,rank=ranked[selected_i,i],dist=dist_m[i,selected_i])
-		})
-
-	}else{
-		ldply(1:length(selected_obs),function(i){	
-			selected_i=which(ranked[,i]<=n_closer); 
-			tgt_attributes=feat_matrix[selected_i,selected_labels,with=F];
-			src_attributes=feat_matrix[selected_obs[i],selected_labels,with=F];
-			setnames(src_attributes,paste("src",selected_labels,sep="_"));
-			setnames(tgt_attributes,paste("tgt",selected_labels,sep="_"));
-			cbind(src_attributes,data.table(src=selected_obs[i],tgt=selected_i,rank=ranked[selected_i,i],dist=dist_m[i,selected_i]),tgt_attributes)
-		})
-	}
-}
-
-```
-Second version of a fast kNN  (5x faster, can be parallelized)
-
-```{r }
-library(fields)
-labels_to_return=c("Group","SubGroup","Host","Status","Segments","Genes","Proteins","org","org.GC","species")
-normalized_kmers$idx=1:nrow(normalized_kmers)
-selected_obs=sample(normalized_kmers$idx,2500)
-dist_m=rdist(normalized_kmers[selected_obs,kmers_columns,with=F],normalized_kmers[,kmers_columns,with=F])
-rownames(dist_m)=selected_obs
-dim(dist_m)
-ranked=data.table(melt(apply(dist_m,MARGIN=1,function(r)rank(r,ties.method="min"))))
-setnames(ranked,c("tgt","src","rank"))
-ranked_filt=ranked[rank<=50]
-# both var1 and var2 are indices from the input table 
-src_attributes=unique(normalized_kmers[ranked_filt$src_idx,c("idx",labels_to_return),with=F])
-tgt_attributes=unique(normalized_kmers[ranked_filt$tgt_idx,c("idx",labels_to_return),with=F])
-setnames(src_attributes,labels_to_return,paste("src",labels_to_return,sep="_"));
-setnames(tgt_attributes,labels_to_return,paste("tgt",labels_to_return,sep="_"));
-setnames(src_attributes,"idx","src")
-setnames(tgt_attributes,"idx","tgt")
-
-# Maybe a dplyr join here
-ranked_filt_m1=merge(ranked_filt,src_attributes,by="src")
-ranked_filt_m2=merge(ranked_filt_m1,tgt_attributes,by="tgt")
-str(ranked_filt_m2)
-#glimpse(ranked_filt_m2)
-
-
-foo2=compute_closest(normalized_kmers,kmers_columns,selected_obs,50,labels_to_return)
-```
-
-We make it a function 
+We load the kNN
 
 ```{r fastKNN}
 source("fast_sparse_knn.R")
-foo2=compute_closest2(normalized_kmers,kmers_columns,1:100,5,labels_to_return)
+labels_to_return=c("Group","SubGroup","Host","Status","Segments","Genes","Proteins","org","org.GC","species")
+
+# quick check 
+some_obs=sample(normalized_kmers$idx,100)
+foo2=compute_closest2(feat_matrix=normalized_kmers, selected_features=kmers_columns, selected_obs=some_obs, n_closer=23, selected_labels=labels_to_return)
 foo2[rank==1]
+unique(foo2$src)
+foo2$tgt
+
 ```
 
 # Computations 
@@ -113,25 +43,17 @@ foo2[rank==1]
 ```{r}
 
 n_closer_neighbors=73
-input_size=nrow(normalized_kmers_pca)
+input_size=nrow(normalized_kmers)
 nas_to_add=((input_size %/% n_cores)+1)*n_cores - input_size
 input_splits= matrix(c(1:input_size,rep(NA,nas_to_add)),byrow=T,ncol=n_cores)
 
 # Single unit test
-labels_to_return=c("Group","SubGroup","Host","Status","Segments","Genes","Proteins","org","org.GC","species")
-compute_closest2(normalized_kmers_pca,kmers_columns,1,50,selected_labels=labels_to_return)
+compute_closest2(normalized_kmers,kmers_columns,1,50,selected_labels=labels_to_return)
 
-res= data.table(foreach(i=iter(input_splits,by='col'),.combine='rbind',.inorder=F) %dopar% compute_closest(normalized_kmers_pca,kmers_columns,i[,1],n_closer_neighbors,selected_labels=labels_to_return))
+res= data.table(foreach(i=iter(input_splits,by='col'),.combine='rbind',.inorder=F) %dopar% compute_closest2(normalized_kmers,kmers_columns,i[,1],n_closer_neighbors,selected_labels=labels_to_return))
 # save(res,file="73_closes_virus_neighbors.RData")
 
-
-
 ```
-
-
-
-
-
 
 * How many viruses are close to viruses of the same group ? 
 
@@ -414,28 +336,30 @@ We consider the hardness of the group classification tasks.
 
 ```{r }
 n_closer_neighbors=73
-normalized_kmers_pca$idx=1:nrow(normalized_kmers_pca)
-most_frequent_groups=tail(normalized_kmers_pca[,.N,by=Group][order(N)],n=4)$Group
-min_size=min(tail(normalized_kmers_pca[,.N,by=Group][order(N)],n=4)$N)
+glimpse(normalized_kmers)
+most_frequent_groups=tail(normalized_kmers[,.N,by=Group][order(N)],n=4)$Group
+min_size=min(tail(normalized_kmers[,.N,by=Group][order(N)],n=4)$N)
 labels_to_return=c("Group","SubGroup","Host","Status","Segments","Genes","Proteins","org","org.GC","species")
 
 
-downsample_idx=unlist(llply(most_frequent_groups,function(g){sample(normalized_kmers_pca[Group == g,idx],min_size)}))
-normalized_kmers_pca_ds_SG=normalized_kmers_pca[downsample_idx]
-normalized_kmers_pca_ds_SG[,.N,by=Group]
-
-
-input_size=nrow(normalized_kmers_pca_ds_SG)
+downsample_idx=unlist(llply(most_frequent_groups,function(g){sample(normalized_kmers[Group == g,idx],min_size)}))
+normalized_kmers_ds_SG=normalized_kmers[downsample_idx]
+normalized_kmers_ds_SG[,.N,by=Group]
+normalized_kmers_ds_SG$idx=1:nrow(normalized_kmers_ds_SG)
+input_size=nrow(normalized_kmers_ds_SG)
 nas_to_add=((input_size %/% n_cores)+1)*n_cores - input_size
 input_splits= matrix(c(1:input_size,rep(NA,nas_to_add)),byrow=T,ncol=n_cores)
-
-res_maj_by_group= data.table(foreach(i=iter(input_splits,by='col'),.combine='rbind',.inorder=F) %dopar% 
-	compute_closest2(normalized_kmers_pca_ds_SG,kmers_columns,i[,1],n_closer_neighbors,selected_labels=labels_to_return))
+res_maj_by_group= data.table(foreach(i=iter(input_splits,by='col'),.combine='rbind',.inorder=F) %dopar% compute_closest2(normalized_kmers_ds_SG,kmers_columns,i[,1],n_closer_neighbors,selected_labels=labels_to_return))
 
 
+# permute class labels 
+res_maj_by_group_orig=res_maj_by_group
+res_maj_by_group$tgt_Group=sample(res_maj_by_group$tgt_Group)
+# unpermute 
+# res_maj_by_group$tgt_Group=res_maj_by_group_orig$tgt_Group
 
 
-res_maj_by_group_no_diag=res_maj_by_group[src_idx!=tgt_idx & rank<=53]
+res_maj_by_group_no_diag=res_maj_by_group[src!=tgt & rank<=20]
 # res_maj_by_group_no_diag[src==1]
 
 res_maj_by_group_neighbors_group=data.table(dcast(res_maj_by_group_no_diag,src+src_Group~tgt_Group))
@@ -451,5 +375,177 @@ res_maj_by_group_neighbors_sub_group_matches=res_maj_by_group_neighbors_sub_grou
 res_maj_by_group_neighbors_sub_group_matches_disagreeing=res_maj_by_group_neighbors_sub_group_matches[mismatch==T]
 sub_groups_summaries=res_maj_by_group_neighbors_sub_group_matches_disagreeing[,sum(V1),by=list(src,src_Group,mismatch)]
 tbl_df(sub_groups_summaries) %.% group_by(src_Group) %.% summarise(a_mean=mean(V1))
+ggplot(sub_groups_summaries,aes(x=factor(V1,levels=0:n_closer_neighbors),fill=src_Group))+geom_histogram()
+```
+
+We make a function to return the sub_groups 
+
+```{r }
+source("fast_sparse_knn.R")
+determine_disagreeing(53)
+normalized_kmers
+```
+
+
+# Short reads problem
+
+
+```{r }
+source("prepare_data_short_reads.R")
+
+
+n_closer_neighbors=51
+glimpse(short_virus_kmers_norm)
+most_frequent_groups=tail(short_virus_kmers_norm[,.N,by=Group][order(N)],n=4)$Group
+min_size=min(tail(short_virus_kmers_norm[,.N,by=Group][order(N)],n=4)$N)
+labels_to_return=c("Group","SubGroup","Host","Status","Segments","Genes","Proteins","org","org.GC","species")
+
+
+downsample_idx=unlist(llply(most_frequent_groups,function(g){sample(short_virus_kmers_norm[Group == g,idx],min_size)}))
+short_virus_kmers_norm_ds_SG=short_virus_kmers_norm[downsample_idx]
+short_virus_kmers_norm_ds_SG[,.N,by=Group]
+short_virus_kmers_norm_ds_SG$idx=1:nrow(short_virus_kmers_norm_ds_SG)
+input_size=nrow(short_virus_kmers_norm_ds_SG)
+nas_to_add=((input_size %/% n_cores)+1)*n_cores - input_size
+input_splits= matrix(c(1:input_size,rep(NA,nas_to_add)),byrow=T,ncol=n_cores)
+res_maj_by_group= data.table(foreach(i=iter(input_splits,by='col'),.combine='rbind',.inorder=F) %dopar% compute_closest2(short_virus_kmers_norm_ds_SG,kmers_columns,i[,1],n_closer_neighbors,selected_labels=labels_to_return))
+
+
+# permute class labels 
+res_maj_by_group_orig=res_maj_by_group
+# res_maj_by_group$tgt_Group=sample(res_maj_by_group$tgt_Group)
+# unpermute 
+# res_maj_by_group$tgt_Group=res_maj_by_group_orig$tgt_Group
+
+
+res_maj_by_group_no_diag=res_maj_by_group[src!=tgt & rank<=n_closer_neighbors]
+# res_maj_by_group_no_diag[src==1]
+
+res_maj_by_group_neighbors_group=data.table(dcast(res_maj_by_group_no_diag,src+src_Group~tgt_Group))
+res_maj_by_group_neighbors_group$src_Group=as.character(res_maj_by_group_neighbors_group$src_Group)
+res_maj_by_group_neighbors_group[,.N,by=src_Group]
+
+
+res_maj_by_group_neighbors_sub_group_m=melt(res_maj_by_group_neighbors_group,id.vars=c("src","src_Group"))
+res_maj_by_group_neighbors_sub_group_m[,mismatch:=F]
+res_maj_by_group_neighbors_sub_group_m[src_Group!=variable,mismatch:=T]
+
+res_maj_by_group_neighbors_sub_group_matches=res_maj_by_group_neighbors_sub_group_m[,sum(value),by=list(src,src_Group,variable,mismatch)]
+res_maj_by_group_neighbors_sub_group_matches_disagreeing=res_maj_by_group_neighbors_sub_group_matches[mismatch==T]
+sub_groups_summaries=res_maj_by_group_neighbors_sub_group_matches_disagreeing[,sum(V1),by=list(src,src_Group,mismatch)]
+tbl_df(sub_groups_summaries) %.% group_by(src_Group) %.% summarise(a_mean=mean(V1))
+ggplot(sub_groups_summaries,aes(x=factor(V1,levels=0:n_closer_neighbors),fill=src_Group))+geom_histogram()
+
+
+```
+
+
+
+
+# Long reads results 
+
+```{r }
+source("prepare_data_long_reads.R")
+
+
+n_closer_neighbors=51
+glimpse(long_virus_kmers_norm)
+most_frequent_groups=tail(long_virus_kmers_norm[,.N,by=Group][order(N)],n=4)$Group
+min_size=min(tail(long_virus_kmers_norm[,.N,by=Group][order(N)],n=4)$N)
+labels_to_return=c("Group","SubGroup","Host","Status","Segments","Genes","Proteins","org","org.GC","species")
+
+
+downsample_idx=unlist(llply(most_frequent_groups,function(g){sample(long_virus_kmers_norm[Group == g,idx],min_size)}))
+long_virus_kmers_norm_ds_SG=long_virus_kmers_norm[downsample_idx]
+long_virus_kmers_norm_ds_SG[,.N,by=Group]
+long_virus_kmers_norm_ds_SG$idx=1:nrow(long_virus_kmers_norm_ds_SG)
+input_size=nrow(long_virus_kmers_norm_ds_SG)
+nas_to_add=((input_size %/% n_cores)+1)*n_cores - input_size
+input_splits= matrix(c(1:input_size,rep(NA,nas_to_add)),byrow=T,ncol=n_cores)
+res_maj_by_group= data.table(foreach(i=iter(input_splits,by='col'),.combine='rbind',.inorder=F) %dopar% compute_closest2(long_virus_kmers_norm_ds_SG,kmers_columns,i[,1],n_closer_neighbors,selected_labels=labels_to_return))
+
+
+# permute class labels 
+res_maj_by_group_orig=res_maj_by_group
+# res_maj_by_group$tgt_Group=sample(res_maj_by_group$tgt_Group)
+# unpermute 
+# res_maj_by_group$tgt_Group=res_maj_by_group_orig$tgt_Group
+
+
+res_maj_by_group_no_diag=res_maj_by_group[src!=tgt & rank<=n_closer_neighbors]
+# res_maj_by_group_no_diag[src==1]
+
+res_maj_by_group_neighbors_group=data.table(dcast(res_maj_by_group_no_diag,src+src_Group~tgt_Group))
+res_maj_by_group_neighbors_group$src_Group=as.character(res_maj_by_group_neighbors_group$src_Group)
+res_maj_by_group_neighbors_group[,.N,by=src_Group]
+
+
+res_maj_by_group_neighbors_sub_group_m=melt(res_maj_by_group_neighbors_group,id.vars=c("src","src_Group"))
+res_maj_by_group_neighbors_sub_group_m[,mismatch:=F]
+res_maj_by_group_neighbors_sub_group_m[src_Group!=variable,mismatch:=T]
+
+res_maj_by_group_neighbors_sub_group_matches=res_maj_by_group_neighbors_sub_group_m[,sum(value),by=list(src,src_Group,variable,mismatch)]
+res_maj_by_group_neighbors_sub_group_matches_disagreeing=res_maj_by_group_neighbors_sub_group_matches[mismatch==T]
+sub_groups_summaries=res_maj_by_group_neighbors_sub_group_matches_disagreeing[,sum(V1),by=list(src,src_Group,mismatch)]
+tbl_df(sub_groups_summaries) %.% group_by(src_Group) %.% summarise(a_mean=mean(V1))
+ggplot(sub_groups_summaries,aes(x=factor(V1,levels=0:n_closer_neighbors),fill=src_Group))+geom_histogram()
+
+
+```
+
+
+Definitely better
+
+
+We consider the sub-group classification probem
+
+```{r }
+
+n_closer_neighbors=50
+glimpse(long_virus_kmers_norm)
+
+most_frequent_subgroups=tail(long_virus_kmers_norm[SubGroup!="unclassified"][,.N,by=SubGroup][order(N)],n=8)$SubGroup
+min_size=long_virus_kmers_norm[SubGroup %in% most_frequent_subgroups,.N,by=SubGroup][,min(N)]
+
+labels_to_return=c("Group","SubGroup","Host","Status","Segments","Genes","Proteins","org","org.GC","species")
+
+
+downsample_idx=unlist(llply(most_frequent_subgroups,function(g){sample(long_virus_kmers_norm[SubGroup == g,idx],min_size)}))
+
+long_virus_kmers_norm_ds_SG=long_virus_kmers_norm[downsample_idx]
+long_virus_kmers_norm_ds_SG[,.N,by=SubGroup]
+long_virus_kmers_norm_ds_SG$idx=1:nrow(long_virus_kmers_norm_ds_SG)
+input_size=nrow(long_virus_kmers_norm_ds_SG)
+nas_to_add=((input_size %/% n_cores)+1)*n_cores - input_size
+input_splits= matrix(c(1:input_size,rep(NA,nas_to_add)),byrow=T,ncol=n_cores)
+res_maj_by_group= data.table(foreach(i=iter(input_splits,by='col'),.combine='rbind',.inorder=F) %dopar% compute_closest2(long_virus_kmers_norm_ds_SG,kmers_columns,i[,1],n_closer_neighbors,selected_labels=labels_to_return))
+
+
+# permute class labels 
+res_maj_by_group_orig=res_maj_by_group
+# res_maj_by_group$tgt_Group=sample(res_maj_by_group$tgt_Group)
+# unpermute 
+# res_maj_by_group$tgt_Group=res_maj_by_group_orig$tgt_Group
+
+
+res_maj_by_group_no_diag=res_maj_by_group[src!=tgt & rank<=n_closer_neighbors]
+# res_maj_by_group_no_diag[src==1]
+
+res_maj_by_group_neighbors_group=data.table(dcast(res_maj_by_group_no_diag,src+src_SubGroup~tgt_SubGroup))
+res_maj_by_group_neighbors_group$src_SubGroup=as.character(res_maj_by_group_neighbors_group$src_SubGroup)
+res_maj_by_group_neighbors_group[,.N,by=src_SubGroup]
+
+
+res_maj_by_group_neighbors_sub_group_m=melt(res_maj_by_group_neighbors_group,id.vars=c("src","src_SubGroup"))
+res_maj_by_group_neighbors_sub_group_m[,mismatch:=F]
+res_maj_by_group_neighbors_sub_group_m[src_SubGroup!=variable,mismatch:=T]
+
+res_maj_by_group_neighbors_sub_group_matches=res_maj_by_group_neighbors_sub_group_m[,sum(value),by=list(src,src_SubGroup,variable,mismatch)]
+res_maj_by_group_neighbors_sub_group_matches_disagreeing=res_maj_by_group_neighbors_sub_group_matches[mismatch==T]
+sub_groups_summaries=res_maj_by_group_neighbors_sub_group_matches_disagreeing[,sum(V1),by=list(src,src_SubGroup,mismatch)]
+tbl_df(sub_groups_summaries) %.% group_by(src_SubGroup) %.% summarise(a_mean=mean(V1))
+ggplot(sub_groups_summaries,aes(x=factor(V1,levels=0:n_closer_neighbors),fill=src_SubGroup))+geom_histogram()
+
+
 
 ```
