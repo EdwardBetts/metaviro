@@ -183,7 +183,7 @@ def main(argv=None):
 	parser.add_argument('-r',dest="recursive",help="Perform recursive search for fasta files",action="store_true")
 
 
-	parser.add_argument('-n',dest="n_contigs",help="Number of total contigs to sample",default=1e4,type=int)
+	parser.add_argument('-n',dest="n_contigs",help="Number of total contigs to sample",default=1000,type=int)
 	parser.add_argument('-S',dest="by_sequence",help="Sampling of contigs is made for each sequence",default=False,action="store_true")
 	parser.add_argument('-l',dest="avg_length",help="Length of conting to sample",default=500,type=int)
 	parser.add_argument('-m',dest="min_length",help="Minimal length of conting to sample",default=200,type=int)
@@ -192,12 +192,12 @@ def main(argv=None):
 	parser.add_argument("-R", dest="reverse", help="Randomly perform reverse complement", default=False,action="store_true")
 
 	parser.add_argument('-I',dest="keep_IUPAC",help="Indicate whether to keep ambiguous site",default=False,action="store_true")
-	parser.add_argument('-i',dest="index_path",help="Indicate an SQLite file index for out of memory sampling. If absent, will be generated; if present will be loaded back. Will trigger an error if an existing index do not match the provided input fasta files.",default=None,type=str)
+	parser.add_argument('-i',dest="index_path",help="MANDATORY path to an SQLite file index for out of memory sampling. If absent, will be generated; if present will be loaded back. Will trigger an error if an existing index do not match the provided input fasta files.",default=None,type=str)
 	parser.add_argument('-s',dest="simplify_ncbi_fasta_header",help="If set, headers of fasta file will only contain the GI number from the NCBI full description",default=False,action="store_true")
 	parser.add_argument('-A',dest="append",help="If set, fasta sequences are appended to the output file",default=False,action="store_true")
 	parser.add_argument('-o',dest="output_name",help="Name of output file",default="contigs.fasta",type=str)
 	parser.add_argument('-P',dest="pretty",help="Use (and require) prettytable for summary output",default=False,action="store_true")
-	parser.add_argument('-k',dest="key",help="Indicate key that should be used to identify each contig",default="")
+	parser.add_argument('-k',dest="key",help="Indicate string key inserted in sampled contig headers",default="")
 	parser.add_argument('-M',dest="max_sequences",help="Maximal number of sequences to consider,-1: all",default=-1,type=int)
 	parser.add_argument('-F',dest="max_input_fastas",help="Maximal number of fastas files to process; -1: all",default=-1,type=int)
 	parser.add_argument('-u',dest="at_least_one",help="Enable subsampling: less than one contig per sequence is possible",default=True,action="store_false")
@@ -225,6 +225,8 @@ def main(argv=None):
 		logger.info("Downsampling input list of FASTA files down to %d"%(args.max_input_fastas))
 		all_fastas=random.sample(list(all_fastas), k=args.max_input_fastas)
 	all_fastas=list(all_fastas)
+
+
 	# load the index if provided
 	sequence_index=None
 	if args.index_path:
@@ -235,39 +237,18 @@ def main(argv=None):
 			sequence_index=SeqIO.index_db(args.index_path)
 			logger.info("Reusing DB index %s"%(args.index_path))
 
-	if len(all_fastas)==0 and (args.index_path==None or sequence_index==None):
-		logger.critical("No fasta files found, no index provided, bailing out")
+	if sequence_index==None:
+		logger.critical("No index provided, bailing out")
 		sys.exit(1)
 
 	# Build sequence DB
-	multi_fasta_lengths=collections.defaultdict(int)
-	sequence_lengths={} # Assuming description is unique
-	fasta_to_sequences=collections.defaultdict(list)
 
-	sequences={}
+	sequence_lengths=dict([(x,len(sequence_index[x])) for x in sequence_index])
+	sequence_length_keys=sequence_lengths.keys()
+	sequence_length_values=sequence_lengths.values()
 
-	for f in all_fastas: 
-		for record in SeqIO.parse(f, "fasta", generic_dna):
-			if (args.max_sequences>0) and (len(fasta_to_sequences[f])==args.max_sequences):
-				continue
-			if len(record) < args.min_length:
-				logger.info("(%d/%d): Skipping rec from input %s"%(len(multi_fasta_lengths),len(all_fastas),f))
-				continue
-			fasta_to_sequences[f].append(record.description)
-			sequence_lengths[record.description]=len(record)
-			multi_fasta_lengths[f]+=len(record)
-			if not args.preview:
-				sequences[record.description]=record
-		logger.info("(%d/%d): parsed input %s for %d sequences" %(len(multi_fasta_lengths),len(all_fastas),f,len(fasta_to_sequences[f])))
-
-	# compute the number of samples to take from each fasta 
-
-	total_length=sum(multi_fasta_lengths.values())
-	if(not args.by_sequence):
-		n_samples=dict([(k,math.ceil(float(v)/total_length*args.n_contigs)) for k,v in multi_fasta_lengths.items()])
-	else:
-		# We take all sequences from each input
-		n_samples=dict([(k,len(v)*args.n_contigs) for k,v in fasta_to_sequences.items()])
+	total_length=sum(sequence_length_values)
+	logger.info("Computed total sequence lengths")
 
 	all_records=[]
 
@@ -275,78 +256,78 @@ def main(argv=None):
 		table=prettytable.PrettyTable(["Fasta","length(kb)","N sequences","N sampled contig","Avg contig/seq","median","min", "max"])
 		table.align["File"] = "l" 
 
-	for fasta,n_samples in n_samples.items():
-		if n_samples==0:
-			logger.info("WARNING: FASTA %s has no sequences"%(fasta))
+	# these_sequence_length = dict([(k,v) for k,v in sequence_lengths.items() if k in fasta_to_sequences[fasta]])
+	
+	contig_coordinates=sample_intervals(sequence_length_values,args.n_contigs,BYSEQUENCE=args.by_sequence,AT_LEAST_ONE=args.at_least_one,length_avg=args.avg_length,length_sd=args.stdev)
+	
+	#index contig coordinates 
+	contig_coordinates_by_key=collections.defaultdict(list)
+	for c in contig_coordinates:
+		contig_coordinates_by_key[c[0]].append(c)
+
+	n_contigs_per_key=[len(v) for v in contig_coordinates_by_key.values()]
+
+	avg_contig_per_sequence=scipy.average(n_contigs_per_key)
+	med_contig_per_sequence=scipy.median(n_contigs_per_key)
+	min_contig_per_sequence=min(n_contigs_per_key)
+	max_contig_per_sequence=max(n_contigs_per_key)
+
+	info=[args.index_path, total_length/1000.0,len(sequence_index),len(contig_coordinates),avg_contig_per_sequence,med_contig_per_sequence,min_contig_per_sequence,max_contig_per_sequence]
+	if args.pretty:
+		table.add_row(info)
+	else:
+		logger.info("Fasta: %s,length:%d, N sequences: %d, N sampled contig:%d, Avg contig per seq:%f, med: %d, min seq:%d, max seq:%d "%(tuple(info)))
+	
+
+	if(args.preview):
+		return 
+
+	fasta_name='/'.join(os.path.split(args.index_path)[-2:])
+	last_seq_idx=None
+	sample_id=0
+	generated_samples=0
+
+	for seq_idx,start,end in contig_coordinates:
+		if seq_idx!=last_seq_idx:
+			sample_id=0
+			fasta_key=sequence_length_keys[seq_idx]
+			current_seq=str(sequence_index[fasta_key].seq)
+
+			if args.simplify_ncbi_fasta_header:
+				seq_id = sequence_index[fasta_key].id.split("|")[1]+"_"+args.key+"_sample_"+str(sample_id)+"_"+fasta_name
+				seq_id = seq_id.replace(".","_")
+				seq_name=seq_id
+				sequence_description=seq_id
+			else:
+				seq_id = sequence_index[fasta_key].id+args.key+"_sample_"+str(sample_id)
+				seq_name=sequence_index[fasta_key].name+args.key+"_sample_"+str(sample_id)
+				sequence_description=sequence_index[fasta_key].description
+		generated_samples+=1
+		if (generated_samples % 500)==0: 
+			logger.info("Generated %d/%d sequences"%(generated_samples,len(contig_coordinates)))
+
+		sample_id+=1
+		sub_seq=current_seq[start:end]
+		if (len(sub_seq)<= args.min_length):
 			continue
-		
-		these_sequence_length = dict([(k,v) for k,v in sequence_lengths.items() if k in fasta_to_sequences[fasta]])
-		these_sequence_length_keys=these_sequence_length.keys()
-		these_sequence_length_values=these_sequence_length.values()
-		
-		contig_coordinates=sample_intervals(these_sequence_length_values,int(n_samples),BYSEQUENCE=args.by_sequence,AT_LEAST_ONE=args.at_least_one,length_avg=args.avg_length,length_sd=args.stdev)
-		
-		#index contig coordinates 
-		contig_coordinates_by_key=collections.defaultdict(list)
-		for c in contig_coordinates:
-			contig_coordinates_by_key[c[0]].append(c)
 
-		n_contigs_per_key=[len(v) for v in contig_coordinates_by_key.values()]
+		if(len(sub_seq)>=10000):
+			assert False
 
-		avg_contig_per_sequence=scipy.average(n_contigs_per_key)
-		med_contig_per_sequence=scipy.median(n_contigs_per_key)
-		min_contig_per_sequence=min(n_contigs_per_key)
-		max_contig_per_sequence=max(n_contigs_per_key)
-
-		if args.pretty:
-			table.add_row([fasta, multi_fasta_lengths[fasta]/1000.0,len(fasta_to_sequences[fasta]),n_samples,avg_contig_per_sequence,med_contig_per_sequence,min_contig_per_sequence,max_contig_per_sequence])
-		else:
-			logger.info("Fasta: %s,length:%d, N sequences: %d, N sampled contig:%d, Avg contig per seq:%f, med: %d, min seq:%d, max seq:%d "%(fasta, multi_fasta_lengths[fasta],len(fasta_to_sequences[fasta]),n_samples,avg_contig_per_sequence,med_contig_per_sequence,min_contig_per_sequence,max_contig_per_sequence))
-		if(args.preview):
+		if (not args.keep_IUPAC) and (set(sub_seq)!=set(['A','C','G','T'])):
+			# contains ambiguous 
 			continue
 
-		fasta_name='/'.join(os.path.split(fasta)[-2:])
-		last_seq_idx=None
-		sample_id=0
+		record = SeqRecord(Seq(sub_seq,generic_dna),id=seq_id, name=seq_name,description=sequence_description)
 
-		for seq_idx,start,end in contig_coordinates:
-			if seq_idx!=last_seq_idx:
-				sample_id=0
-				fasta_key=these_sequence_length_keys[seq_idx]
-				current_seq=str(sequences[fasta_key].seq)
-
-				if args.simplify_ncbi_fasta_header:
-					seq_id = sequences[fasta_key].id.split("|")[1]+"_"+args.key+"_sample_"+str(sample_id)+"_"+fasta_name
-					seq_id = seq_id.replace(".","_")
-					seq_name=seq_id
-					sequence_description=seq_id
-				else:
-					seq_id = sequences[fasta_key].id+args.key+"_sample_"+str(sample_id)
-					seq_name=sequences[fasta_key].name+args.key+"_sample_"+str(sample_id)
-					sequence_description=sequences[fasta_key].description
-
-			sample_id+=1
-			sub_seq=current_seq[start:end]
-			if (len(sub_seq)<= args.min_length):
-				continue
-
-			if(len(sub_seq)>=10000):
-				assert False
-
-			if (not args.keep_IUPAC) and (set(sub_seq)!=set(['A','C','G','T'])):
-				# contains ambiguous 
-				continue
-
-			record = SeqRecord(Seq(sub_seq,generic_dna),id=seq_id, name=seq_name,description=sequence_description)
-
-			if args.reverse and bool(random.getrandbits(1)):
-				recordRC=record.reverse_complement()
-				recordRC.id=record.id+"_rev"
-				# recordRC.name=record.name
-				recordRC.description=""
-				record=recordRC
-			# record = SeqRecord(Seq(sub_seq,generic_dna))
-			all_records.append(record)
+		if args.reverse and bool(random.getrandbits(1)):
+			recordRC=record.reverse_complement()
+			recordRC.id=record.id+"_rev"
+			# recordRC.name=record.name
+			recordRC.description=""
+			record=recordRC
+		# record = SeqRecord(Seq(sub_seq,generic_dna))
+		all_records.append(record)
 
 
 	if args.pretty:
