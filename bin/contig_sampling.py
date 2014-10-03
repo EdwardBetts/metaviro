@@ -3,6 +3,7 @@
 import itertools
 import random
 import math
+import numpy as np
 
 import sys
 import collections
@@ -74,6 +75,108 @@ def find_fasta_files(src_dir):
 				all_fastas.append(os.path.join(dirname, filename))
 	return all_fastas
 
+
+
+def class_balanced_sampling(items,key_idx,n_by_class):
+	sample_idx_by_key=collections.defaultdict(set)
+	for i in range(len(items)):
+		sample_idx_by_key[items[i][0]].add(i)
+
+	selected_indices=set()
+	for idx,sample_indices in sample_idx_by_key.items():
+		selected_indices.update(random.sample(sample_indices,min(n_by_class,len(sample_indices))))
+	final_items=[items[i] for i in selected_indices]
+	rejected_items=[items[i] for i in range(len(items)) if i not in selected_indices]
+	return final_items,rejected_items
+
+def sample_intervals(interval_lengths,n_contigs,BYSEQUENCE=False,AT_LEAST_ONE=False,length_avg=500,length_sd=200):
+	tot_length=sum(interval_lengths)
+	interval_lengths_cs=np.hstack(([0],np.cumsum(interval_lengths)))
+	sample_points=[]
+	if AT_LEAST_ONE:
+		for i in range(len(interval_lengths_cs)-1):
+			sample_points.append(random.randint(interval_lengths_cs[i],interval_lengths_cs[i+1]))
+
+
+	if BYSEQUENCE:
+		for i in range(len(interval_lengths_cs)-1):
+			sample_points.extend(random.sample(xrange(interval_lengths_cs[i],interval_lengths_cs[i+1]),n_contigs))
+	else:
+		sample_points.extend(random.sample(xrange(0,tot_length),n_contigs))
+
+	sample_points.sort()
+
+	contig_coordinates=[]
+
+	last_start=0
+	sequence_assigment=[-1]*len(sample_points)
+
+	# For each sample_point, find the corresponding interval, then generate three sample possibilities 
+	# where the sample point can be either start, end, or middle
+
+	for i_idx in xrange(len(sample_points)):
+		for j in xrange(last_start,len(interval_lengths_cs)-1):
+			if ((sample_points[i_idx] >= interval_lengths_cs[j]) and (sample_points[i_idx] < interval_lengths_cs[j+1])):
+				sequence_assigment[i_idx]=j
+				# Generate length, then determine if sample_points is the start or the end of the contig 
+
+				this_contig_length=min(int(math.ceil(random.normalvariate(length_avg,length_sd))),interval_lengths[j])
+
+				# print "with length",this_contig_length,
+				# possible_samplings=[]
+
+				if sample_points[i_idx]+this_contig_length <= interval_lengths_cs[j+1]: # can be the start 
+					contig_coordinates.append((j,sample_points[i_idx]-interval_lengths_cs[j],sample_points[i_idx]+this_contig_length-interval_lengths_cs[j]))
+
+				if sample_points[i_idx]-this_contig_length >= interval_lengths_cs[j]: # can be the end
+					contig_coordinates.append((j,sample_points[i_idx]-this_contig_length-interval_lengths_cs[j],sample_points[i_idx]-interval_lengths_cs[j]))
+
+				if this_contig_length>interval_lengths[j]/2:
+					# can be the middle 
+					left_end=sample_points[i_idx]-this_contig_length/2-interval_lengths_cs[j]
+					right_end=sample_points[i_idx]-interval_lengths_cs[j]+this_contig_length/2
+					if left_end<=0: 
+						left_end=0
+						right_end=this_contig_length
+					elif right_end>=interval_lengths[j]:
+						right_end=interval_lengths[j]
+						left_end=interval_lengths[j]-this_contig_length
+					contig_coordinates.append((j,left_end,right_end))
+
+				last_start=j
+				break
+
+
+	# reduce the contig_coordinates to match the requested number of contigs
+
+	if AT_LEAST_ONE:
+		guaranteed_contigs,remaining=class_balanced_sampling(contig_coordinates,0,1)
+		contig_coordinates=remaining
+	else:
+		guaranteed_contigs=[]
+
+	if BYSEQUENCE:
+		# we sample at most n_contigs for each sequence 
+		contig_coordinates,foo = class_balanced_sampling(contig_coordinates,0,n_contigs)
+	else:
+		contig_coordinates=random.sample(contig_coordinates,min(n_contigs,len(contig_coordinates)))
+
+	contig_coordinates=set(contig_coordinates)
+	contig_coordinates.update(guaranteed_contigs)
+	contig_coordinates=list(contig_coordinates)
+
+	# for idx,start,end in contig_coordinates:
+	# 	assert(start<=interval_lengths[idx])
+	# 	assert(end<=interval_lengths[idx])
+	# 	assert(start>=0)
+
+
+	# Sort 
+	# contig_coordinates.sort(key=lambda x: x[0:2])
+
+	return contig_coordinates
+
+
 def main(argv=None):
 	parser=argparse.ArgumentParser(description="Compute kmer counts for all sequences in the input multi fasta file")
 	# parser.add_argument('-k',dest="kmer_length",help="mer length",default=3,type=int)
@@ -96,6 +199,7 @@ def main(argv=None):
 	parser.add_argument('-k',dest="key",help="Indicate key that should be used to identify each contig",default="")
 	parser.add_argument('-M',dest="max_sequences",help="Maximal number of sequences to consider,-1: all",default=-1,type=int)
 	parser.add_argument('-F',dest="max_input_fastas",help="Maximal number of fastas files to process; -1: all",default=-1,type=int)
+	parser.add_argument('-u',dest="at_least_one",help="Enable subsampling: less than one contig per sequence is possible",default=True,action="store_false")
 
 	parser.add_argument('FASTAFILE',action='append',nargs="+",help='list of fasta files')
 	args=parser.parse_args()
@@ -120,6 +224,7 @@ def main(argv=None):
 		logger.info("Downsampling input list of FASTA files down to %d"%(args.max_input_fastas))
 		all_fastas=random.sample(list(all_fastas), k=args.max_input_fastas)
 
+	# Build sequence DB
 	multi_fasta_lengths=collections.defaultdict(int)
 	sequence_lengths={} # Assuming description is unique
 	fasta_to_sequences=collections.defaultdict(list)
@@ -136,23 +241,18 @@ def main(argv=None):
 			fasta_to_sequences[f].append(record.description)
 			sequence_lengths[record.description]=len(record)
 			multi_fasta_lengths[f]+=len(record)
-			sequences[record.description]=record
+			if not args.preview:
+				sequences[record.description]=record
 		logger.info("(%d/%d): parsed input %s for %d sequences" %(len(multi_fasta_lengths),len(all_fastas),f,len(fasta_to_sequences[f])))
 
-	# if args.max_sequences>0:
-	# 	logger.info("Downsampling to first %d sequences of each input fasta"%(args.max_sequences))
-	# 	for fasta_file,these_sequences in fasta_to_sequences.items():
-	# 		fasta_to_sequences[fasta_file]=these_sequences[0:args.max_sequences]
-
-
 	# compute the number of samples to take from each fasta 
+
 	total_length=sum(multi_fasta_lengths.values())
 	if(not args.by_sequence):
 		n_samples=dict([(k,math.ceil(float(v)/total_length*args.n_contigs)) for k,v in multi_fasta_lengths.items()])
 	else:
 		# We take all sequences from each input
 		n_samples=dict([(k,len(v)*args.n_contigs) for k,v in fasta_to_sequences.items()])
-
 
 	all_records=[]
 
@@ -164,24 +264,24 @@ def main(argv=None):
 		if n_samples==0:
 			logger.info("WARNING: FASTA %s has no sequences"%(fasta))
 			continue
-		if(not args.by_sequence):
-			# Get the length of these sequences
-			these_sequence_length = dict([(k,v) for k,v in sequence_lengths.items() if k in fasta_to_sequences[fasta]])
-			total_length=sum(these_sequence_length.values())
+		
+		these_sequence_length = dict([(k,v) for k,v in sequence_lengths.items() if k in fasta_to_sequences[fasta]])
+		these_sequence_length_keys=these_sequence_length.keys()
+		these_sequence_length_values=these_sequence_length.values()
+		
+		contig_coordinates=sample_intervals(these_sequence_length_values,int(n_samples),BYSEQUENCE=args.by_sequence,AT_LEAST_ONE=args.at_least_one,length_avg=args.avg_length,length_sd=args.stdev)
+		
+		contig_coordinates_by_key=collections.defaultdict(list)
+		for c in contig_coordinates:
+			contig_coordinates_by_key[c[0]].append(c)
 
-			# compute statistics of samples per sequences
-			n_samples_this_fasta=dict([(k,int(math.ceil(float(v)/total_length*n_samples))) for k,v in these_sequence_length.items()])
-		else: ## Work by sequence 
-			n_samples_this_fasta=dict()
-			for seq in fasta_to_sequences[fasta]:
-				n_samples_this_fasta[seq]=args.n_contigs
+		n_contigs_per_key=[len(v) for v in contig_coordinates_by_key.values()]
 
-		# total_contigs=sum(n_samples_this_fasta.values())
+		avg_contig_per_sequence=scipy.average(n_contigs_per_key)
+		med_contig_per_sequence=scipy.median(n_contigs_per_key)
+		min_contig_per_sequence=min(n_contigs_per_key)
+		max_contig_per_sequence=max(n_contigs_per_key)
 
-		avg_contig_per_sequence=scipy.average(n_samples_this_fasta.values())
-		med_contig_per_sequence=scipy.median(n_samples_this_fasta.values())
-		min_contig_per_sequence=min(n_samples_this_fasta.values())
-		max_contig_per_sequence=max(n_samples_this_fasta.values())
 		if args.pretty:
 			table.add_row([fasta, multi_fasta_lengths[fasta]/1000.0,len(fasta_to_sequences[fasta]),n_samples,avg_contig_per_sequence,med_contig_per_sequence,min_contig_per_sequence,max_contig_per_sequence])
 		else:
@@ -190,50 +290,49 @@ def main(argv=None):
 			continue
 
 		fasta_name='/'.join(os.path.split(fasta)[-2:])
-		for k,v in n_samples_this_fasta.items():
-			# logger.info("Fasta:%s, Seq: %s,length:%d, N Sample:%d"%(fasta,k, sequence_lengths[k],v))
-			seq=str(sequences[k].seq)
+		last_seq_idx=None
+		sample_id=0
 
-			for i in range(0,v):				# Sample start position,
-				this_contig_length=int(random.gauss(args.avg_length, args.stdev))
+		for seq_idx,start,end in contig_coordinates:
+			if seq_idx!=last_seq_idx:
+				sample_id=0
+				fasta_key=these_sequence_length_keys[seq_idx]
+				current_seq=str(sequences[fasta_key].seq)
 
-				if len(seq)>=this_contig_length:
-					start=random.randint(0,len(seq)-this_contig_length)
-					end=start+this_contig_length
-				else:
-					start=0
-					end=this_contig_length
-
-				sub_seq=seq[start:start+this_contig_length]
-				if (len(sub_seq)<= args.min_length):
-					continue
-				if(len(sub_seq)>=10000):
-					assert False
-
-				if (not args.keep_IUPAC) and (set(sub_seq)!=set(['A','C','G','T'])):
-					# contains ambiguous 
-					continue
 				if args.simplify_ncbi_fasta_header:
-					seq_id = sequences[k].id.split("|")[1]+"_"+args.key+"_sample_"+str(i)+"_"+fasta_name
+					seq_id = sequences[fasta_key].id.split("|")[1]+"_"+args.key+"_sample_"+str(sample_id)+"_"+fasta_name
 					seq_id = seq_id.replace(".","_")
 					seq_name=seq_id
 					sequence_description=seq_id
-
 				else:
-					seq_id = sequences[k].id+args.key+"_sample_"+str(i)
-					seq_name=sequences[k].name+args.key+"_sample_"+str(i)
-					sequence_description=sequences[k].description
+					seq_id = sequences[fasta_key].id+args.key+"_sample_"+str(sample_id)
+					seq_name=sequences[fasta_key].name+args.key+"_sample_"+str(sample_id)
+					sequence_description=sequences[fasta_key].description
 
-				record = SeqRecord(Seq(sub_seq,generic_dna),id=seq_id, name=seq_name,description=sequence_description)
+			sample_id+=1
+			sub_seq=current_seq[start:end]
+			if (len(sub_seq)<= args.min_length):
+				continue
 
-				if args.reverse and bool(random.getrandbits(1)):
-					recordRC=record.reverse_complement()
-					recordRC.id=record.id+"_rev"
-					# recordRC.name=record.name
-					recordRC.description=""
-					record=recordRC
-				# record = SeqRecord(Seq(sub_seq,generic_dna))
-				all_records.append(record)
+			if(len(sub_seq)>=10000):
+				assert False
+
+			if (not args.keep_IUPAC) and (set(sub_seq)!=set(['A','C','G','T'])):
+				# contains ambiguous 
+				continue
+
+			record = SeqRecord(Seq(sub_seq,generic_dna),id=seq_id, name=seq_name,description=sequence_description)
+
+			if args.reverse and bool(random.getrandbits(1)):
+				recordRC=record.reverse_complement()
+				recordRC.id=record.id+"_rev"
+				# recordRC.name=record.name
+				recordRC.description=""
+				record=recordRC
+			# record = SeqRecord(Seq(sub_seq,generic_dna))
+			all_records.append(record)
+
+
 	if args.pretty:
 		print table.get_string()
 	if args.append:
@@ -245,23 +344,6 @@ def main(argv=None):
 	SeqIO.write(all_records, output_handle, "fasta")
 	output_handle.close()
 
-
-
-
-
-	# 		seq=str(record.seq)
-	# 		fasta_keys=(f,record.description,str(len(seq)))
-	# 		records_to_kmer[fasta_keys]=collections.defaultdict(int)
-	# 		for i in range(0,len(seq)-args.kmer_length):
-	# 			kmer=seq[i:i+args.kmer_length]
-	# 			records_to_kmer[fasta_keys][kmer]+=1
-
-	# print "\t".join(["path","sequence_description","sequence_length"]+all_kmers)
-	# for k,kmer_values in records_to_kmer.items():
-	# 	all_values = list(k)
-	# 	all_values.extend(map(str,[kmer_values.get(x,0) for x in all_kmers]))
-	# 	# print len(all_values)
-	# 	print "\t".join(all_values)
 
 if __name__ == "__main__":
 	sys.exit(main())
