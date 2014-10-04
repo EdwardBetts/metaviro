@@ -1,6 +1,6 @@
-library(data.table,quietly=T,warn.conflicts = F)
-library(fields,quietly=T,warn.conflicts = F)
-library(reshape2,quietly=T,warn.conflicts = F)
+suppressMessages(library(data.table,quietly=T,warn.conflicts = F))
+suppressMessages(library(fields,quietly=T,warn.conflicts = F))
+suppressMessages(library(reshape2,quietly=T,warn.conflicts = F))
 
 # we assume that the feat matrix is a data table and has an id column 
 compute_closest2 = function(feat_matrix,selected_features,selected_obs,n_closer,selected_labels=NA){

@@ -1,13 +1,10 @@
-library(reshape2,quietly = T,warn.conflicts = F)
-library(plyr,quietly = T,warn.conflicts = F)
-library(dplyr,quietly = T,warn.conflicts = F)
-library(ggplot2,quietly = T,warn.conflicts = F)
-library(data.table,quietly = T,warn.conflicts = F)
-# library(stringr,quietly = T,warn.conflicts = F)
-# library(corrplot,quietly = T,warn.conflicts = F)
-# library(caret,quietly = T,warn.conflicts = F)
-library(foreach,quietly = T,warn.conflicts = F)
-library(doParallel,quietly = T,warn.conflicts = F)
+suppressMessages(library(reshape2,quietly = T,warn.conflicts = F))
+suppressMessages(library(plyr,quietly = T,warn.conflicts = F))
+suppressMessages(library(dplyr,quietly = T,warn.conflicts = F))
+suppressMessages(library(ggplot2,quietly = T,warn.conflicts = F))
+suppressMessages(library(data.table,quietly = T,warn.conflicts = F))
+suppressMessages(library(foreach,quietly = T,warn.conflicts = F))
+suppressMessages(library(doParallel,quietly = T,warn.conflicts = F))
 
 
 
@@ -41,14 +38,15 @@ setkey(class_kmers,"gi")
 
 # # We load the GI to TaxID conversion 
 load(GI_MAPPING)
-setnames(virus_annotations_gi,make.names(colnames(virus_annotations_gi)))
-setkey(virus_annotations_gi,"gi")
-annotated_virus_kmers=merge(class_kmers,virus_annotations_gi,by="gi")
+
+# setkey(virus_annotations_gi,"gi")
+annotated_kmers=merge(class_kmers,GenBank_taxID2gi,by="gi")
+annotated_kmers=merge(annotated_kmers,GenBank_annotations,by="TaxID")
 
 # normalize and type 
-normalized_kmers_counts=annotated_virus_kmers[,kmers_columns,with=F]/annotated_virus_kmers$sequence_length
+normalized_kmers_counts=annotated_kmers[,kmers_columns,with=F]/annotated_kmers$sequence_length
 
-normalized_kmers=cbind(normalized_kmers_counts, annotated_virus_kmers[,list(gi,BioProject.ID,Group,SubGroup,Host,Status,Genes,Proteins,"org"=X.Organism.Name,"org.GC"=GC.,"size"=Size..Kb.)] )
+normalized_kmers=cbind(normalized_kmers_counts, annotated_kmers[,list(gi,BioProject.ID,Group,SubGroup,Status,Genes,Proteins,"org"=Organism.Name,"org.GC"=GC.,"size"=Size)] )
 
 normalized_kmers$org.GC=as.numeric(normalized_kmers$org.GC)
 normalized_kmers$size=as.numeric(normalized_kmers$size)

@@ -13,7 +13,7 @@ all_classes_kDN_means=data.table()
 labels_to_return=c("Group","SubGroup","Status","Genes","Proteins","org","org.GC","gi")
 
 
-most_frequent_classes=tail(normalized_kmers[grep("unclassified|unassigned",classLabels,invert=T)][,.N,by=classLabels][order(N)],n=N_MAJORITY_CLASS_LABELSS)$classLabels
+most_frequent_classes=tail(normalized_kmers[grep("unclassified|unassigned",classLabels,invert=T)][,.N,by=classLabels][order(N)],n=N_MAJORITY_CLASS_LABELS)$classLabels
 min_size=normalized_kmers[classLabels %in% most_frequent_classes,.N,by=classLabels][,min(N)]
 
 for(group_sampling_id in 1:N_GROUP_SAMPLING){
