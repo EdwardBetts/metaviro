@@ -11,22 +11,37 @@ ALLDOMAIN=["viruses","bact","euk","archea"]
 
 ROOTDIR=os.getcwd()
 
-# ResampleID="batch_1"
-
 
 ### BLAST Db generation 
-BLASTDBEXTENSIONS=['nhr','nin','nnd','nni','nog','nsd','nsi','nsq']
 DB_DIR="blast_dbs/"
+DATA_DIR="../../data/Genebank/"
+
+## Cat fastas 
+ruleorder: cat_euk > cat_fastas
+
+rule cat_euk:
+	output: temp(DATA_DIR+"euk.fa")
+	shell:
+		"ls {DATA_DIR}plants/*.fas* {DATA_DIR}fungi/*.fas* | xargs cat > {output}"
+
+rule cat_fastas:
+	output:temp(DATA_DIR+"{domain}.fa")
+	shell:
+		"ls {DATA_DIR}{wildcards.domain}/*.fas* | xargs cat > {output}"
+
+### Index them 
 
 rule make_db:
-	input: "../../data/full_ncbi/{domain}.fa"
+	# input: "../../data/full_ncbi/{domain}.fa"
+	input: DATA_DIR+"{domain}.fa"
 	params:
 		db_name="{domain}_blastdb",
 		db_path="blast_dbs/{domain}_blastdb"
 	# output: "{domain}_blastdb.nhr", "{domain}_blastdb.nin", "{domain}_blastdb.nnd", "{domain}_blastdb.nni", "{domain}_blastdb.nog", "{domain}_blastdb.nsd", "{domain}_blastdb.nsi", "{domain}_blastdb.nsq"
 	output: DB_DIR+"{domain}_blastdb.nhr"
+	log: "log_make_db.txt"
 	shell:
-		"makeblastdb -parse_seqids -out {params.db_path} -in {input} -dbtype nucl"
+		"makeblastdb -parse_seqids -out {params.db_path} -in {input} -dbtype nucl -max_file_sz 150GB"
 
 
 rule clean_db:
