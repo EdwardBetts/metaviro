@@ -1,0 +1,222 @@
+import os
+from snakemake.utils import R
+
+"""TODO:
+* Generate short / long reads
+* Account for multiple batches 
+"""
+
+ALLDOMAIN=["viruses","bact","euk","archea"]
+N_CONTIGS_PER_DOMAIN=10000
+
+ROOTDIR=os.getcwd()
+
+# ResampleID="batch_1"
+
+
+### BLAST Db generation 
+BLASTDBEXTENSIONS=['nhr','nin','nnd','nni','nog','nsd','nsi','nsq']
+DB_DIR="blast_dbs/"
+
+rule make_db:
+	input: "../../data/full_ncbi/{domain}.fa"
+	params:
+		db_name="{domain}_blastdb",
+		db_path="blast_dbs/{domain}_blastdb"
+	# output: "{domain}_blastdb.nhr", "{domain}_blastdb.nin", "{domain}_blastdb.nnd", "{domain}_blastdb.nni", "{domain}_blastdb.nog", "{domain}_blastdb.nsd", "{domain}_blastdb.nsi", "{domain}_blastdb.nsq"
+	output: DB_DIR+"{domain}_blastdb.nhr"
+	shell:
+		"makeblastdb -parse_seqids -out {params.db_path} -in {input} -dbtype nucl"
+
+
+rule clean_db:
+	shell:
+		"rm *_blastdb.n*"
+
+rule list_db_content:
+	input: DB_DIR+"{domain}_blastdb.nhr"
+	output: DB_DIR+"{domain}_blastdb_content.txt"
+	run:
+		db_name=os.path.splitext(input[0])[0]
+		shell("""blastdbcmd -entry all -db {db_name} -outfmt "%g\t%a\t%i\t%t\t%l" > {output}""")
+
+
+
+
+### Contig sampling 
+
+rule contigs_sample_idx:
+	input: DB_DIR+"{domain}_blastdb_content.txt"
+	output: "{ResampleID}_{ContigLength}nt/{domain}_sampling_contig_indices.txt"
+	shell:
+		"""../../bin/contig_sampling_with_blast.py -l {wildcards.ContigLength} -u -n {N_CONTIGS_PER_DOMAIN} {input} -o {output}"""
+
+rule contigs_sample_sequences:
+	input: seq="{ResampleID}/{domain}_sampling_contig_indices.txt"
+	output: temp("{ResampleID}/{domain}_contigs.fa")
+	params:
+		db_path=DB_DIR+"{domain}_blastdb"
+	shell:
+		"""blastdbcmd -db {params.db_path} -entry_batch {input.seq} > {output}"""
+
+
+
+
+rule kmerize:
+	input: "{ResampleID}/{domain}_contigs.fa"
+	output: "{ResampleID}/{domain}_k{kmerL,\d+}_mers.tsv"
+	shell:
+		"../../bin/kmerize.py -k {wildcards.kmerL} {input} -o {output}"
+
+
+rule virus_contigs_kmers:
+	input: "Resample_1/viruses_k3_mers.tsv","Resample_2/viruses_k3_mers.tsv"
+
+rule some_kmers:
+	input: "Resample_1/viruses_k3_mers.tsv","Resample_2/viruses_k3_mers.tsv","Resample_1/bact_k3_mers.tsv"
+
+
+
+# rule virus_hardness:
+# 	input: "{ResampleID}/viruses_k3_mers.tsv"
+# 	output: "{ResampleID}/viruses_host_PCA_plot.pdf","{ResampleID}/viruses_group_kDN.pdf","{ResampleID}/viruses_group_summaries.csv","{ResampleID}/viruses_kDN_sub_group_stats.csv","{ResampleID}/viruses_sub_group_summaries.csv"
+# 	threads: 2
+# 	shell:
+# 		"cd {wildcards.ResampleID} && Rscript ../classify_viruses.R"
+
+
+# ## DO not run, reading gi annotation is still too slow for production :/ 
+# rule bact_hardness:
+# 	input: "{ResampleID}/bact_k3_mers.tsv"
+# 	output: "{ResampleID}/bact_group_kDN.pdf","{ResampleID}/bact_group_summaries.csv","{ResampleID}/bact_kDN_sub_group_stats.csv","{ResampleID}/bact_sub_group_summaries.csv"
+# 	threads: 2
+# 	shell:
+# 		"cd {wildcards.ResampleID} && Rscript ../classify_bact.R"
+
+
+rule any_hardness:
+	input: "{ResampleID}/{domain}_k3_mers.tsv","sub_group_analysis.R"
+	output: "{ResampleID}/{domain}_{classLabel}_by_gi_kDN.csv", "{ResampleID}/{domain}_{classLabel}_distribution_kDN.pdf", "{ResampleID}/{domain}_{classLabel}_mean_kDN.csv", "{ResampleID}/{domain}_{classLabel}_nulls_kDN.pdf"
+	threads:2
+	run:
+		os.chdir(ROOTDIR)
+		R("""
+			library(logging,quietly=T)
+			logReset()
+			addHandler(writeToConsole)
+			loginfo("Starting; in dir %s",getwd())
+			setwd("{wildcards.ResampleID}")
+			n_cores={threads}
+			SOURCE_KMERS="{wildcards.domain}_k3_mers.tsv"
+			CLASS="{wildcards.domain}"
+			GI_MAPPING="../gi_mapping/{wildcards.domain}_annotations_gi.RData"
+			classLabelsTag="{wildcards.classLabel}" 
+			
+			N_PERMUTATIONS=5
+			N_GROUP_SAMPLING=20
+			N_NEAREST_NEIGHBORS=73
+			N_MAJORITY_GROUPS_LABELS=5
+			N_MAJORITY_SUBGROUPS_LABELS=6
+			N_MAJORITY_CLASS_LABELSS=6
+
+
+			loginfo("Will process {input}")
+			source("../prepare_data.R")
+			source("../fast_sparse_knn.R")
+			loginfo("Data loaded and annotated")
+			source("../sub_group_analysis.R")			
+		""")
+
+rule some_hardness:
+	input: expand("Resample_{res_id}_{cont_length}nt/viruses_{classLabels}_distribution_kDN.pdf",res_id=range(1,10),cont_length=[150,500,1000],classLabels=['Group','SubGroup'])
+	
+
+	# input:"Resample_1_500nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_2_500nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_3_500nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_4_500nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_5_500nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_6_500nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_1_150nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_2_150nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_3_150nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_4_150nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_5_150nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_6_150nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_1_1000nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_2_1000nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_3_1000nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_4_1000nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_5_1000nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_6_1000nt/viruses_Group_distribution_kDN.pdf"
+	# 	  ,"Resample_1_500nt/viruses_SubGroup_distribution_kDN.pdf"
+	# 	  ,"Resample_2_500nt/viruses_SubGroup_distribution_kDN.pdf"
+	# 	  ,"Resample_3_500nt/viruses_SubGroup_distribution_kDN.pdf"
+	# 	  ,"Resample_4_500nt/viruses_SubGroup_distribution_kDN.pdf"
+	# 	  ,"Resample_5_500nt/viruses_SubGroup_distribution_kDN.pdf"
+	# 	  ,"Resample_6_500nt/viruses_SubGroup_distribution_kDN.pdf"
+	# 	  ,"Resample_1_150nt/viruses_SubGroup_distribution_kDN.pdf"
+	# 	  ,"Resample_2_150nt/viruses_SubGroup_distribution_kDN.pdf"
+	# 	  ,"Resample_3_150nt/viruses_SubGroup_distribution_kDN.pdf"
+	# 	  ,"Resample_4_150nt/viruses_SubGroup_distribution_kDN.pdf"
+	# 	  ,"Resample_5_150nt/viruses_SubGroup_distribution_kDN.pdf"
+	# 	  ,"Resample_6_150nt/viruses_SubGroup_distribution_kDN.pdf"
+	# 	  ,"Resample_1_1000nt/viruses_SubGroup_distribution_kDN.pdf"
+	# 	  ,"Resample_2_1000nt/viruses_SubGroup_distribution_kDN.pdf"
+	# 	  ,"Resample_3_1000nt/viruses_SubGroup_distribution_kDN.pdf"
+	# 	  ,"Resample_4_1000nt/viruses_SubGroup_distribution_kDN.pdf"
+	# 	  ,"Resample_5_1000nt/viruses_SubGroup_distribution_kDN.pdf"
+	# 	  ,"Resample_6_1000nt/viruses_SubGroup_distribution_kDN.pdf"
+
+
+
+
+
+### GI mapping 
+
+"""We need to convert GenBank GI identifier to the corresponding TaxID in order to get species annotations
+We build here the mappings that we'll use
+This might take up to 30min and require 4Gb of memory
+We follow advices from https://www.biostars.org/p/10959/: 
+	If you have a LARGE number of IDS and don't want to be limited by the EUtils pipe there is a set of files in the ftp directory: ftp://ftp.ncbi.nih.gov/pub/taxonomy/ that map TaxIDs to various other identifiers. This would only be helpful if you had too many IDS to submit to EUtils.
+"""
+rule get_taxid_map:
+	input: "../../data/GENOME_REPORTS/viruses.txt"
+	output: all_gi=protected("gi_mapping/gi_taxid_nucl.RData"), temp_file=temp("gi_mapping/gi_taxid_nucl.dmp"),viruses_gi=protected("gi_mapping/viruses_annotations_gi.RData"),bact_gi=protected("gi_mapping/bact_annotations_gi.RData")
+	run:
+		shell("curl ftp://ftp.ncbi.nih.gov/pub/taxonomy/gi_taxid_nucl.dmp.gz -O gi_taxid_nucl.dmp.gz")
+		shell("gunzip gi_taxid_nucl.dmp.gz")
+		R("""
+			library(data.table)
+			gi_taxid_nucl=fread("gi_taxid_nucl.dmp") # Very long !
+			setnames(gi_taxid_nucl,c("gi","TaxID"))
+			save(gi_taxid_nucl,file="{output.gi})")
+			setkey(gi_taxid_nucl,"TaxID")
+
+			# load bacteria and virus annotations, filter nucl table
+			virus_annotations=fread("../../data/GENOME_REPORTS/viruses.txt")
+			setkey(virus_annotations,"TaxID")
+			viruses_annotations_gi=merge(virus_annotations,gi_taxid_nucl)
+			save(viruses_annotations_gi,file="{output.viruses_gi})")
+
+			# for bacteria 
+			bact_annotations=fread("../../data/GENOME_REPORTS/prokaryotes.txt")
+			setkey(bact_annotations,"TaxID")
+			bact_annotations_gi=merge(bact_annotations,gi_taxid_nucl)
+			save(bact_annotations_gi,file="{output.bact_gi})")
+		""")
+
+# rule map_genome_reports:
+
+
+
+
+rule all_blast_db:
+	input: expand('{domain}_blastdb',domain=ALLDOMAIN)
+
+rule viruses_db:
+	input: "blast_dbs/viruses_blastdb.nhr"
+
+
+rule list_all_contents:
+	input: expand(DB_DIR+"{domain}_blastdb_content.txt",domain=ALLDOMAIN)
