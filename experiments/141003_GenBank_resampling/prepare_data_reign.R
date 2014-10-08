@@ -9,18 +9,19 @@ suppressMessages(library(doParallel,quietly = T,warn.conflicts = F))
 
 
 
-n_cores=1
-N_PERMUTATIONS=10
-N_GROUP_SAMPLING=1
-N_NEAREST_NEIGHBORS=73
+# n_cores=4
+# N_PERMUTATIONS=10
+# N_GROUP_SAMPLING=1
+# N_NEAREST_NEIGHBORS=73
+# DOMAIN="all domains"
+# N_MAJORITY_CLASS_LABELS=4
 
-N_MAJORITY_CLASS_LABELS=4
+# library(logging,quietly=T)
+# logReset()
+# addHandler(writeToConsole)
+# classLabelsTag="domain"
+# source("../fast_sparse_knn.R")
 
-library(logging,quietly=T)
-logReset()
-addHandler(writeToConsole)
-classLabelsTag="domain"
-source("../fast_sparse_knn.R")
 registerDoParallel(cores=n_cores)
 # We load the source data 
 

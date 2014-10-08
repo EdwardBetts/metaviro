@@ -53,14 +53,7 @@ for(group_sampling_id in 1:N_GROUP_SAMPLING){
 	sub_group_means$group_sampling_id=group_sampling_id
 	all_classes_kDN_means=rbind(all_classes_kDN_means,sub_group_means)
 
-
-
-
-
-
-
 	# do the permutation analysis 
-
 	for (perm_id in 1:N_PERMUTATIONS){
 		loginfo("[%s]Doing permutation %d/%d",classLabelsTag,perm_id,N_PERMUTATIONS)
 

@@ -160,6 +160,20 @@ rule measure_kDN_reign:
 	run:
 		R("""
 			classLabelsTag="domain"
+			n_cores=4
+			N_PERMUTATIONS=10
+			N_GROUP_SAMPLING=1
+			N_NEAREST_NEIGHBORS=73
+			DOMAIN="all domains"
+			N_MAJORITY_CLASS_LABELS=4
+
+			library(logging,quietly=T)
+			logReset()
+			addHandler(writeToConsole)
+			classLabelsTag="domain"
+			source("../fast_sparse_knn.R")
+			source("../prepare_data_reign.R")
+			source("../reign_analysis.R")
 		""")
 ### GI mapping 
 
@@ -200,7 +214,15 @@ rule get_precomputed_taxid_maps:
 		"""
 
 
-
+## compress the results 
+rule compress_results:
+	output:"150nt_all_resample.tgz","500nt_all_resample.tgz","1000nt_all_resample.tgz"
+	shell:
+		"""
+			tar -czvf "150nt_all_resample.tgz" 150nt_Resample*/*.csv
+			tar -czvf "500nt_all_resample.tgz" 150nt_Resample*/*.csv
+			tar -czvf "1000nt_all_resample.tgz" 150nt_Resample*/*.csv
+		"""
 ## Some results rules 
 
 rule archea_euk_contigs: 

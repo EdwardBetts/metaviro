@@ -2,6 +2,18 @@ suppressMessages(library(data.table,quietly=T,warn.conflicts = F))
 suppressMessages(library(fields,quietly=T,warn.conflicts = F))
 suppressMessages(library(reshape2,quietly=T,warn.conflicts = F))
 
+# we add a socket based logging function 
+# from http://stackoverflow.com/questions/10903787/how-can-i-print-when-using-dopar
+
+# log.socket <- make.socket(port=4123)
+
+# Log <- function(text, ...) {
+#   msg <- sprintf(paste0(as.character(Sys.time()), ": ", text, "\n"), ...)
+#   cat(msg)
+#   write.socket(log.socket, msg)
+# }
+### Doesnt work; cant establish connection 
+
 # we assume that the feat matrix is a data table and has an id column 
 compute_closest2 = function(feat_matrix,selected_features,selected_obs,n_closer,selected_labels=NA){
 
@@ -30,6 +42,7 @@ compute_closest2 = function(feat_matrix,selected_features,selected_obs,n_closer,
 
 
 	ranked_filt=cbind(ranked_filt,src_attributes,tgt_attributes)
+	# Log("Finished chunk of %d items",length(selected_obs))
 	return(ranked_filt)
 }
 

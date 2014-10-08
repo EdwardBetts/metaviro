@@ -23,8 +23,9 @@ for(group_sampling_id in 1:N_GROUP_SAMPLING){
 	normalized_kmers_ds_SG=normalized_kmers[downsample_idx]
 
 	input_size=nrow(normalized_kmers_ds_SG)
-	nas_to_add=((input_size %/% n_cores)+1)*n_cores - input_size
-	input_splits= matrix(c(1:input_size,rep(NA,nas_to_add)),byrow=T,ncol=n_cores)
+	n_splits=as.integer(8*n_cores)
+	nas_to_add=((input_size %/% n_splits)+1)*n_splits - input_size
+	input_splits= matrix(c(1:input_size,rep(NA,nas_to_add)),byrow=T,ncol=n_splits)
 
 	res_maj_sub_group= data.table(foreach(i=iter(input_splits,by='col'),.combine='rbind',.inorder=F) %dopar% 
 		compute_closest2(normalized_kmers_ds_SG,kmers_columns,i[,1],N_NEAREST_NEIGHBORS,selected_labels=c(labels_to_return,"classLabels")))
@@ -93,37 +94,37 @@ for(group_sampling_id in 1:N_GROUP_SAMPLING){
 
 }
 
-# combined_means=rbind(data.table(all_permutations_classes_means,model="null",group_sampling_id=-1), data.table(all_classes_kDN_means,model="observed",perm_id=-1),use.names=T)
+combined_means=rbind(data.table(all_permutations_classes_means,model="null",group_sampling_id=-1), data.table(all_classes_kDN_means,model="observed",perm_id=-1),use.names=T)
 
-# pdf(paste(DOMAIN,classLabelsTag,"nulls_kDN.pdf",sep="_"),w=16,h=10)
-# g=ggplot(combined_means,aes(x=src_classLabels,y=mean_kDN,colour=model,size=model))+geom_point()+stat_summary(data=combined_means[model=="null"],fun.data = "mean_cl_boot", colour = "red",size=1)+ggtitle("Distribution of mean observed kDN values vs mean kDN values sampled under the null")+scale_x_discrete(name=classLabelsTag)+scale_y_continuous(name="mean kDN",limits=c(0,N_NEAREST_NEIGHBORS))+scale_colour_manual(values=c("grey40","black"))+scale_size_manual(values=c(1,3))
+pdf(paste(DOMAIN,classLabelsTag,"nulls_kDN.pdf",sep="_"),w=16,h=10)
+g=ggplot(combined_means,aes(x=src_classLabels,y=mean_kDN,colour=model,size=model))+geom_point()+stat_summary(data=combined_means[model=="null"],fun.data = "mean_cl_boot", colour = "red",size=1)+ggtitle("Distribution of mean observed kDN values vs mean kDN values sampled under the null")+scale_x_discrete(name=classLabelsTag)+scale_y_continuous(name="mean kDN",limits=c(0,N_NEAREST_NEIGHBORS))+scale_colour_manual(values=c("grey40","black"))+scale_size_manual(values=c(1,3))
+print(g)
+foo=dev.off()
+
+pdf(paste(DOMAIN,classLabelsTag,"distribution_kDN.pdf",sep="_"),w=16,h=10)
+g=ggplot(all_classes_kDN,aes(x=factor(kDN),fill=src_classLabels))+geom_bar()+scale_x_discrete(limits=factor(0:N_NEAREST_NEIGHBORS),breaks=factor(seq(0,N_NEAREST_NEIGHBORS,10)),name="kDN")+scale_fill_discrete(name=classLabelsTag)+ggtitle(paste("Distribution of kDN values over all",N_GROUP_SAMPLING," downsampling"))
+print(g)
+foo=dev.off()
+
+
+# median_kDN_over_resampling=all_classes_kDN[,list("kDN"=as.numeric(median(kDN))),by=list(src_gi,src_classLabels)]
+
+# ggplot(median_kDN_over_resampling,aes(x=factor(kDN),fill=src_classLabels))+geom_bar()+scale_x_discrete(limits=factor(0:N_NEAREST_NEIGHBORS),breaks=factor(seq(0,N_NEAREST_NEIGHBORS,10)),name="kDN")+scale_fill_discrete(name=classLabelsTag)+ggtitle("Distribution of median kDN values per species over all downsampling")
 # print(g)
 # foo=dev.off()
 
-# pdf(paste(DOMAIN,classLabelsTag,"distribution_kDN.pdf",sep="_"),w=16,h=10)
-# g=ggplot(all_classes_kDN,aes(x=factor(kDN),fill=src_classLabels))+geom_bar()+scale_x_discrete(limits=factor(0:N_NEAREST_NEIGHBORS),breaks=factor(seq(0,N_NEAREST_NEIGHBORS,10)),name="kDN")+scale_fill_discrete(name=classLabelsTag)+ggtitle(paste("Distribution of kDN values over all",N_GROUP_SAMPLING," downsampling"))
+# ggplot(all_classes_kDN[src_gi %in% all_classes_kDN[,.N,by=src_gi][N>=10,src_gi]],aes(x=src_gi,y=kDN))+geom_point()+facet_wrap(~src_classLabels,scale="free_x")
+
+# # Second output 
+# pdf(paste0(DOMAIN,"_sub_group_kDN.pdf"),w=24,h=16)
+# # ggplot(groups_summaries,aes(x=factor(kDN,levels=0:N_NEAREST_NEIGHBORS),fill=))+geom_histogram()
+# g=
 # print(g)
 # foo=dev.off()
 
 
-# # median_kDN_over_resampling=all_classes_kDN[,list("kDN"=as.numeric(median(kDN))),by=list(src_gi,src_classLabels)]
 
-# # ggplot(median_kDN_over_resampling,aes(x=factor(kDN),fill=src_classLabels))+geom_bar()+scale_x_discrete(limits=factor(0:N_NEAREST_NEIGHBORS),breaks=factor(seq(0,N_NEAREST_NEIGHBORS,10)),name="kDN")+scale_fill_discrete(name=classLabelsTag)+ggtitle("Distribution of median kDN values per species over all downsampling")
-# # print(g)
-# # foo=dev.off()
+# # Save the kDN results 
 
-# # ggplot(all_classes_kDN[src_gi %in% all_classes_kDN[,.N,by=src_gi][N>=10,src_gi]],aes(x=src_gi,y=kDN))+geom_point()+facet_wrap(~src_classLabels,scale="free_x")
-
-# # # Second output 
-# # pdf(paste0(DOMAIN,"_sub_group_kDN.pdf"),w=24,h=16)
-# # # ggplot(groups_summaries,aes(x=factor(kDN,levels=0:N_NEAREST_NEIGHBORS),fill=))+geom_histogram()
-# # g=
-# # print(g)
-# # foo=dev.off()
-
-
-
-# # # Save the kDN results 
-
-# write.csv(combined_means,file=paste(DOMAIN,classLabelsTag,"mean_kDN.csv",sep="_"),row.names=F)
-# write.csv(all_classes_kDN,file=paste(DOMAIN,classLabelsTag,"by_gi_kDN.csv",sep="_"),row.names=F)
+write.csv(combined_means,file=paste(DOMAIN,classLabelsTag,"mean_kDN.csv",sep="_"),row.names=F)
+write.csv(all_classes_kDN,file=paste(DOMAIN,classLabelsTag,"by_gi_kDN.csv",sep="_"),row.names=F)
