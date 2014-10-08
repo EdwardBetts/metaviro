@@ -120,6 +120,7 @@ rule measure_kDN:
 
 	run:
 		os.chdir(ROOTDIR)
+
 		if wildcards.classLabel=="Group":
 			n_majority_class_choice=params.n_majority_class_choice_group
 		elif wildcards.classLabel=="SubGroup":
@@ -160,6 +161,7 @@ rule measure_kDN_reign:
 	threads:4
 	
 	run:
+		os.chdir(ROOTDIR)
 		R("""
 			setwd("{wildcards.ResampleID}")
 			classLabelsTag="domain"
@@ -174,8 +176,11 @@ rule measure_kDN_reign:
 			logReset()
 			addHandler(writeToConsole)
 			classLabelsTag="domain"
+			loginfo("Starting; in dir %s",getwd())
+
 			source("../fast_sparse_knn.R")
 			source("../prepare_data_reign.R")
+			loginfo("Data loaded and annotated")
 			source("../reign_analysis.R")
 		""")
 
@@ -241,7 +246,7 @@ rule test_virus_hardness:
 	input: "500nt_Resample_1/viruses_Group_distribution_kDN.pdf","500nt_Resample_1/viruses_SubGroup_distribution_kDN.pdf","150nt_Resample_2/viruses_SubGroup_distribution_kDN.pdf","150nt_Resample_2/viruses_Group_distribution_kDN.pdf"
 
 rule test_all_hardness:
-	input: "500nt_Resample_10/all_domains_domain_distribution_kDN.pdf","500nt_Resample_11/all_domains_domain_distribution_kDN.pdf","150nt_Resample_11/all_domains_domain_distribution_kDN.pdf",
+	input: expand("{length}nt_Resample_{res_id}/all_domains_domain_distribution_kDN.pdf",res_id=range(3,10),length=[150,500,1000])
 
 
 rule all_blast_db:
