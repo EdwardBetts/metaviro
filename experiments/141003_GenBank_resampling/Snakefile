@@ -155,16 +155,19 @@ rule measure_kDN:
 
 
 rule measure_kDN_reign:
-	params:
-		N_GROUP_SAMPLING="1"
+	input: "{ResampleID}/archaea_k3_mers.tsv","{ResampleID}/bact_k3_mers.tsv","{ResampleID}/euk_k3_mers.tsv","{ResampleID}/viruses_k3_mers.tsv",script="reign_analysis.R"
+	output: "{ResampleID}/all_domains_domain_by_gi_kDN.csv", "{ResampleID}/all_domains_domain_distribution_kDN.pdf", "{ResampleID}/all_domains_domain_mean_kDN.csv", "{ResampleID}/all_domains_domain_nulls_kDN.pdf"
+	threads:4
+	
 	run:
 		R("""
+			setwd("{wildcards.ResampleID}")
 			classLabelsTag="domain"
 			n_cores=4
 			N_PERMUTATIONS=10
 			N_GROUP_SAMPLING=1
 			N_NEAREST_NEIGHBORS=73
-			DOMAIN="all domains"
+			DOMAIN="all_domains"
 			N_MAJORITY_CLASS_LABELS=4
 
 			library(logging,quietly=T)
@@ -175,6 +178,9 @@ rule measure_kDN_reign:
 			source("../prepare_data_reign.R")
 			source("../reign_analysis.R")
 		""")
+
+ruleorder: measure_kDN_reign > measure_kDN
+
 ### GI mapping 
 
 """We need to convert GenBank GI identifier to the corresponding TaxID in order to get species annotations
@@ -220,8 +226,8 @@ rule compress_results:
 	shell:
 		"""
 			tar -czvf "150nt_all_resample.tgz" 150nt_Resample*/*.csv
-			tar -czvf "500nt_all_resample.tgz" 150nt_Resample*/*.csv
-			tar -czvf "1000nt_all_resample.tgz" 150nt_Resample*/*.csv
+			tar -czvf "500nt_all_resample.tgz" 500nt_Resample*/*.csv
+			tar -czvf "1000nt_all_resample.tgz" 1000nt_Resample*/*.csv
 		"""
 ## Some results rules 
 
@@ -233,6 +239,9 @@ rule bact_hardness:
 
 rule test_virus_hardness:
 	input: "500nt_Resample_1/viruses_Group_distribution_kDN.pdf","500nt_Resample_1/viruses_SubGroup_distribution_kDN.pdf","150nt_Resample_2/viruses_SubGroup_distribution_kDN.pdf","150nt_Resample_2/viruses_Group_distribution_kDN.pdf"
+
+rule test_all_hardness:
+	input: "500nt_Resample_10/all_domains_domain_distribution_kDN.pdf","500nt_Resample_11/all_domains_domain_distribution_kDN.pdf","150nt_Resample_11/all_domains_domain_distribution_kDN.pdf",
 
 
 rule all_blast_db:
