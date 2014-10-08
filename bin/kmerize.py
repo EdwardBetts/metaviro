@@ -221,6 +221,7 @@ def main(argv=None):
 		generate_count_table(all_fastas,args.counts_prefix)
 	else:
 		generate_wide_table(all_fastas)
+	return 0
 
 if __name__ == "__main__":
 	sys.exit(main())

@@ -1,0 +1,3521 @@
+"src","src_gi","src_classLabels","mismatch","kDN","group_sampling_id"
+1,"375298197","dsRNA viruses",TRUE,45,1
+2,"50253401","dsRNA viruses",TRUE,47,1
+3,"22855204","dsRNA viruses",TRUE,52,1
+4,"226423331","dsRNA viruses",TRUE,50,1
+5,"23309030","dsRNA viruses",TRUE,45,1
+6,"190643480","dsRNA viruses",TRUE,54,1
+7,"23309034","dsRNA viruses",TRUE,53,1
+8,"22855198","dsRNA viruses",TRUE,49,1
+9,"262216749","dsRNA viruses",TRUE,50,1
+10,"20889296","dsRNA viruses",TRUE,52,1
+11,"20428567","dsRNA viruses",TRUE,40,1
+12,"342243406","dsRNA viruses",TRUE,56,1
+13,"23309034","dsRNA viruses",TRUE,42,1
+14,"389656396","dsRNA viruses",TRUE,51,1
+15,"304373826","dsRNA viruses",TRUE,51,1
+16,"308814346","dsRNA viruses",TRUE,50,1
+17,"14993614","dsRNA viruses",TRUE,48,1
+18,"635717078","dsRNA viruses",TRUE,53,1
+19,"50253395","dsRNA viruses",TRUE,38,1
+20,"20889329","dsRNA viruses",TRUE,51,1
+21,"85719285","dsRNA viruses",TRUE,57,1
+22,"383386110","dsRNA viruses",TRUE,51,1
+23,"81054207","dsRNA viruses",TRUE,50,1
+24,"78763552","dsRNA viruses",TRUE,46,1
+25,"50253411","dsRNA viruses",TRUE,50,1
+26,"308814346","dsRNA viruses",TRUE,47,1
+27,"608309552","dsRNA viruses",TRUE,42,1
+28,"50234096","dsRNA viruses",TRUE,55,1
+29,"85719285","dsRNA viruses",TRUE,52,1
+30,"596403532","dsRNA viruses",TRUE,45,1
+31,"14993614","dsRNA viruses",TRUE,44,1
+32,"555928257","dsRNA viruses",TRUE,53,1
+33,"78767273","dsRNA viruses",TRUE,54,1
+34,"23238127","dsRNA viruses",TRUE,49,1
+35,"14993614","dsRNA viruses",TRUE,44,1
+36,"62401671","dsRNA viruses",TRUE,44,1
+37,"50253411","dsRNA viruses",TRUE,51,1
+38,"68532388","dsRNA viruses",TRUE,52,1
+39,"226423341","dsRNA viruses",TRUE,59,1
+40,"20889358","dsRNA viruses",TRUE,48,1
+41,"302317583","dsRNA viruses",TRUE,44,1
+42,"10518479","dsRNA viruses",TRUE,54,1
+43,"20177434","dsRNA viruses",TRUE,46,1
+44,"189022224","dsRNA viruses",TRUE,47,1
+45,"298201181","dsRNA viruses",TRUE,50,1
+46,"20428567","dsRNA viruses",TRUE,45,1
+47,"14993614","dsRNA viruses",TRUE,48,1
+48,"20889358","dsRNA viruses",TRUE,45,1
+49,"482651005","dsRNA viruses",TRUE,54,1
+50,"255612555","dsRNA viruses",TRUE,52,1
+51,"23309030","dsRNA viruses",TRUE,48,1
+52,"187765483","dsRNA viruses",TRUE,47,1
+53,"607064641","dsRNA viruses",TRUE,46,1
+54,"256398147","dsRNA viruses",TRUE,45,1
+55,"226423331","dsRNA viruses",TRUE,50,1
+56,"262530253","dsRNA viruses",TRUE,42,1
+57,"21450040","dsRNA viruses",TRUE,45,1
+58,"109240508","dsRNA viruses",TRUE,48,1
+59,"342243406","dsRNA viruses",TRUE,53,1
+60,"302317583","dsRNA viruses",TRUE,48,1
+61,"20428604","dsRNA viruses",TRUE,55,1
+62,"309259994","dsRNA viruses",TRUE,49,1
+63,"20889296","dsRNA viruses",TRUE,51,1
+64,"551682528","dsRNA viruses",TRUE,48,1
+65,"309259994","dsRNA viruses",TRUE,45,1
+66,"20889358","dsRNA viruses",TRUE,47,1
+67,"20889358","dsRNA viruses",TRUE,47,1
+68,"521967825","dsRNA viruses",TRUE,54,1
+69,"85813347","dsRNA viruses",TRUE,61,1
+70,"23238153","dsRNA viruses",TRUE,49,1
+71,"189022226","dsRNA viruses",TRUE,49,1
+72,"304373830","dsRNA viruses",TRUE,51,1
+73,"298201185","dsRNA viruses",TRUE,49,1
+74,"315573168","dsRNA viruses",TRUE,52,1
+75,"20889389","dsRNA viruses",TRUE,53,1
+76,"255612555","dsRNA viruses",TRUE,52,1
+77,"50253395","dsRNA viruses",TRUE,44,1
+78,"394935462","dsRNA viruses",TRUE,45,1
+79,"190643480","dsRNA viruses",TRUE,44,1
+80,"134287146","dsRNA viruses",TRUE,49,1
+81,"555928277","dsRNA viruses",TRUE,48,1
+82,"20279540","dsRNA viruses",TRUE,50,1
+83,"608309552","dsRNA viruses",TRUE,45,1
+84,"20889358","dsRNA viruses",TRUE,50,1
+85,"521967825","dsRNA viruses",TRUE,43,1
+86,"20889329","dsRNA viruses",TRUE,51,1
+87,"596403197","dsRNA viruses",TRUE,44,1
+88,"226423341","dsRNA viruses",TRUE,58,1
+89,"209901313","ssDNA viruses",TRUE,55,1
+90,"9630747","ssDNA viruses",TRUE,55,1
+91,"9625381","ssDNA viruses",TRUE,48,1
+92,"295441905","ssDNA viruses",TRUE,54,1
+93,"9630761","ssDNA viruses",TRUE,55,1
+94,"295413834","ssDNA viruses",TRUE,56,1
+95,"254688527","ssDNA viruses",TRUE,57,1
+96,"77125236","ssDNA viruses",TRUE,56,1
+97,"296005654","ssDNA viruses",TRUE,53,1
+98,"601449263","ssDNA viruses",TRUE,61,1
+99,"19919902","ssDNA viruses",TRUE,52,1
+100,"9630747","ssDNA viruses",TRUE,57,1
+101,"113200776","ssDNA viruses",TRUE,53,1
+102,"296006072","ssDNA viruses",TRUE,49,1
+103,"372199594","ssDNA viruses",TRUE,49,1
+104,"404184272","ssDNA viruses",TRUE,60,1
+105,"317453629","ssDNA viruses",TRUE,51,1
+106,"573007056","ssDNA viruses",TRUE,48,1
+107,"209901313","ssDNA viruses",TRUE,62,1
+108,"601448486","ssDNA viruses",TRUE,49,1
+109,"254688527","ssDNA viruses",TRUE,56,1
+110,"9626133","ssDNA viruses",TRUE,60,1
+111,"77020114","ssDNA viruses",TRUE,56,1
+112,"295413918","ssDNA viruses",TRUE,57,1
+113,"45597171","ssDNA viruses",TRUE,53,1
+114,"39980672","ssDNA viruses",TRUE,55,1
+115,"605039075","ssDNA viruses",TRUE,58,1
+116,"9626109","ssDNA viruses",TRUE,53,1
+117,"22128611","ssDNA viruses",TRUE,48,1
+118,"9630683","ssDNA viruses",TRUE,51,1
+119,"589287117","ssDNA viruses",TRUE,57,1
+120,"9626133","ssDNA viruses",TRUE,60,1
+121,"9628649","ssDNA viruses",TRUE,57,1
+122,"9626316","ssDNA viruses",TRUE,54,1
+123,"338826803","ssDNA viruses",TRUE,63,1
+124,"27151463","ssDNA viruses",TRUE,60,1
+125,"110084000","ssDNA viruses",TRUE,53,1
+126,"9626316","ssDNA viruses",TRUE,49,1
+127,"46359753","ssDNA viruses",TRUE,53,1
+128,"312126258","ssDNA viruses",TRUE,60,1
+129,"296006059","ssDNA viruses",TRUE,53,1
+130,"295413918","ssDNA viruses",TRUE,59,1
+131,"394922850","ssDNA viruses",TRUE,58,1
+132,"51949957","ssDNA viruses",TRUE,58,1
+133,"261597702","ssDNA viruses",TRUE,51,1
+134,"312126258","ssDNA viruses",TRUE,57,1
+135,"356457872","ssDNA viruses",TRUE,60,1
+136,"46359766","ssDNA viruses",TRUE,55,1
+137,"261597702","ssDNA viruses",TRUE,53,1
+138,"29171762","ssDNA viruses",TRUE,51,1
+139,"9628649","ssDNA viruses",TRUE,55,1
+140,"113199737","ssDNA viruses",TRUE,58,1
+141,"591398015","ssDNA viruses",TRUE,60,1
+142,"29337266","ssDNA viruses",TRUE,51,1
+143,"9630747","ssDNA viruses",TRUE,57,1
+144,"29337266","ssDNA viruses",TRUE,56,1
+145,"215480028","ssDNA viruses",TRUE,61,1
+146,"675510788","ssDNA viruses",TRUE,51,1
+147,"9625381","ssDNA viruses",TRUE,52,1
+148,"226596529","ssDNA viruses",TRUE,56,1
+149,"526177323","ssDNA viruses",TRUE,49,1
+150,"315111586","ssDNA viruses",TRUE,51,1
+151,"29337269","ssDNA viruses",TRUE,45,1
+152,"46359766","ssDNA viruses",TRUE,47,1
+153,"39980672","ssDNA viruses",TRUE,58,1
+154,"449147296","ssDNA viruses",TRUE,51,1
+155,"212928341","ssDNA viruses",TRUE,58,1
+156,"387600895","ssDNA viruses",TRUE,56,1
+157,"394922850","ssDNA viruses",TRUE,58,1
+158,"295413928","ssDNA viruses",TRUE,55,1
+159,"29337260","ssDNA viruses",TRUE,53,1
+160,"9626133","ssDNA viruses",TRUE,59,1
+161,"21165975","ssDNA viruses",TRUE,53,1
+162,"9630378","ssDNA viruses",TRUE,63,1
+163,"23334625","ssDNA viruses",TRUE,63,1
+164,"295413834","ssDNA viruses",TRUE,57,1
+165,"9625381","ssDNA viruses",TRUE,52,1
+166,"22128611","ssDNA viruses",TRUE,53,1
+167,"401715657","ssDNA viruses",TRUE,54,1
+168,"9625381","ssDNA viruses",TRUE,52,1
+169,"317453629","ssDNA viruses",TRUE,52,1
+170,"356457872","ssDNA viruses",TRUE,62,1
+171,"296006072","ssDNA viruses",TRUE,50,1
+172,"570033506","ssDNA viruses",TRUE,48,1
+173,"9628649","ssDNA viruses",TRUE,57,1
+174,"122808720","ssDNA viruses",TRUE,53,1
+175,"29337269","ssDNA viruses",TRUE,51,1
+176,"422933996","ssDNA viruses",TRUE,56,1
+177,"72257063","ssRNA viruses",TRUE,44,1
+178,"353332641","ssRNA viruses",TRUE,45,1
+179,"443615329","ssRNA viruses",TRUE,39,1
+180,"554967333","ssRNA viruses",TRUE,45,1
+181,"9632338","ssRNA viruses",TRUE,42,1
+182,"366091748","ssRNA viruses",TRUE,42,1
+183,"9629812","ssRNA viruses",TRUE,50,1
+184,"113200758","ssRNA viruses",TRUE,48,1
+185,"123205971","ssRNA viruses",TRUE,43,1
+186,"190643471","ssRNA viruses",TRUE,43,1
+187,"34610126","ssRNA viruses",TRUE,55,1
+188,"77118348","ssRNA viruses",TRUE,44,1
+189,"170676274","ssRNA viruses",TRUE,42,1
+190,"478755937","ssRNA viruses",TRUE,42,1
+191,"9626694","ssRNA viruses",TRUE,51,1
+192,"89902995","ssRNA viruses",TRUE,44,1
+193,"481847811","ssRNA viruses",TRUE,44,1
+194,"594139785","ssRNA viruses",TRUE,52,1
+195,"82703944","ssRNA viruses",TRUE,42,1
+196,"9630807","ssRNA viruses",TRUE,46,1
+197,"21238454","ssRNA viruses",TRUE,46,1
+198,"20373121","ssRNA viruses",TRUE,44,1
+199,"584593351","ssRNA viruses",TRUE,53,1
+200,"408355343","ssRNA viruses",TRUE,43,1
+201,"189009878","ssRNA viruses",TRUE,40,1
+202,"428782081","ssRNA viruses",TRUE,44,1
+203,"47177088","ssRNA viruses",TRUE,48,1
+204,"237781162","ssRNA viruses",TRUE,54,1
+205,"20522132","ssRNA viruses",TRUE,43,1
+206,"475195693","ssRNA viruses",TRUE,44,1
+207,"612400722","ssRNA viruses",TRUE,48,1
+208,"46852132","ssRNA viruses",TRUE,44,1
+209,"380877198","ssRNA viruses",TRUE,46,1
+210,"9629892","ssRNA viruses",TRUE,50,1
+211,"116536735","ssRNA viruses",TRUE,48,1
+212,"571026784","ssRNA viruses",TRUE,56,1
+213,"47177088","ssRNA viruses",TRUE,51,1
+214,"253756593","ssRNA viruses",TRUE,49,1
+215,"9630645","ssRNA viruses",TRUE,45,1
+216,"21557568","ssRNA viruses",TRUE,60,1
+217,"594139902","ssRNA viruses",TRUE,59,1
+218,"18314284","ssRNA viruses",TRUE,43,1
+219,"594139920","ssRNA viruses",TRUE,48,1
+220,"298531304","ssRNA viruses",TRUE,46,1
+221,"570364810","ssRNA viruses",TRUE,48,1
+222,"425867887","ssRNA viruses",TRUE,43,1
+223,"126165310","ssRNA viruses",TRUE,40,1
+224,"38018022","ssRNA viruses",TRUE,48,1
+225,"187251953","ssRNA viruses",TRUE,49,1
+226,"169822550","ssRNA viruses",TRUE,44,1
+227,"383081743","ssRNA viruses",TRUE,47,1
+228,"397776125","ssRNA viruses",TRUE,44,1
+229,"255237729","ssRNA viruses",TRUE,43,1
+230,"471237017","ssRNA viruses",TRUE,44,1
+231,"9628912","ssRNA viruses",TRUE,55,1
+232,"554967333","ssRNA viruses",TRUE,45,1
+233,"20260781","ssRNA viruses",TRUE,52,1
+234,"188543030","ssRNA viruses",TRUE,54,1
+235,"9628265","ssRNA viruses",TRUE,52,1
+236,"19919949","ssRNA viruses",TRUE,51,1
+237,"589892864","ssRNA viruses",TRUE,50,1
+238,"254688376","ssRNA viruses",TRUE,52,1
+239,"9629179","ssRNA viruses",TRUE,40,1
+240,"22789222","ssRNA viruses",TRUE,45,1
+241,"409188582","ssRNA viruses",TRUE,55,1
+242,"471236999","ssRNA viruses",TRUE,44,1
+243,"475994026","ssRNA viruses",TRUE,56,1
+244,"296006062","ssRNA viruses",TRUE,43,1
+245,"9628912","ssRNA viruses",TRUE,55,1
+246,"9627493","ssRNA viruses",TRUE,48,1
+247,"9635457","ssRNA viruses",TRUE,47,1
+248,"20177479","ssRNA viruses",TRUE,51,1
+249,"594139662","ssRNA viruses",TRUE,52,1
+250,"116536735","ssRNA viruses",TRUE,44,1
+251,"667489388","ssRNA viruses",TRUE,43,1
+252,"66090969","ssRNA viruses",TRUE,55,1
+253,"594139713","ssRNA viruses",TRUE,48,1
+254,"212525346","ssRNA viruses",TRUE,56,1
+255,"20522122","ssRNA viruses",TRUE,45,1
+256,"594139806","ssRNA viruses",TRUE,48,1
+257,"10937870","ssRNA viruses",TRUE,49,1
+258,"570364810","ssRNA viruses",TRUE,42,1
+259,"475994026","ssRNA viruses",TRUE,55,1
+260,"556333860","ssRNA viruses",TRUE,46,1
+261,"119952252","ssRNA viruses",TRUE,41,1
+262,"629633531","ssRNA viruses",TRUE,44,1
+263,"9635457","ssRNA viruses",TRUE,48,1
+264,"658645608","ssRNA viruses",TRUE,46,1
+265,"418488631","dsDNA viruses, no RNA stage",TRUE,60,1
+266,"30027774","dsDNA viruses, no RNA stage",TRUE,55,1
+267,"526176928","dsDNA viruses, no RNA stage",TRUE,51,1
+268,"557307584","dsDNA viruses, no RNA stage",TRUE,53,1
+269,"460042436","dsDNA viruses, no RNA stage",TRUE,53,1
+270,"556549034","dsDNA viruses, no RNA stage",TRUE,61,1
+271,"414088056","dsDNA viruses, no RNA stage",TRUE,42,1
+272,"643655112","dsDNA viruses, no RNA stage",TRUE,67,1
+273,"360040900","dsDNA viruses, no RNA stage",TRUE,45,1
+274,"31072008","dsDNA viruses, no RNA stage",TRUE,59,1
+275,"189427193","dsDNA viruses, no RNA stage",TRUE,60,1
+276,"423262043","dsDNA viruses, no RNA stage",TRUE,59,1
+277,"659488140","dsDNA viruses, no RNA stage",TRUE,53,1
+278,"388262476","dsDNA viruses, no RNA stage",TRUE,50,1
+279,"345461107","dsDNA viruses, no RNA stage",TRUE,57,1
+280,"66392052","dsDNA viruses, no RNA stage",TRUE,62,1
+281,"448260543","dsDNA viruses, no RNA stage",TRUE,55,1
+282,"431810571","dsDNA viruses, no RNA stage",TRUE,45,1
+283,"640885266","dsDNA viruses, no RNA stage",TRUE,49,1
+284,"526118633","dsDNA viruses, no RNA stage",TRUE,44,1
+285,"326536151","dsDNA viruses, no RNA stage",TRUE,57,1
+286,"30984428","dsDNA viruses, no RNA stage",TRUE,42,1
+287,"116326687","dsDNA viruses, no RNA stage",TRUE,59,1
+288,"423261416","dsDNA viruses, no RNA stage",TRUE,58,1
+289,"58042841","dsDNA viruses, no RNA stage",TRUE,54,1
+290,"531034792","dsDNA viruses, no RNA stage",TRUE,51,1
+291,"119443652","dsDNA viruses, no RNA stage",TRUE,54,1
+292,"418489442","dsDNA viruses, no RNA stage",TRUE,61,1
+293,"311977355","dsDNA viruses, no RNA stage",TRUE,52,1
+294,"281416434","dsDNA viruses, no RNA stage",TRUE,57,1
+295,"312281379","dsDNA viruses, no RNA stage",TRUE,57,1
+296,"472438181","dsDNA viruses, no RNA stage",TRUE,51,1
+297,"334265679","dsDNA viruses, no RNA stage",TRUE,58,1
+298,"469519505","dsDNA viruses, no RNA stage",TRUE,59,1
+299,"21716071","dsDNA viruses, no RNA stage",TRUE,45,1
+300,"115298502","dsDNA viruses, no RNA stage",TRUE,57,1
+301,"157325284","dsDNA viruses, no RNA stage",TRUE,56,1
+302,"22164589","dsDNA viruses, no RNA stage",TRUE,52,1
+303,"508179165","dsDNA viruses, no RNA stage",TRUE,56,1
+304,"508179825","dsDNA viruses, no RNA stage",TRUE,47,1
+305,"119443652","dsDNA viruses, no RNA stage",TRUE,51,1
+306,"659494848","dsDNA viruses, no RNA stage",TRUE,54,1
+307,"9628113","dsDNA viruses, no RNA stage",TRUE,53,1
+308,"73852470","dsDNA viruses, no RNA stage",TRUE,62,1
+309,"377829940","dsDNA viruses, no RNA stage",TRUE,51,1
+310,"418487835","dsDNA viruses, no RNA stage",TRUE,57,1
+311,"414089228","dsDNA viruses, no RNA stage",TRUE,43,1
+312,"313767999","dsDNA viruses, no RNA stage",TRUE,59,1
+313,"56160876","dsDNA viruses, no RNA stage",TRUE,60,1
+314,"9629267","dsDNA viruses, no RNA stage",TRUE,49,1
+315,"459945492","dsDNA viruses, no RNA stage",TRUE,47,1
+316,"509142635","dsDNA viruses, no RNA stage",TRUE,43,1
+317,"508551607","dsDNA viruses, no RNA stage",TRUE,60,1
+318,"640884747","dsDNA viruses, no RNA stage",TRUE,47,1
+319,"540155826","dsDNA viruses, no RNA stage",TRUE,52,1
+320,"10140926","dsDNA viruses, no RNA stage",TRUE,61,1
+321,"639438672","dsDNA viruses, no RNA stage",TRUE,58,1
+322,"639438320","dsDNA viruses, no RNA stage",TRUE,58,1
+323,"414086086","dsDNA viruses, no RNA stage",TRUE,54,1
+324,"9628835","dsDNA viruses, no RNA stage",TRUE,50,1
+325,"345461107","dsDNA viruses, no RNA stage",TRUE,60,1
+326,"431809464","dsDNA viruses, no RNA stage",TRUE,50,1
+327,"330858525","dsDNA viruses, no RNA stage",TRUE,56,1
+328,"338827012","dsDNA viruses, no RNA stage",TRUE,52,1
+329,"89158250","dsDNA viruses, no RNA stage",TRUE,46,1
+330,"537108089","dsDNA viruses, no RNA stage",TRUE,58,1
+331,"658307287","dsDNA viruses, no RNA stage",TRUE,53,1
+332,"161622381","dsDNA viruses, no RNA stage",TRUE,58,1
+333,"83642839","dsDNA viruses, no RNA stage",TRUE,55,1
+334,"66391255","dsDNA viruses, no RNA stage",TRUE,54,1
+335,"509142635","dsDNA viruses, no RNA stage",TRUE,46,1
+336,"356870600","dsDNA viruses, no RNA stage",TRUE,54,1
+337,"641406604","dsDNA viruses, no RNA stage",TRUE,54,1
+338,"326536103","dsDNA viruses, no RNA stage",TRUE,64,1
+339,"399528315","dsDNA viruses, no RNA stage",TRUE,54,1
+340,"115298502","dsDNA viruses, no RNA stage",TRUE,56,1
+341,"496991088","dsDNA viruses, no RNA stage",TRUE,59,1
+342,"531034792","dsDNA viruses, no RNA stage",TRUE,48,1
+343,"91214206","dsDNA viruses, no RNA stage",TRUE,44,1
+344,"389059862","dsDNA viruses, no RNA stage",TRUE,57,1
+345,"158345134","dsDNA viruses, no RNA stage",TRUE,49,1
+346,"20198505","dsDNA viruses, no RNA stage",TRUE,45,1
+347,"91214232","dsDNA viruses, no RNA stage",TRUE,55,1
+348,"561133064","dsDNA viruses, no RNA stage",TRUE,53,1
+349,"123318702","dsDNA viruses, no RNA stage",TRUE,41,1
+350,"408905849","dsDNA viruses, no RNA stage",TRUE,58,1
+351,"371671369","dsDNA viruses, no RNA stage",TRUE,59,1
+352,"56160634","dsDNA viruses, no RNA stage",TRUE,59,1
+1,"22855198","dsRNA viruses",TRUE,47,2
+2,"85813347","dsRNA viruses",TRUE,59,2
+3,"187765483","dsRNA viruses",TRUE,49,2
+4,"14993614","dsRNA viruses",TRUE,44,2
+5,"309259994","dsRNA viruses",TRUE,45,2
+6,"308814346","dsRNA viruses",TRUE,48,2
+7,"596403532","dsRNA viruses",TRUE,46,2
+8,"394935462","dsRNA viruses",TRUE,45,2
+9,"23309034","dsRNA viruses",TRUE,42,2
+10,"78763552","dsRNA viruses",TRUE,45,2
+11,"20889358","dsRNA viruses",TRUE,48,2
+12,"20889329","dsRNA viruses",TRUE,52,2
+13,"389656396","dsRNA viruses",TRUE,51,2
+14,"226423341","dsRNA viruses",TRUE,58,2
+15,"10518479","dsRNA viruses",TRUE,54,2
+16,"262530253","dsRNA viruses",TRUE,48,2
+17,"308814346","dsRNA viruses",TRUE,50,2
+18,"551682528","dsRNA viruses",TRUE,49,2
+19,"20428604","dsRNA viruses",TRUE,54,2
+20,"23238153","dsRNA viruses",TRUE,52,2
+21,"342243406","dsRNA viruses",TRUE,52,2
+22,"23309030","dsRNA viruses",TRUE,50,2
+23,"635717078","dsRNA viruses",TRUE,54,2
+24,"226423341","dsRNA viruses",TRUE,60,2
+25,"607064641","dsRNA viruses",TRUE,46,2
+26,"14993614","dsRNA viruses",TRUE,47,2
+27,"14993614","dsRNA viruses",TRUE,47,2
+28,"109240508","dsRNA viruses",TRUE,47,2
+29,"20279540","dsRNA viruses",TRUE,50,2
+30,"262216749","dsRNA viruses",TRUE,51,2
+31,"20889358","dsRNA viruses",TRUE,47,2
+32,"302317583","dsRNA viruses",TRUE,46,2
+33,"256398147","dsRNA viruses",TRUE,45,2
+34,"50253411","dsRNA viruses",TRUE,52,2
+35,"85719285","dsRNA viruses",TRUE,53,2
+36,"21450040","dsRNA viruses",TRUE,45,2
+37,"78767273","dsRNA viruses",TRUE,51,2
+38,"302317583","dsRNA viruses",TRUE,47,2
+39,"190643480","dsRNA viruses",TRUE,45,2
+40,"375298197","dsRNA viruses",TRUE,43,2
+41,"20889389","dsRNA viruses",TRUE,52,2
+42,"304373826","dsRNA viruses",TRUE,52,2
+43,"20889358","dsRNA viruses",TRUE,47,2
+44,"20428567","dsRNA viruses",TRUE,40,2
+45,"62401671","dsRNA viruses",TRUE,43,2
+46,"555928257","dsRNA viruses",TRUE,53,2
+47,"20428567","dsRNA viruses",TRUE,46,2
+48,"255612555","dsRNA viruses",TRUE,56,2
+49,"298201185","dsRNA viruses",TRUE,46,2
+50,"521967825","dsRNA viruses",TRUE,45,2
+51,"226423331","dsRNA viruses",TRUE,45,2
+52,"309259994","dsRNA viruses",TRUE,49,2
+53,"20889296","dsRNA viruses",TRUE,54,2
+54,"50234096","dsRNA viruses",TRUE,58,2
+55,"50253395","dsRNA viruses",TRUE,42,2
+56,"20889296","dsRNA viruses",TRUE,51,2
+57,"20889358","dsRNA viruses",TRUE,50,2
+58,"383386110","dsRNA viruses",TRUE,52,2
+59,"81054207","dsRNA viruses",TRUE,51,2
+60,"304373830","dsRNA viruses",TRUE,50,2
+61,"20889358","dsRNA viruses",TRUE,46,2
+62,"50253411","dsRNA viruses",TRUE,53,2
+63,"555928277","dsRNA viruses",TRUE,47,2
+64,"23309034","dsRNA viruses",TRUE,53,2
+65,"226423331","dsRNA viruses",TRUE,49,2
+66,"189022226","dsRNA viruses",TRUE,50,2
+67,"20889329","dsRNA viruses",TRUE,51,2
+68,"68532388","dsRNA viruses",TRUE,52,2
+69,"23238127","dsRNA viruses",TRUE,50,2
+70,"22855204","dsRNA viruses",TRUE,52,2
+71,"482651005","dsRNA viruses",TRUE,52,2
+72,"14993614","dsRNA viruses",TRUE,43,2
+73,"596403197","dsRNA viruses",TRUE,44,2
+74,"255612555","dsRNA viruses",TRUE,53,2
+75,"315573168","dsRNA viruses",TRUE,52,2
+76,"85719285","dsRNA viruses",TRUE,52,2
+77,"521967825","dsRNA viruses",TRUE,52,2
+78,"608309552","dsRNA viruses",TRUE,46,2
+79,"23309030","dsRNA viruses",TRUE,45,2
+80,"50253395","dsRNA viruses",TRUE,44,2
+81,"134287146","dsRNA viruses",TRUE,49,2
+82,"50253401","dsRNA viruses",TRUE,46,2
+83,"189022224","dsRNA viruses",TRUE,47,2
+84,"190643480","dsRNA viruses",TRUE,54,2
+85,"342243406","dsRNA viruses",TRUE,55,2
+86,"298201181","dsRNA viruses",TRUE,50,2
+87,"20177434","dsRNA viruses",TRUE,45,2
+88,"608309552","dsRNA viruses",TRUE,46,2
+89,"296006072","ssDNA viruses",TRUE,51,2
+90,"113200776","ssDNA viruses",TRUE,53,2
+91,"9630747","ssDNA viruses",TRUE,54,2
+92,"209901313","ssDNA viruses",TRUE,62,2
+93,"29171762","ssDNA viruses",TRUE,53,2
+94,"9630747","ssDNA viruses",TRUE,57,2
+95,"601448486","ssDNA viruses",TRUE,49,2
+96,"39980672","ssDNA viruses",TRUE,61,2
+97,"45597171","ssDNA viruses",TRUE,52,2
+98,"9625381","ssDNA viruses",TRUE,52,2
+99,"261597702","ssDNA viruses",TRUE,55,2
+100,"29337266","ssDNA viruses",TRUE,56,2
+101,"573007056","ssDNA viruses",TRUE,49,2
+102,"9630761","ssDNA viruses",TRUE,58,2
+103,"675510788","ssDNA viruses",TRUE,51,2
+104,"21165975","ssDNA viruses",TRUE,52,2
+105,"589287117","ssDNA viruses",TRUE,55,2
+106,"295413918","ssDNA viruses",TRUE,58,2
+107,"394922850","ssDNA viruses",TRUE,60,2
+108,"27151463","ssDNA viruses",TRUE,56,2
+109,"49248530","ssDNA viruses",TRUE,63,2
+110,"254688527","ssDNA viruses",TRUE,55,2
+111,"29337269","ssDNA viruses",TRUE,51,2
+112,"22128611","ssDNA viruses",TRUE,53,2
+113,"605039075","ssDNA viruses",TRUE,54,2
+114,"261597702","ssDNA viruses",TRUE,48,2
+115,"401715657","ssDNA viruses",TRUE,53,2
+116,"212928341","ssDNA viruses",TRUE,60,2
+117,"51949957","ssDNA viruses",TRUE,55,2
+118,"49248521","ssDNA viruses",TRUE,57,2
+119,"19919902","ssDNA viruses",TRUE,52,2
+120,"526177323","ssDNA viruses",TRUE,48,2
+121,"312126258","ssDNA viruses",TRUE,58,2
+122,"315111586","ssDNA viruses",TRUE,53,2
+123,"372199594","ssDNA viruses",TRUE,48,2
+124,"46359766","ssDNA viruses",TRUE,47,2
+125,"312126258","ssDNA viruses",TRUE,53,2
+126,"394922850","ssDNA viruses",TRUE,62,2
+127,"591398015","ssDNA viruses",TRUE,61,2
+128,"45597171","ssDNA viruses",TRUE,52,2
+129,"356457872","ssDNA viruses",TRUE,56,2
+130,"215480028","ssDNA viruses",TRUE,59,2
+131,"256352170","ssDNA viruses",TRUE,59,2
+132,"9628649","ssDNA viruses",TRUE,58,2
+133,"9625381","ssDNA viruses",TRUE,52,2
+134,"295413918","ssDNA viruses",TRUE,61,2
+135,"449147296","ssDNA viruses",TRUE,50,2
+136,"9628649","ssDNA viruses",TRUE,59,2
+137,"9625381","ssDNA viruses",TRUE,50,2
+138,"295441905","ssDNA viruses",TRUE,54,2
+139,"89888094","ssDNA viruses",TRUE,59,2
+140,"296006059","ssDNA viruses",TRUE,54,2
+141,"77020114","ssDNA viruses",TRUE,53,2
+142,"254688527","ssDNA viruses",TRUE,54,2
+143,"295413834","ssDNA viruses",TRUE,54,2
+144,"338826803","ssDNA viruses",TRUE,56,2
+145,"9626133","ssDNA viruses",TRUE,60,2
+146,"29337266","ssDNA viruses",TRUE,52,2
+147,"295413928","ssDNA viruses",TRUE,53,2
+148,"9630683","ssDNA viruses",TRUE,51,2
+149,"9626109","ssDNA viruses",TRUE,53,2
+150,"207271566","ssDNA viruses",TRUE,52,2
+151,"9625381","ssDNA viruses",TRUE,53,2
+152,"422933996","ssDNA viruses",TRUE,56,2
+153,"317453629","ssDNA viruses",TRUE,49,2
+154,"404184272","ssDNA viruses",TRUE,63,2
+155,"29337260","ssDNA viruses",TRUE,53,2
+156,"295413834","ssDNA viruses",TRUE,58,2
+157,"601449263","ssDNA viruses",TRUE,57,2
+158,"51949957","ssDNA viruses",TRUE,58,2
+159,"589287117","ssDNA viruses",TRUE,58,2
+160,"570033506","ssDNA viruses",TRUE,48,2
+161,"46359753","ssDNA viruses",TRUE,56,2
+162,"9630747","ssDNA viruses",TRUE,54,2
+163,"209901313","ssDNA viruses",TRUE,56,2
+164,"20522153","ssDNA viruses",TRUE,47,2
+165,"338826803","ssDNA viruses",TRUE,60,2
+166,"9630378","ssDNA viruses",TRUE,63,2
+167,"9630683","ssDNA viruses",TRUE,54,2
+168,"9628649","ssDNA viruses",TRUE,56,2
+169,"22128611","ssDNA viruses",TRUE,49,2
+170,"296005654","ssDNA viruses",TRUE,52,2
+171,"296006072","ssDNA viruses",TRUE,56,2
+172,"46359766","ssDNA viruses",TRUE,55,2
+173,"9626133","ssDNA viruses",TRUE,60,2
+174,"29337269","ssDNA viruses",TRUE,47,2
+175,"9626316","ssDNA viruses",TRUE,48,2
+176,"356457872","ssDNA viruses",TRUE,61,2
+177,"212671453","ssRNA viruses",TRUE,41,2
+178,"9626125","ssRNA viruses",TRUE,56,2
+179,"594139776","ssRNA viruses",TRUE,53,2
+180,"212681378","ssRNA viruses",TRUE,45,2
+181,"381333920","ssRNA viruses",TRUE,38,2
+182,"304633675","ssRNA viruses",TRUE,50,2
+183,"240114604","ssRNA viruses",TRUE,38,2
+184,"9632978","ssRNA viruses",TRUE,47,2
+185,"441432845","ssRNA viruses",TRUE,37,2
+186,"9633622","ssRNA viruses",TRUE,36,2
+187,"9626685","ssRNA viruses",TRUE,40,2
+188,"55770807","ssRNA viruses",TRUE,50,2
+189,"475195693","ssRNA viruses",TRUE,45,2
+190,"9635457","ssRNA viruses",TRUE,46,2
+191,"33589253","ssRNA viruses",TRUE,39,2
+192,"589892860","ssRNA viruses",TRUE,44,2
+193,"171473627","ssRNA viruses",TRUE,44,2
+194,"85677473","ssRNA viruses",TRUE,41,2
+195,"425867875","ssRNA viruses",TRUE,47,2
+196,"530547424","ssRNA viruses",TRUE,48,2
+197,"164607208","ssRNA viruses",TRUE,47,2
+198,"19881389","ssRNA viruses",TRUE,46,2
+199,"388570521","ssRNA viruses",TRUE,37,2
+200,"475994034","ssRNA viruses",TRUE,54,2
+201,"385724809","ssRNA viruses",TRUE,44,2
+202,"357580071","ssRNA viruses",TRUE,53,2
+203,"212525346","ssRNA viruses",TRUE,50,2
+204,"20153377","ssRNA viruses",TRUE,35,2
+205,"655454918","ssRNA viruses",TRUE,46,2
+206,"242916041","ssRNA viruses",TRUE,43,2
+207,"33620701","ssRNA viruses",TRUE,42,2
+208,"9629892","ssRNA viruses",TRUE,37,2
+209,"554505422","ssRNA viruses",TRUE,59,2
+210,"20087032","ssRNA viruses",TRUE,49,2
+211,"22789222","ssRNA viruses",TRUE,44,2
+212,"594139920","ssRNA viruses",TRUE,40,2
+213,"20522126","ssRNA viruses",TRUE,41,2
+214,"70980512","ssRNA viruses",TRUE,45,2
+215,"172088171","ssRNA viruses",TRUE,40,2
+216,"410428372","ssRNA viruses",TRUE,32,2
+217,"109255267","ssRNA viruses",TRUE,53,2
+218,"471236999","ssRNA viruses",TRUE,50,2
+219,"9634968","ssRNA viruses",TRUE,48,2
+220,"641467686","ssRNA viruses",TRUE,41,2
+221,"9629345","ssRNA viruses",TRUE,45,2
+222,"428782081","ssRNA viruses",TRUE,40,2
+223,"169822550","ssRNA viruses",TRUE,42,2
+224,"594139815","ssRNA viruses",TRUE,44,2
+225,"20428591","ssRNA viruses",TRUE,39,2
+226,"9627493","ssRNA viruses",TRUE,43,2
+227,"9628874","ssRNA viruses",TRUE,51,2
+228,"554505422","ssRNA viruses",TRUE,57,2
+229,"381333920","ssRNA viruses",TRUE,44,2
+230,"13559817","ssRNA viruses",TRUE,49,2
+231,"47177088","ssRNA viruses",TRUE,52,2
+232,"475994034","ssRNA viruses",TRUE,59,2
+233,"20522122","ssRNA viruses",TRUE,46,2
+234,"38505533","ssRNA viruses",TRUE,42,2
+235,"9629456","ssRNA viruses",TRUE,36,2
+236,"56692979","ssRNA viruses",TRUE,34,2
+237,"594139683","ssRNA viruses",TRUE,40,2
+238,"9632350","ssRNA viruses",TRUE,44,2
+239,"19387576","ssRNA viruses",TRUE,50,2
+240,"14583260","ssRNA viruses",TRUE,45,2
+241,"11125722","ssRNA viruses",TRUE,47,2
+242,"443615329","ssRNA viruses",TRUE,38,2
+243,"582973095","ssRNA viruses",TRUE,49,2
+244,"32563515","ssRNA viruses",TRUE,38,2
+245,"667489388","ssRNA viruses",TRUE,44,2
+246,"212671453","ssRNA viruses",TRUE,39,2
+247,"594139902","ssRNA viruses",TRUE,52,2
+248,"594139866","ssRNA viruses",TRUE,48,2
+249,"19387576","ssRNA viruses",TRUE,51,2
+250,"19387576","ssRNA viruses",TRUE,44,2
+251,"380877198","ssRNA viruses",TRUE,45,2
+252,"55770806","ssRNA viruses",TRUE,37,2
+253,"170676274","ssRNA viruses",TRUE,48,2
+254,"594139866","ssRNA viruses",TRUE,44,2
+255,"85718614","ssRNA viruses",TRUE,46,2
+256,"182406744","ssRNA viruses",TRUE,53,2
+257,"570364810","ssRNA viruses",TRUE,33,2
+258,"11125722","ssRNA viruses",TRUE,46,2
+259,"594139740","ssRNA viruses",TRUE,49,2
+260,"212525933","ssRNA viruses",TRUE,41,2
+261,"9632338","ssRNA viruses",TRUE,43,2
+262,"212671453","ssRNA viruses",TRUE,43,2
+263,"667489388","ssRNA viruses",TRUE,48,2
+264,"11067737","ssRNA viruses",TRUE,54,2
+265,"643654468","dsDNA viruses, no RNA stage",TRUE,53,2
+266,"82503188","dsDNA viruses, no RNA stage",TRUE,51,2
+267,"203454602","dsDNA viruses, no RNA stage",TRUE,52,2
+268,"509141934","dsDNA viruses, no RNA stage",TRUE,48,2
+269,"674547903","dsDNA viruses, no RNA stage",TRUE,56,2
+270,"388549399","dsDNA viruses, no RNA stage",TRUE,61,2
+271,"589891766","dsDNA viruses, no RNA stage",TRUE,64,2
+272,"345461107","dsDNA viruses, no RNA stage",TRUE,61,2
+273,"219681259","dsDNA viruses, no RNA stage",TRUE,63,2
+274,"422935113","dsDNA viruses, no RNA stage",TRUE,49,2
+275,"14250967","dsDNA viruses, no RNA stage",TRUE,44,2
+276,"408905850","dsDNA viruses, no RNA stage",TRUE,61,2
+277,"310003445","dsDNA viruses, no RNA stage",TRUE,54,2
+278,"508181800","dsDNA viruses, no RNA stage",TRUE,58,2
+279,"388549399","dsDNA viruses, no RNA stage",TRUE,53,2
+280,"448260147","dsDNA viruses, no RNA stage",TRUE,59,2
+281,"561133064","dsDNA viruses, no RNA stage",TRUE,48,2
+282,"363539767","dsDNA viruses, no RNA stage",TRUE,48,2
+283,"465282368","dsDNA viruses, no RNA stage",TRUE,57,2
+284,"311977355","dsDNA viruses, no RNA stage",TRUE,49,2
+285,"422936890","dsDNA viruses, no RNA stage",TRUE,46,2
+286,"9627521","dsDNA viruses, no RNA stage",TRUE,46,2
+287,"56158801","dsDNA viruses, no RNA stage",TRUE,68,2
+288,"529153477","dsDNA viruses, no RNA stage",TRUE,57,2
+289,"9629653","dsDNA viruses, no RNA stage",TRUE,53,2
+290,"157952304","dsDNA viruses, no RNA stage",TRUE,61,2
+291,"509140327","dsDNA viruses, no RNA stage",TRUE,52,2
+292,"422936813","dsDNA viruses, no RNA stage",TRUE,58,2
+293,"510134433","dsDNA viruses, no RNA stage",TRUE,69,2
+294,"9625955","dsDNA viruses, no RNA stage",TRUE,50,2
+295,"326804500","dsDNA viruses, no RNA stage",TRUE,61,2
+296,"431810358","dsDNA viruses, no RNA stage",TRUE,52,2
+297,"148609382","dsDNA viruses, no RNA stage",TRUE,56,2
+298,"568191240","dsDNA viruses, no RNA stage",TRUE,54,2
+299,"643217861","dsDNA viruses, no RNA stage",TRUE,55,2
+300,"66391804","dsDNA viruses, no RNA stage",TRUE,57,2
+301,"139424470","dsDNA viruses, no RNA stage",TRUE,65,2
+302,"310004946","dsDNA viruses, no RNA stage",TRUE,62,2
+303,"312281379","dsDNA viruses, no RNA stage",TRUE,58,2
+304,"282599392","dsDNA viruses, no RNA stage",TRUE,56,2
+305,"530787714","dsDNA viruses, no RNA stage",TRUE,59,2
+306,"563399183","dsDNA viruses, no RNA stage",TRUE,54,2
+307,"640883881","dsDNA viruses, no RNA stage",TRUE,56,2
+308,"422935955","dsDNA viruses, no RNA stage",TRUE,47,2
+309,"530545284","dsDNA viruses, no RNA stage",TRUE,52,2
+310,"557307421","dsDNA viruses, no RNA stage",TRUE,56,2
+311,"531034792","dsDNA viruses, no RNA stage",TRUE,48,2
+312,"109522776","dsDNA viruses, no RNA stage",TRUE,57,2
+313,"448824968","dsDNA viruses, no RNA stage",TRUE,48,2
+314,"531034792","dsDNA viruses, no RNA stage",TRUE,50,2
+315,"472437937","dsDNA viruses, no RNA stage",TRUE,58,2
+316,"33622203","dsDNA viruses, no RNA stage",TRUE,50,2
+317,"358356850","dsDNA viruses, no RNA stage",TRUE,52,2
+318,"509142397","dsDNA viruses, no RNA stage",TRUE,61,2
+319,"388262476","dsDNA viruses, no RNA stage",TRUE,59,2
+320,"526118633","dsDNA viruses, no RNA stage",TRUE,51,2
+321,"593779948","dsDNA viruses, no RNA stage",TRUE,46,2
+322,"593776135","dsDNA viruses, no RNA stage",TRUE,49,2
+323,"543171678","dsDNA viruses, no RNA stage",TRUE,55,2
+324,"24943089","dsDNA viruses, no RNA stage",TRUE,51,2
+325,"472437937","dsDNA viruses, no RNA stage",TRUE,60,2
+326,"72257064","dsDNA viruses, no RNA stage",TRUE,53,2
+327,"514052000","dsDNA viruses, no RNA stage",TRUE,53,2
+328,"589893411","dsDNA viruses, no RNA stage",TRUE,47,2
+329,"37651481","dsDNA viruses, no RNA stage",TRUE,54,2
+330,"284504040","dsDNA viruses, no RNA stage",TRUE,59,2
+331,"170783609","dsDNA viruses, no RNA stage",TRUE,67,2
+332,"125745044","dsDNA viruses, no RNA stage",TRUE,56,2
+333,"20065797","dsDNA viruses, no RNA stage",TRUE,59,2
+334,"363539767","dsDNA viruses, no RNA stage",TRUE,50,2
+335,"294661423","dsDNA viruses, no RNA stage",TRUE,55,2
+336,"91214232","dsDNA viruses, no RNA stage",TRUE,57,2
+337,"118197620","dsDNA viruses, no RNA stage",TRUE,47,2
+338,"327197998","dsDNA viruses, no RNA stage",TRUE,45,2
+339,"658310745","dsDNA viruses, no RNA stage",TRUE,57,2
+340,"537108089","dsDNA viruses, no RNA stage",TRUE,58,2
+341,"658310045","dsDNA viruses, no RNA stage",TRUE,60,2
+342,"531034792","dsDNA viruses, no RNA stage",TRUE,54,2
+343,"85701379","dsDNA viruses, no RNA stage",TRUE,61,2
+344,"9631294","dsDNA viruses, no RNA stage",TRUE,49,2
+345,"388549399","dsDNA viruses, no RNA stage",TRUE,56,2
+346,"156563990","dsDNA viruses, no RNA stage",TRUE,56,2
+347,"469518782","dsDNA viruses, no RNA stage",TRUE,57,2
+348,"667699536","dsDNA viruses, no RNA stage",TRUE,57,2
+349,"119443652","dsDNA viruses, no RNA stage",TRUE,49,2
+350,"33620426","dsDNA viruses, no RNA stage",TRUE,57,2
+351,"52627071","dsDNA viruses, no RNA stage",TRUE,57,2
+352,"422934269","dsDNA viruses, no RNA stage",TRUE,60,2
+1,"14993614","dsRNA viruses",TRUE,44,3
+2,"521967825","dsRNA viruses",TRUE,51,3
+3,"256398147","dsRNA viruses",TRUE,46,3
+4,"78767273","dsRNA viruses",TRUE,51,3
+5,"608309552","dsRNA viruses",TRUE,46,3
+6,"394935462","dsRNA viruses",TRUE,45,3
+7,"10518479","dsRNA viruses",TRUE,50,3
+8,"342243406","dsRNA viruses",TRUE,52,3
+9,"20279540","dsRNA viruses",TRUE,48,3
+10,"226423341","dsRNA viruses",TRUE,60,3
+11,"308814346","dsRNA viruses",TRUE,51,3
+12,"608309552","dsRNA viruses",TRUE,48,3
+13,"20428567","dsRNA viruses",TRUE,45,3
+14,"596403532","dsRNA viruses",TRUE,48,3
+15,"302317583","dsRNA viruses",TRUE,49,3
+16,"68532388","dsRNA viruses",TRUE,52,3
+17,"596403197","dsRNA viruses",TRUE,44,3
+18,"62401671","dsRNA viruses",TRUE,42,3
+19,"383386110","dsRNA viruses",TRUE,52,3
+20,"22855198","dsRNA viruses",TRUE,51,3
+21,"607064641","dsRNA viruses",TRUE,45,3
+22,"190643480","dsRNA viruses",TRUE,46,3
+23,"20889329","dsRNA viruses",TRUE,51,3
+24,"81054207","dsRNA viruses",TRUE,48,3
+25,"134287146","dsRNA viruses",TRUE,47,3
+26,"255612555","dsRNA viruses",TRUE,53,3
+27,"20889358","dsRNA viruses",TRUE,49,3
+28,"304373830","dsRNA viruses",TRUE,51,3
+29,"20889296","dsRNA viruses",TRUE,52,3
+30,"50234096","dsRNA viruses",TRUE,59,3
+31,"50253411","dsRNA viruses",TRUE,52,3
+32,"315573168","dsRNA viruses",TRUE,53,3
+33,"85719285","dsRNA viruses",TRUE,53,3
+34,"309259994","dsRNA viruses",TRUE,46,3
+35,"23238153","dsRNA viruses",TRUE,49,3
+36,"389656396","dsRNA viruses",TRUE,55,3
+37,"85813347","dsRNA viruses",TRUE,58,3
+38,"50253401","dsRNA viruses",TRUE,46,3
+39,"189022224","dsRNA viruses",TRUE,46,3
+40,"304373826","dsRNA viruses",TRUE,52,3
+41,"187765483","dsRNA viruses",TRUE,49,3
+42,"109240508","dsRNA viruses",TRUE,50,3
+43,"20889329","dsRNA viruses",TRUE,51,3
+44,"23309030","dsRNA viruses",TRUE,53,3
+45,"22855204","dsRNA viruses",TRUE,53,3
+46,"555928277","dsRNA viruses",TRUE,47,3
+47,"521967825","dsRNA viruses",TRUE,42,3
+48,"20889358","dsRNA viruses",TRUE,47,3
+49,"482651005","dsRNA viruses",TRUE,51,3
+50,"302317583","dsRNA viruses",TRUE,48,3
+51,"20428567","dsRNA viruses",TRUE,42,3
+52,"255612555","dsRNA viruses",TRUE,57,3
+53,"635717078","dsRNA viruses",TRUE,52,3
+54,"20889296","dsRNA viruses",TRUE,54,3
+55,"50253395","dsRNA viruses",TRUE,46,3
+56,"298201181","dsRNA viruses",TRUE,50,3
+57,"14993614","dsRNA viruses",TRUE,51,3
+58,"23309030","dsRNA viruses",TRUE,48,3
+59,"50253395","dsRNA viruses",TRUE,41,3
+60,"226423331","dsRNA viruses",TRUE,46,3
+61,"20889389","dsRNA viruses",TRUE,54,3
+62,"262530253","dsRNA viruses",TRUE,46,3
+63,"226423331","dsRNA viruses",TRUE,48,3
+64,"298201185","dsRNA viruses",TRUE,46,3
+65,"23238127","dsRNA viruses",TRUE,48,3
+66,"226423341","dsRNA viruses",TRUE,60,3
+67,"14993614","dsRNA viruses",TRUE,42,3
+68,"342243406","dsRNA viruses",TRUE,55,3
+69,"190643480","dsRNA viruses",TRUE,53,3
+70,"20889358","dsRNA viruses",TRUE,46,3
+71,"308814346","dsRNA viruses",TRUE,47,3
+72,"85719285","dsRNA viruses",TRUE,51,3
+73,"189022226","dsRNA viruses",TRUE,49,3
+74,"23309034","dsRNA viruses",TRUE,51,3
+75,"50253411","dsRNA viruses",TRUE,51,3
+76,"20889358","dsRNA viruses",TRUE,50,3
+77,"14993614","dsRNA viruses",TRUE,43,3
+78,"20428604","dsRNA viruses",TRUE,53,3
+79,"551682528","dsRNA viruses",TRUE,49,3
+80,"20889358","dsRNA viruses",TRUE,44,3
+81,"375298197","dsRNA viruses",TRUE,45,3
+82,"262216749","dsRNA viruses",TRUE,50,3
+83,"555928257","dsRNA viruses",TRUE,53,3
+84,"21450040","dsRNA viruses",TRUE,46,3
+85,"23309034","dsRNA viruses",TRUE,42,3
+86,"78763552","dsRNA viruses",TRUE,45,3
+87,"309259994","dsRNA viruses",TRUE,49,3
+88,"20177434","dsRNA viruses",TRUE,46,3
+89,"9628649","ssDNA viruses",TRUE,56,3
+90,"9630747","ssDNA viruses",TRUE,57,3
+91,"19919902","ssDNA viruses",TRUE,53,3
+92,"9626109","ssDNA viruses",TRUE,56,3
+93,"9626133","ssDNA viruses",TRUE,62,3
+94,"9630683","ssDNA viruses",TRUE,53,3
+95,"215480028","ssDNA viruses",TRUE,59,3
+96,"261597702","ssDNA viruses",TRUE,48,3
+97,"20522153","ssDNA viruses",TRUE,46,3
+98,"46359766","ssDNA viruses",TRUE,49,3
+99,"77020114","ssDNA viruses",TRUE,51,3
+100,"45597171","ssDNA viruses",TRUE,53,3
+101,"29337260","ssDNA viruses",TRUE,54,3
+102,"9626133","ssDNA viruses",TRUE,60,3
+103,"295413918","ssDNA viruses",TRUE,59,3
+104,"209901313","ssDNA viruses",TRUE,54,3
+105,"315111586","ssDNA viruses",TRUE,53,3
+106,"27151463","ssDNA viruses",TRUE,57,3
+107,"675510788","ssDNA viruses",TRUE,54,3
+108,"601449263","ssDNA viruses",TRUE,57,3
+109,"23334625","ssDNA viruses",TRUE,61,3
+110,"212928341","ssDNA viruses",TRUE,58,3
+111,"51949957","ssDNA viruses",TRUE,57,3
+112,"9630761","ssDNA viruses",TRUE,57,3
+113,"295441905","ssDNA viruses",TRUE,53,3
+114,"601448486","ssDNA viruses",TRUE,50,3
+115,"295413918","ssDNA viruses",TRUE,60,3
+116,"77125236","ssDNA viruses",TRUE,56,3
+117,"254688527","ssDNA viruses",TRUE,57,3
+118,"21165975","ssDNA viruses",TRUE,51,3
+119,"49248530","ssDNA viruses",TRUE,64,3
+120,"9628649","ssDNA viruses",TRUE,58,3
+121,"295413834","ssDNA viruses",TRUE,56,3
+122,"9630747","ssDNA viruses",TRUE,53,3
+123,"296006072","ssDNA viruses",TRUE,53,3
+124,"29171762","ssDNA viruses",TRUE,54,3
+125,"110084000","ssDNA viruses",TRUE,54,3
+126,"573007056","ssDNA viruses",TRUE,48,3
+127,"605039075","ssDNA viruses",TRUE,53,3
+128,"89888094","ssDNA viruses",TRUE,62,3
+129,"122808720","ssDNA viruses",TRUE,53,3
+130,"256352170","ssDNA viruses",TRUE,56,3
+131,"607840593","ssDNA viruses",TRUE,45,3
+132,"401715657","ssDNA viruses",TRUE,53,3
+133,"295413928","ssDNA viruses",TRUE,57,3
+134,"387600895","ssDNA viruses",TRUE,56,3
+135,"9630747","ssDNA viruses",TRUE,57,3
+136,"9628649","ssDNA viruses",TRUE,55,3
+137,"338826803","ssDNA viruses",TRUE,57,3
+138,"296006072","ssDNA viruses",TRUE,52,3
+139,"22128611","ssDNA viruses",TRUE,52,3
+140,"9626316","ssDNA viruses",TRUE,48,3
+141,"254688527","ssDNA viruses",TRUE,56,3
+142,"23334625","ssDNA viruses",TRUE,59,3
+143,"295413834","ssDNA viruses",TRUE,57,3
+144,"46359753","ssDNA viruses",TRUE,55,3
+145,"9625381","ssDNA viruses",TRUE,53,3
+146,"207271566","ssDNA viruses",TRUE,53,3
+147,"46359766","ssDNA viruses",TRUE,55,3
+148,"261597702","ssDNA viruses",TRUE,55,3
+149,"356457872","ssDNA viruses",TRUE,58,3
+150,"338826803","ssDNA viruses",TRUE,58,3
+151,"570033506","ssDNA viruses",TRUE,51,3
+152,"372199594","ssDNA viruses",TRUE,49,3
+153,"9626316","ssDNA viruses",TRUE,52,3
+154,"296005654","ssDNA viruses",TRUE,53,3
+155,"29337266","ssDNA viruses",TRUE,53,3
+156,"49248521","ssDNA viruses",TRUE,56,3
+157,"51949957","ssDNA viruses",TRUE,58,3
+158,"356457872","ssDNA viruses",TRUE,61,3
+159,"226596529","ssDNA viruses",TRUE,60,3
+160,"312126258","ssDNA viruses",TRUE,59,3
+161,"526177323","ssDNA viruses",TRUE,49,3
+162,"589287117","ssDNA viruses",TRUE,60,3
+163,"9625381","ssDNA viruses",TRUE,50,3
+164,"372199594","ssDNA viruses",TRUE,54,3
+165,"9625381","ssDNA viruses",TRUE,47,3
+166,"404184272","ssDNA viruses",TRUE,62,3
+167,"29337269","ssDNA viruses",TRUE,52,3
+168,"317453629","ssDNA viruses",TRUE,49,3
+169,"9626133","ssDNA viruses",TRUE,61,3
+170,"296006059","ssDNA viruses",TRUE,54,3
+171,"422933996","ssDNA viruses",TRUE,58,3
+172,"591398015","ssDNA viruses",TRUE,59,3
+173,"22128611","ssDNA viruses",TRUE,48,3
+174,"29337269","ssDNA viruses",TRUE,44,3
+175,"45597171","ssDNA viruses",TRUE,53,3
+176,"449147296","ssDNA viruses",TRUE,49,3
+177,"594139662","ssRNA viruses",TRUE,42,3
+178,"530547424","ssRNA viruses",TRUE,52,3
+179,"115304324","ssRNA viruses",TRUE,38,3
+180,"226309581","ssRNA viruses",TRUE,37,3
+181,"667699578","ssRNA viruses",TRUE,57,3
+182,"353332641","ssRNA viruses",TRUE,49,3
+183,"123205971","ssRNA viruses",TRUE,37,3
+184,"169822550","ssRNA viruses",TRUE,40,3
+185,"27228716","ssRNA viruses",TRUE,45,3
+186,"9632338","ssRNA viruses",TRUE,46,3
+187,"594139821","ssRNA viruses",TRUE,48,3
+188,"85677473","ssRNA viruses",TRUE,41,3
+189,"20522096","ssRNA viruses",TRUE,42,3
+190,"22256025","ssRNA viruses",TRUE,47,3
+191,"19881389","ssRNA viruses",TRUE,47,3
+192,"20564186","ssRNA viruses",TRUE,52,3
+193,"388570521","ssRNA viruses",TRUE,40,3
+194,"425867985","ssRNA viruses",TRUE,40,3
+195,"348020285","ssRNA viruses",TRUE,43,3
+196,"481847811","ssRNA viruses",TRUE,40,3
+197,"189009878","ssRNA viruses",TRUE,47,3
+198,"594139884","ssRNA viruses",TRUE,37,3
+199,"166851938","ssRNA viruses",TRUE,47,3
+200,"10937870","ssRNA viruses",TRUE,49,3
+201,"9626677","ssRNA viruses",TRUE,41,3
+202,"9629892","ssRNA viruses",TRUE,40,3
+203,"594139881","ssRNA viruses",TRUE,42,3
+204,"9629345","ssRNA viruses",TRUE,40,3
+205,"9632338","ssRNA viruses",TRUE,50,3
+206,"27754751","ssRNA viruses",TRUE,50,3
+207,"568319712","ssRNA viruses",TRUE,51,3
+208,"594139815","ssRNA viruses",TRUE,36,3
+209,"20153407","ssRNA viruses",TRUE,43,3
+210,"667489388","ssRNA viruses",TRUE,48,3
+211,"556333860","ssRNA viruses",TRUE,48,3
+212,"115304324","ssRNA viruses",TRUE,52,3
+213,"164607202","ssRNA viruses",TRUE,49,3
+214,"20260781","ssRNA viruses",TRUE,45,3
+215,"404184113","ssRNA viruses",TRUE,50,3
+216,"659488608","ssRNA viruses",TRUE,51,3
+217,"169822550","ssRNA viruses",TRUE,40,3
+218,"428782081","ssRNA viruses",TRUE,37,3
+219,"594139815","ssRNA viruses",TRUE,41,3
+220,"296006062","ssRNA viruses",TRUE,38,3
+221,"471236999","ssRNA viruses",TRUE,47,3
+222,"212671453","ssRNA viruses",TRUE,38,3
+223,"66090969","ssRNA viruses",TRUE,51,3
+224,"402502237","ssRNA viruses",TRUE,42,3
+225,"9629812","ssRNA viruses",TRUE,48,3
+226,"594139806","ssRNA viruses",TRUE,46,3
+227,"15426259","ssRNA viruses",TRUE,48,3
+228,"19352423","ssRNA viruses",TRUE,51,3
+229,"219547604","ssRNA viruses",TRUE,44,3
+230,"425867860","ssRNA viruses",TRUE,45,3
+231,"291612456","ssRNA viruses",TRUE,50,3
+232,"410428372","ssRNA viruses",TRUE,38,3
+233,"172088171","ssRNA viruses",TRUE,47,3
+234,"20428591","ssRNA viruses",TRUE,45,3
+235,"164607208","ssRNA viruses",TRUE,48,3
+236,"148724437","ssRNA viruses",TRUE,52,3
+237,"594139776","ssRNA viruses",TRUE,50,3
+238,"401829621","ssRNA viruses",TRUE,41,3
+239,"443615329","ssRNA viruses",TRUE,38,3
+240,"380035083","ssRNA viruses",TRUE,45,3
+241,"148717937","ssRNA viruses",TRUE,54,3
+242,"440382952","ssRNA viruses",TRUE,43,3
+243,"594139902","ssRNA viruses",TRUE,50,3
+244,"9633477","ssRNA viruses",TRUE,37,3
+245,"594139677","ssRNA viruses",TRUE,48,3
+246,"56692441","ssRNA viruses",TRUE,41,3
+247,"408355343","ssRNA viruses",TRUE,44,3
+248,"13559817","ssRNA viruses",TRUE,46,3
+249,"219547604","ssRNA viruses",TRUE,42,3
+250,"554505422","ssRNA viruses",TRUE,56,3
+251,"82703944","ssRNA viruses",TRUE,43,3
+252,"9790313","ssRNA viruses",TRUE,46,3
+253,"19387576","ssRNA viruses",TRUE,48,3
+254,"148283122","ssRNA viruses",TRUE,40,3
+255,"594139920","ssRNA viruses",TRUE,41,3
+256,"594139815","ssRNA viruses",TRUE,39,3
+257,"667699533","ssRNA viruses",TRUE,44,3
+258,"126030122","ssRNA viruses",TRUE,46,3
+259,"594139866","ssRNA viruses",TRUE,40,3
+260,"27881469","ssRNA viruses",TRUE,45,3
+261,"9629892","ssRNA viruses",TRUE,36,3
+262,"41057593","ssRNA viruses",TRUE,46,3
+263,"34610126","ssRNA viruses",TRUE,50,3
+264,"9627007","ssRNA viruses",TRUE,39,3
+265,"589286276","dsDNA viruses, no RNA stage",TRUE,52,3
+266,"311992992","dsDNA viruses, no RNA stage",TRUE,64,3
+267,"448824968","dsDNA viruses, no RNA stage",TRUE,53,3
+268,"414088056","dsDNA viruses, no RNA stage",TRUE,46,3
+269,"194303296","dsDNA viruses, no RNA stage",TRUE,46,3
+270,"460108696","dsDNA viruses, no RNA stage",TRUE,61,3
+271,"414087713","dsDNA viruses, no RNA stage",TRUE,45,3
+272,"431810358","dsDNA viruses, no RNA stage",TRUE,53,3
+273,"21716071","dsDNA viruses, no RNA stage",TRUE,52,3
+274,"208429855","dsDNA viruses, no RNA stage",TRUE,47,3
+275,"531034792","dsDNA viruses, no RNA stage",TRUE,39,3
+276,"543170398","dsDNA viruses, no RNA stage",TRUE,47,3
+277,"593779506","dsDNA viruses, no RNA stage",TRUE,44,3
+278,"526118633","dsDNA viruses, no RNA stage",TRUE,42,3
+279,"56160914","dsDNA viruses, no RNA stage",TRUE,64,3
+280,"331028054","dsDNA viruses, no RNA stage",TRUE,48,3
+281,"282599392","dsDNA viruses, no RNA stage",TRUE,63,3
+282,"326804500","dsDNA viruses, no RNA stage",TRUE,60,3
+283,"444475874","dsDNA viruses, no RNA stage",TRUE,57,3
+284,"29566975","dsDNA viruses, no RNA stage",TRUE,62,3
+285,"9635250","dsDNA viruses, no RNA stage",TRUE,52,3
+286,"408905838","dsDNA viruses, no RNA stage",TRUE,60,3
+287,"510134559","dsDNA viruses, no RNA stage",TRUE,54,3
+288,"311977355","dsDNA viruses, no RNA stage",TRUE,50,3
+289,"460042257","dsDNA viruses, no RNA stage",TRUE,48,3
+290,"219681259","dsDNA viruses, no RNA stage",TRUE,62,3
+291,"661433635","dsDNA viruses, no RNA stage",TRUE,56,3
+292,"568191240","dsDNA viruses, no RNA stage",TRUE,57,3
+293,"125745044","dsDNA viruses, no RNA stage",TRUE,57,3
+294,"363539767","dsDNA viruses, no RNA stage",TRUE,51,3
+295,"461221910","dsDNA viruses, no RNA stage",TRUE,50,3
+296,"643655112","dsDNA viruses, no RNA stage",TRUE,57,3
+297,"318065901","dsDNA viruses, no RNA stage",TRUE,63,3
+298,"448824857","dsDNA viruses, no RNA stage",TRUE,55,3
+299,"157939619","dsDNA viruses, no RNA stage",TRUE,44,3
+300,"526241733","dsDNA viruses, no RNA stage",TRUE,56,3
+301,"20198505","dsDNA viruses, no RNA stage",TRUE,44,3
+302,"431809730","dsDNA viruses, no RNA stage",TRUE,57,3
+303,"585299329","dsDNA viruses, no RNA stage",TRUE,60,3
+304,"639438320","dsDNA viruses, no RNA stage",TRUE,60,3
+305,"460042888","dsDNA viruses, no RNA stage",TRUE,63,3
+306,"194100609","dsDNA viruses, no RNA stage",TRUE,51,3
+307,"66394949","dsDNA viruses, no RNA stage",TRUE,50,3
+308,"80159686","dsDNA viruses, no RNA stage",TRUE,51,3
+309,"9627742","dsDNA viruses, no RNA stage",TRUE,61,3
+310,"508181800","dsDNA viruses, no RNA stage",TRUE,54,3
+311,"304373555","dsDNA viruses, no RNA stage",TRUE,59,3
+312,"215401232","dsDNA viruses, no RNA stage",TRUE,57,3
+313,"431810571","dsDNA viruses, no RNA stage",TRUE,63,3
+314,"682122904","dsDNA viruses, no RNA stage",TRUE,43,3
+315,"448824968","dsDNA viruses, no RNA stage",TRUE,51,3
+316,"273809728","dsDNA viruses, no RNA stage",TRUE,61,3
+317,"543171167","dsDNA viruses, no RNA stage",TRUE,45,3
+318,"204305660","dsDNA viruses, no RNA stage",TRUE,49,3
+319,"428782446","dsDNA viruses, no RNA stage",TRUE,63,3
+320,"609252170","dsDNA viruses, no RNA stage",TRUE,43,3
+321,"239507361","dsDNA viruses, no RNA stage",TRUE,46,3
+322,"371671369","dsDNA viruses, no RNA stage",TRUE,58,3
+323,"9630966","dsDNA viruses, no RNA stage",TRUE,41,3
+324,"418487144","dsDNA viruses, no RNA stage",TRUE,54,3
+325,"9629378","dsDNA viruses, no RNA stage",TRUE,45,3
+326,"29566975","dsDNA viruses, no RNA stage",TRUE,63,3
+327,"438000307","dsDNA viruses, no RNA stage",TRUE,47,3
+328,"338209365","dsDNA viruses, no RNA stage",TRUE,59,3
+329,"658310567","dsDNA viruses, no RNA stage",TRUE,59,3
+330,"375267221","dsDNA viruses, no RNA stage",TRUE,49,3
+331,"282599175","dsDNA viruses, no RNA stage",TRUE,48,3
+332,"9631195","dsDNA viruses, no RNA stage",TRUE,63,3
+333,"409187963","dsDNA viruses, no RNA stage",TRUE,54,3
+334,"9626243","dsDNA viruses, no RNA stage",TRUE,49,3
+335,"589893512","dsDNA viruses, no RNA stage",TRUE,45,3
+336,"29566284","dsDNA viruses, no RNA stage",TRUE,45,3
+337,"641406604","dsDNA viruses, no RNA stage",TRUE,53,3
+338,"116326687","dsDNA viruses, no RNA stage",TRUE,55,3
+339,"330858525","dsDNA viruses, no RNA stage",TRUE,53,3
+340,"66391228","dsDNA viruses, no RNA stage",TRUE,48,3
+341,"509142397","dsDNA viruses, no RNA stage",TRUE,44,3
+342,"408905838","dsDNA viruses, no RNA stage",TRUE,55,3
+343,"134287156","dsDNA viruses, no RNA stage",TRUE,59,3
+344,"29565766","dsDNA viruses, no RNA stage",TRUE,43,3
+345,"643218205","dsDNA viruses, no RNA stage",TRUE,57,3
+346,"195546701","dsDNA viruses, no RNA stage",TRUE,47,3
+347,"563399370","dsDNA viruses, no RNA stage",TRUE,63,3
+348,"83642839","dsDNA viruses, no RNA stage",TRUE,65,3
+349,"66395370","dsDNA viruses, no RNA stage",TRUE,49,3
+350,"371671319","dsDNA viruses, no RNA stage",TRUE,52,3
+351,"682123955","dsDNA viruses, no RNA stage",TRUE,55,3
+352,"643655112","dsDNA viruses, no RNA stage",TRUE,60,3
+1,"304373830","dsRNA viruses",TRUE,50,4
+2,"342243406","dsRNA viruses",TRUE,55,4
+3,"23238153","dsRNA viruses",TRUE,52,4
+4,"304373826","dsRNA viruses",TRUE,51,4
+5,"20889358","dsRNA viruses",TRUE,48,4
+6,"608309552","dsRNA viruses",TRUE,45,4
+7,"607064641","dsRNA viruses",TRUE,48,4
+8,"256398147","dsRNA viruses",TRUE,49,4
+9,"20889329","dsRNA viruses",TRUE,51,4
+10,"555928257","dsRNA viruses",TRUE,53,4
+11,"50253395","dsRNA viruses",TRUE,46,4
+12,"262216749","dsRNA viruses",TRUE,50,4
+13,"20889329","dsRNA viruses",TRUE,51,4
+14,"555928277","dsRNA viruses",TRUE,50,4
+15,"255612555","dsRNA viruses",TRUE,51,4
+16,"23238127","dsRNA viruses",TRUE,52,4
+17,"20889296","dsRNA viruses",TRUE,52,4
+18,"375298197","dsRNA viruses",TRUE,45,4
+19,"383386110","dsRNA viruses",TRUE,52,4
+20,"85719285","dsRNA viruses",TRUE,58,4
+21,"226423331","dsRNA viruses",TRUE,52,4
+22,"23309034","dsRNA viruses",TRUE,45,4
+23,"226423341","dsRNA viruses",TRUE,56,4
+24,"50253411","dsRNA viruses",TRUE,50,4
+25,"22855204","dsRNA viruses",TRUE,51,4
+26,"23309034","dsRNA viruses",TRUE,53,4
+27,"189022226","dsRNA viruses",TRUE,52,4
+28,"22855198","dsRNA viruses",TRUE,47,4
+29,"14993614","dsRNA viruses",TRUE,49,4
+30,"14993614","dsRNA viruses",TRUE,43,4
+31,"62401671","dsRNA viruses",TRUE,42,4
+32,"50253395","dsRNA viruses",TRUE,42,4
+33,"635717078","dsRNA viruses",TRUE,52,4
+34,"14993614","dsRNA viruses",TRUE,52,4
+35,"81054207","dsRNA viruses",TRUE,55,4
+36,"20889389","dsRNA viruses",TRUE,52,4
+37,"342243406","dsRNA viruses",TRUE,54,4
+38,"20177434","dsRNA viruses",TRUE,50,4
+39,"20889358","dsRNA viruses",TRUE,49,4
+40,"23309030","dsRNA viruses",TRUE,50,4
+41,"20889296","dsRNA viruses",TRUE,54,4
+42,"187765483","dsRNA viruses",TRUE,53,4
+43,"78767273","dsRNA viruses",TRUE,56,4
+44,"521967825","dsRNA viruses",TRUE,58,4
+45,"109240508","dsRNA viruses",TRUE,46,4
+46,"309259994","dsRNA viruses",TRUE,49,4
+47,"23309030","dsRNA viruses",TRUE,45,4
+48,"85719285","dsRNA viruses",TRUE,55,4
+49,"389656396","dsRNA viruses",TRUE,52,4
+50,"10518479","dsRNA viruses",TRUE,57,4
+51,"302317583","dsRNA viruses",TRUE,44,4
+52,"134287146","dsRNA viruses",TRUE,49,4
+53,"20279540","dsRNA viruses",TRUE,50,4
+54,"20889358","dsRNA viruses",TRUE,48,4
+55,"20889358","dsRNA viruses",TRUE,47,4
+56,"20428567","dsRNA viruses",TRUE,46,4
+57,"78763552","dsRNA viruses",TRUE,45,4
+58,"521967825","dsRNA viruses",TRUE,45,4
+59,"596403532","dsRNA viruses",TRUE,46,4
+60,"596403197","dsRNA viruses",TRUE,45,4
+61,"262530253","dsRNA viruses",TRUE,46,4
+62,"308814346","dsRNA viruses",TRUE,49,4
+63,"309259994","dsRNA viruses",TRUE,46,4
+64,"608309552","dsRNA viruses",TRUE,46,4
+65,"14993614","dsRNA viruses",TRUE,44,4
+66,"190643480","dsRNA viruses",TRUE,54,4
+67,"298201181","dsRNA viruses",TRUE,50,4
+68,"226423331","dsRNA viruses",TRUE,53,4
+69,"308814346","dsRNA viruses",TRUE,51,4
+70,"189022224","dsRNA viruses",TRUE,46,4
+71,"20428567","dsRNA viruses",TRUE,40,4
+72,"551682528","dsRNA viruses",TRUE,49,4
+73,"50253401","dsRNA viruses",TRUE,47,4
+74,"226423341","dsRNA viruses",TRUE,60,4
+75,"315573168","dsRNA viruses",TRUE,51,4
+76,"85813347","dsRNA viruses",TRUE,61,4
+77,"190643480","dsRNA viruses",TRUE,44,4
+78,"394935462","dsRNA viruses",TRUE,45,4
+79,"20889358","dsRNA viruses",TRUE,48,4
+80,"21450040","dsRNA viruses",TRUE,44,4
+81,"68532388","dsRNA viruses",TRUE,53,4
+82,"20428604","dsRNA viruses",TRUE,54,4
+83,"50253411","dsRNA viruses",TRUE,50,4
+84,"302317583","dsRNA viruses",TRUE,46,4
+85,"50234096","dsRNA viruses",TRUE,56,4
+86,"482651005","dsRNA viruses",TRUE,55,4
+87,"298201185","dsRNA viruses",TRUE,49,4
+88,"255612555","dsRNA viruses",TRUE,53,4
+89,"372199594","ssDNA viruses",TRUE,50,4
+90,"77020114","ssDNA viruses",TRUE,55,4
+91,"9630761","ssDNA viruses",TRUE,55,4
+92,"261597702","ssDNA viruses",TRUE,57,4
+93,"49248521","ssDNA viruses",TRUE,56,4
+94,"9626133","ssDNA viruses",TRUE,57,4
+95,"113199737","ssDNA viruses",TRUE,55,4
+96,"29337269","ssDNA viruses",TRUE,54,4
+97,"122808720","ssDNA viruses",TRUE,55,4
+98,"45597171","ssDNA viruses",TRUE,54,4
+99,"338826803","ssDNA viruses",TRUE,61,4
+100,"601448486","ssDNA viruses",TRUE,53,4
+101,"295413928","ssDNA viruses",TRUE,57,4
+102,"29337266","ssDNA viruses",TRUE,54,4
+103,"23334625","ssDNA viruses",TRUE,57,4
+104,"422933996","ssDNA viruses",TRUE,57,4
+105,"317453629","ssDNA viruses",TRUE,54,4
+106,"9630747","ssDNA viruses",TRUE,58,4
+107,"46359766","ssDNA viruses",TRUE,59,4
+108,"77125236","ssDNA viruses",TRUE,57,4
+109,"9628649","ssDNA viruses",TRUE,57,4
+110,"113200776","ssDNA viruses",TRUE,56,4
+111,"372199594","ssDNA viruses",TRUE,56,4
+112,"9630683","ssDNA viruses",TRUE,52,4
+113,"315111586","ssDNA viruses",TRUE,51,4
+114,"45597171","ssDNA viruses",TRUE,55,4
+115,"295441905","ssDNA viruses",TRUE,56,4
+116,"51949957","ssDNA viruses",TRUE,59,4
+117,"23334625","ssDNA viruses",TRUE,62,4
+118,"295413834","ssDNA viruses",TRUE,54,4
+119,"39980672","ssDNA viruses",TRUE,58,4
+120,"356457872","ssDNA viruses",TRUE,59,4
+121,"22128611","ssDNA viruses",TRUE,49,4
+122,"605039075","ssDNA viruses",TRUE,57,4
+123,"209901313","ssDNA viruses",TRUE,55,4
+124,"29337266","ssDNA viruses",TRUE,50,4
+125,"9626133","ssDNA viruses",TRUE,58,4
+126,"526177323","ssDNA viruses",TRUE,52,4
+127,"46359753","ssDNA viruses",TRUE,54,4
+128,"9625381","ssDNA viruses",TRUE,56,4
+129,"394922850","ssDNA viruses",TRUE,58,4
+130,"9630683","ssDNA viruses",TRUE,55,4
+131,"9626109","ssDNA viruses",TRUE,57,4
+132,"9626133","ssDNA viruses",TRUE,57,4
+133,"394922850","ssDNA viruses",TRUE,58,4
+134,"39980672","ssDNA viruses",TRUE,53,4
+135,"296005654","ssDNA viruses",TRUE,55,4
+136,"9625381","ssDNA viruses",TRUE,55,4
+137,"607840593","ssDNA viruses",TRUE,47,4
+138,"295413834","ssDNA viruses",TRUE,56,4
+139,"296006072","ssDNA viruses",TRUE,49,4
+140,"20522153","ssDNA viruses",TRUE,48,4
+141,"27151463","ssDNA viruses",TRUE,59,4
+142,"601449263","ssDNA viruses",TRUE,58,4
+143,"591398015","ssDNA viruses",TRUE,61,4
+144,"22128611","ssDNA viruses",TRUE,55,4
+145,"9630747","ssDNA viruses",TRUE,56,4
+146,"254688527","ssDNA viruses",TRUE,56,4
+147,"9626316","ssDNA viruses",TRUE,56,4
+148,"312126258","ssDNA viruses",TRUE,60,4
+149,"295441905","ssDNA viruses",TRUE,49,4
+150,"9630747","ssDNA viruses",TRUE,55,4
+151,"110084000","ssDNA viruses",TRUE,52,4
+152,"589287117","ssDNA viruses",TRUE,55,4
+153,"256352170","ssDNA viruses",TRUE,58,4
+154,"312126258","ssDNA viruses",TRUE,58,4
+155,"207271566","ssDNA viruses",TRUE,52,4
+156,"295413918","ssDNA viruses",TRUE,57,4
+157,"356457872","ssDNA viruses",TRUE,61,4
+158,"29171762","ssDNA viruses",TRUE,55,4
+159,"212928341","ssDNA viruses",TRUE,56,4
+160,"9625381","ssDNA viruses",TRUE,51,4
+161,"254688527","ssDNA viruses",TRUE,59,4
+162,"570033506","ssDNA viruses",TRUE,51,4
+163,"51949957","ssDNA viruses",TRUE,55,4
+164,"338826803","ssDNA viruses",TRUE,59,4
+165,"449147296","ssDNA viruses",TRUE,53,4
+166,"9626109","ssDNA viruses",TRUE,59,4
+167,"295413918","ssDNA viruses",TRUE,57,4
+168,"29337260","ssDNA viruses",TRUE,53,4
+169,"675510788","ssDNA viruses",TRUE,51,4
+170,"387600895","ssDNA viruses",TRUE,58,4
+171,"9626316","ssDNA viruses",TRUE,50,4
+172,"21165975","ssDNA viruses",TRUE,54,4
+173,"589287117","ssDNA viruses",TRUE,57,4
+174,"296006059","ssDNA viruses",TRUE,55,4
+175,"226596529","ssDNA viruses",TRUE,55,4
+176,"19919902","ssDNA viruses",TRUE,57,4
+177,"475994034","ssRNA viruses",TRUE,47,4
+178,"56692441","ssRNA viruses",TRUE,44,4
+179,"401829621","ssRNA viruses",TRUE,40,4
+180,"568319712","ssRNA viruses",TRUE,49,4
+181,"77118348","ssRNA viruses",TRUE,47,4
+182,"15081567","ssRNA viruses",TRUE,40,4
+183,"255694008","ssRNA viruses",TRUE,38,4
+184,"17158068","ssRNA viruses",TRUE,43,4
+185,"156447513","ssRNA viruses",TRUE,46,4
+186,"478755937","ssRNA viruses",TRUE,41,4
+187,"330850808","ssRNA viruses",TRUE,35,4
+188,"18490052","ssRNA viruses",TRUE,50,4
+189,"9633477","ssRNA viruses",TRUE,38,4
+190,"188543030","ssRNA viruses",TRUE,56,4
+191,"19387576","ssRNA viruses",TRUE,46,4
+192,"85718614","ssRNA viruses",TRUE,44,4
+193,"9626694","ssRNA viruses",TRUE,52,4
+194,"33620701","ssRNA viruses",TRUE,46,4
+195,"157939615","ssRNA viruses",TRUE,46,4
+196,"19919949","ssRNA viruses",TRUE,48,4
+197,"582973095","ssRNA viruses",TRUE,54,4
+198,"401829632","ssRNA viruses",TRUE,40,4
+199,"441432845","ssRNA viruses",TRUE,34,4
+200,"20260781","ssRNA viruses",TRUE,48,4
+201,"226309581","ssRNA viruses",TRUE,40,4
+202,"18490052","ssRNA viruses",TRUE,46,4
+203,"182406744","ssRNA viruses",TRUE,44,4
+204,"212498331","ssRNA viruses",TRUE,40,4
+205,"594139677","ssRNA viruses",TRUE,52,4
+206,"20428591","ssRNA viruses",TRUE,43,4
+207,"9635457","ssRNA viruses",TRUE,47,4
+208,"14583260","ssRNA viruses",TRUE,54,4
+209,"39163640","ssRNA viruses",TRUE,43,4
+210,"37591172","ssRNA viruses",TRUE,43,4
+211,"556333860","ssRNA viruses",TRUE,46,4
+212,"38018022","ssRNA viruses",TRUE,47,4
+213,"594139941","ssRNA viruses",TRUE,50,4
+214,"383081743","ssRNA viruses",TRUE,45,4
+215,"425867860","ssRNA viruses",TRUE,40,4
+216,"22256025","ssRNA viruses",TRUE,46,4
+217,"172088171","ssRNA viruses",TRUE,42,4
+218,"9626685","ssRNA viruses",TRUE,42,4
+219,"22789222","ssRNA viruses",TRUE,38,4
+220,"9627493","ssRNA viruses",TRUE,53,4
+221,"425867880","ssRNA viruses",TRUE,43,4
+222,"554505422","ssRNA viruses",TRUE,49,4
+223,"594139884","ssRNA viruses",TRUE,43,4
+224,"9628912","ssRNA viruses",TRUE,43,4
+225,"594139821","ssRNA viruses",TRUE,50,4
+226,"126030112","ssRNA viruses",TRUE,51,4
+227,"123205971","ssRNA viruses",TRUE,41,4
+228,"115304324","ssRNA viruses",TRUE,48,4
+229,"443615329","ssRNA viruses",TRUE,40,4
+230,"589892864","ssRNA viruses",TRUE,47,4
+231,"425867985","ssRNA viruses",TRUE,41,4
+232,"594139662","ssRNA viruses",TRUE,53,4
+233,"326910944","ssRNA viruses",TRUE,41,4
+234,"594139902","ssRNA viruses",TRUE,49,4
+235,"9626685","ssRNA viruses",TRUE,44,4
+236,"10937870","ssRNA viruses",TRUE,43,4
+237,"339906182","ssRNA viruses",TRUE,36,4
+238,"21426909","ssRNA viruses",TRUE,48,4
+239,"354459081","ssRNA viruses",TRUE,49,4
+240,"20260798","ssRNA viruses",TRUE,43,4
+241,"216967209","ssRNA viruses",TRUE,41,4
+242,"10937870","ssRNA viruses",TRUE,40,4
+243,"126030122","ssRNA viruses",TRUE,44,4
+244,"475994049","ssRNA viruses",TRUE,53,4
+245,"20428591","ssRNA viruses",TRUE,37,4
+246,"212681378","ssRNA viruses",TRUE,42,4
+247,"113200758","ssRNA viruses",TRUE,51,4
+248,"30410836","ssRNA viruses",TRUE,49,4
+249,"667699599","ssRNA viruses",TRUE,42,4
+250,"20564186","ssRNA viruses",TRUE,46,4
+251,"167600353","ssRNA viruses",TRUE,49,4
+252,"239830831","ssRNA viruses",TRUE,40,4
+253,"9634109","ssRNA viruses",TRUE,44,4
+254,"428781805","ssRNA viruses",TRUE,59,4
+255,"394922808","ssRNA viruses",TRUE,45,4
+256,"635260758","ssRNA viruses",TRUE,54,4
+257,"594139947","ssRNA viruses",TRUE,46,4
+258,"9629456","ssRNA viruses",TRUE,43,4
+259,"594139767","ssRNA viruses",TRUE,48,4
+260,"667489388","ssRNA viruses",TRUE,51,4
+261,"21557568","ssRNA viruses",TRUE,58,4
+262,"123205971","ssRNA viruses",TRUE,46,4
+263,"21389216","ssRNA viruses",TRUE,38,4
+264,"240114604","ssRNA viruses",TRUE,38,4
+265,"9633069","dsDNA viruses, no RNA stage",TRUE,54,4
+266,"148727082","dsDNA viruses, no RNA stage",TRUE,61,4
+267,"593779787","dsDNA viruses, no RNA stage",TRUE,58,4
+268,"543171678","dsDNA viruses, no RNA stage",TRUE,57,4
+269,"472437437","dsDNA viruses, no RNA stage",TRUE,56,4
+270,"83722567","dsDNA viruses, no RNA stage",TRUE,49,4
+271,"116326222","dsDNA viruses, no RNA stage",TRUE,50,4
+272,"609216850","dsDNA viruses, no RNA stage",TRUE,60,4
+273,"66391804","dsDNA viruses, no RNA stage",TRUE,62,4
+274,"311992494","dsDNA viruses, no RNA stage",TRUE,53,4
+275,"435844510","dsDNA viruses, no RNA stage",TRUE,43,4
+276,"14602241","dsDNA viruses, no RNA stage",TRUE,61,4
+277,"124378192","dsDNA viruses, no RNA stage",TRUE,49,4
+278,"56693048","dsDNA viruses, no RNA stage",TRUE,58,4
+279,"526178202","dsDNA viruses, no RNA stage",TRUE,52,4
+280,"123318702","dsDNA viruses, no RNA stage",TRUE,50,4
+281,"563399545","dsDNA viruses, no RNA stage",TRUE,62,4
+282,"56693048","dsDNA viruses, no RNA stage",TRUE,55,4
+283,"345107188","dsDNA viruses, no RNA stage",TRUE,49,4
+284,"643654715","dsDNA viruses, no RNA stage",TRUE,64,4
+285,"510134559","dsDNA viruses, no RNA stage",TRUE,54,4
+286,"48697401","dsDNA viruses, no RNA stage",TRUE,53,4
+287,"658311331","dsDNA viruses, no RNA stage",TRUE,54,4
+288,"371671369","dsDNA viruses, no RNA stage",TRUE,63,4
+289,"311977355","dsDNA viruses, no RNA stage",TRUE,49,4
+290,"514051312","dsDNA viruses, no RNA stage",TRUE,58,4
+291,"418489442","dsDNA viruses, no RNA stage",TRUE,57,4
+292,"459348579","dsDNA viruses, no RNA stage",TRUE,53,4
+293,"568191834","dsDNA viruses, no RNA stage",TRUE,61,4
+294,"358356482","dsDNA viruses, no RNA stage",TRUE,49,4
+295,"20069879","dsDNA viruses, no RNA stage",TRUE,53,4
+296,"157265294","dsDNA viruses, no RNA stage",TRUE,58,4
+297,"20026600","dsDNA viruses, no RNA stage",TRUE,48,4
+298,"589286999","dsDNA viruses, no RNA stage",TRUE,61,4
+299,"431809199","dsDNA viruses, no RNA stage",TRUE,57,4
+300,"593779056","dsDNA viruses, no RNA stage",TRUE,59,4
+301,"345461107","dsDNA viruses, no RNA stage",TRUE,56,4
+302,"526118633","dsDNA viruses, no RNA stage",TRUE,54,4
+303,"609252716","dsDNA viruses, no RNA stage",TRUE,54,4
+304,"661433635","dsDNA viruses, no RNA stage",TRUE,55,4
+305,"568191240","dsDNA viruses, no RNA stage",TRUE,52,4
+306,"310722466","dsDNA viruses, no RNA stage",TRUE,56,4
+307,"157952304","dsDNA viruses, no RNA stage",TRUE,59,4
+308,"422935955","dsDNA viruses, no RNA stage",TRUE,48,4
+309,"6446580","dsDNA viruses, no RNA stage",TRUE,60,4
+310,"472437772","dsDNA viruses, no RNA stage",TRUE,53,4
+311,"310003991","dsDNA viruses, no RNA stage",TRUE,61,4
+312,"422935113","dsDNA viruses, no RNA stage",TRUE,46,4
+313,"585299329","dsDNA viruses, no RNA stage",TRUE,45,4
+314,"80159686","dsDNA viruses, no RNA stage",TRUE,42,4
+315,"363539767","dsDNA viruses, no RNA stage",TRUE,47,4
+316,"589286664","dsDNA viruses, no RNA stage",TRUE,55,4
+317,"219681259","dsDNA viruses, no RNA stage",TRUE,56,4
+318,"593774912","dsDNA viruses, no RNA stage",TRUE,56,4
+319,"448824857","dsDNA viruses, no RNA stage",TRUE,56,4
+320,"422937778","dsDNA viruses, no RNA stage",TRUE,59,4
+321,"526177198","dsDNA viruses, no RNA stage",TRUE,54,4
+322,"414088861","dsDNA viruses, no RNA stage",TRUE,50,4
+323,"561133277","dsDNA viruses, no RNA stage",TRUE,50,4
+324,"304373555","dsDNA viruses, no RNA stage",TRUE,62,4
+325,"593774630","dsDNA viruses, no RNA stage",TRUE,55,4
+326,"116326687","dsDNA viruses, no RNA stage",TRUE,61,4
+327,"23455848","dsDNA viruses, no RNA stage",TRUE,53,4
+328,"114680053","dsDNA viruses, no RNA stage",TRUE,57,4
+329,"571031196","dsDNA viruses, no RNA stage",TRUE,58,4
+330,"448824968","dsDNA viruses, no RNA stage",TRUE,48,4
+331,"682123897","dsDNA viruses, no RNA stage",TRUE,61,4
+332,"363539522","dsDNA viruses, no RNA stage",TRUE,67,4
+333,"519904135","dsDNA viruses, no RNA stage",TRUE,55,4
+334,"399528579","dsDNA viruses, no RNA stage",TRUE,55,4
+335,"109521437","dsDNA viruses, no RNA stage",TRUE,61,4
+336,"659488140","dsDNA viruses, no RNA stage",TRUE,57,4
+337,"573007028","dsDNA viruses, no RNA stage",TRUE,61,4
+338,"426202315","dsDNA viruses, no RNA stage",TRUE,58,4
+339,"311977355","dsDNA viruses, no RNA stage",TRUE,45,4
+340,"609252170","dsDNA viruses, no RNA stage",TRUE,50,4
+341,"148368821","dsDNA viruses, no RNA stage",TRUE,58,4
+342,"448824968","dsDNA viruses, no RNA stage",TRUE,47,4
+343,"418489849","dsDNA viruses, no RNA stage",TRUE,48,4
+344,"20069879","dsDNA viruses, no RNA stage",TRUE,57,4
+345,"157324960","dsDNA viruses, no RNA stage",TRUE,49,4
+346,"672550958","dsDNA viruses, no RNA stage",TRUE,44,4
+347,"589286999","dsDNA viruses, no RNA stage",TRUE,60,4
+348,"157952304","dsDNA viruses, no RNA stage",TRUE,54,4
+349,"543171494","dsDNA viruses, no RNA stage",TRUE,58,4
+350,"197261511","dsDNA viruses, no RNA stage",TRUE,50,4
+351,"310722466","dsDNA viruses, no RNA stage",TRUE,58,4
+352,"422936608","dsDNA viruses, no RNA stage",TRUE,65,4
+1,"226423341","dsRNA viruses",TRUE,56,5
+2,"298201185","dsRNA viruses",TRUE,46,5
+3,"389656396","dsRNA viruses",TRUE,55,5
+4,"298201181","dsRNA viruses",TRUE,49,5
+5,"21450040","dsRNA viruses",TRUE,44,5
+6,"302317583","dsRNA viruses",TRUE,51,5
+7,"50253401","dsRNA viruses",TRUE,45,5
+8,"189022224","dsRNA viruses",TRUE,44,5
+9,"308814346","dsRNA viruses",TRUE,47,5
+10,"81054207","dsRNA viruses",TRUE,47,5
+11,"255612555","dsRNA viruses",TRUE,53,5
+12,"50234096","dsRNA viruses",TRUE,60,5
+13,"23309030","dsRNA viruses",TRUE,51,5
+14,"256398147","dsRNA viruses",TRUE,44,5
+15,"20428567","dsRNA viruses",TRUE,43,5
+16,"596403197","dsRNA viruses",TRUE,43,5
+17,"20889296","dsRNA viruses",TRUE,56,5
+18,"50253395","dsRNA viruses",TRUE,44,5
+19,"14993614","dsRNA viruses",TRUE,42,5
+20,"20889389","dsRNA viruses",TRUE,56,5
+21,"50253395","dsRNA viruses",TRUE,41,5
+22,"20889329","dsRNA viruses",TRUE,51,5
+23,"20428567","dsRNA viruses",TRUE,48,5
+24,"23238127","dsRNA viruses",TRUE,48,5
+25,"342243406","dsRNA viruses",TRUE,51,5
+26,"255612555","dsRNA viruses",TRUE,55,5
+27,"78767273","dsRNA viruses",TRUE,49,5
+28,"62401671","dsRNA viruses",TRUE,43,5
+29,"20889358","dsRNA viruses",TRUE,45,5
+30,"20177434","dsRNA viruses",TRUE,44,5
+31,"262530253","dsRNA viruses",TRUE,48,5
+32,"226423331","dsRNA viruses",TRUE,45,5
+33,"85719285","dsRNA viruses",TRUE,50,5
+34,"20889329","dsRNA viruses",TRUE,51,5
+35,"309259994","dsRNA viruses",TRUE,49,5
+36,"315573168","dsRNA viruses",TRUE,54,5
+37,"262216749","dsRNA viruses",TRUE,50,5
+38,"635717078","dsRNA viruses",TRUE,54,5
+39,"190643480","dsRNA viruses",TRUE,48,5
+40,"68532388","dsRNA viruses",TRUE,51,5
+41,"50253411","dsRNA viruses",TRUE,52,5
+42,"22855198","dsRNA viruses",TRUE,51,5
+43,"20428604","dsRNA viruses",TRUE,55,5
+44,"608309552","dsRNA viruses",TRUE,46,5
+45,"20279540","dsRNA viruses",TRUE,50,5
+46,"20889358","dsRNA viruses",TRUE,47,5
+47,"596403532","dsRNA viruses",TRUE,48,5
+48,"50253411","dsRNA viruses",TRUE,52,5
+49,"190643480","dsRNA viruses",TRUE,55,5
+50,"23309030","dsRNA viruses",TRUE,48,5
+51,"521967825","dsRNA viruses",TRUE,47,5
+52,"14993614","dsRNA viruses",TRUE,42,5
+53,"134287146","dsRNA viruses",TRUE,49,5
+54,"302317583","dsRNA viruses",TRUE,50,5
+55,"551682528","dsRNA viruses",TRUE,46,5
+56,"20889358","dsRNA viruses",TRUE,48,5
+57,"342243406","dsRNA viruses",TRUE,51,5
+58,"304373826","dsRNA viruses",TRUE,55,5
+59,"521967825","dsRNA viruses",TRUE,41,5
+60,"14993614","dsRNA viruses",TRUE,43,5
+61,"20889358","dsRNA viruses",TRUE,50,5
+62,"14993614","dsRNA viruses",TRUE,46,5
+63,"109240508","dsRNA viruses",TRUE,50,5
+64,"23309034","dsRNA viruses",TRUE,49,5
+65,"20889296","dsRNA viruses",TRUE,55,5
+66,"309259994","dsRNA viruses",TRUE,46,5
+67,"23238153","dsRNA viruses",TRUE,48,5
+68,"226423331","dsRNA viruses",TRUE,46,5
+69,"10518479","dsRNA viruses",TRUE,50,5
+70,"187765483","dsRNA viruses",TRUE,47,5
+71,"383386110","dsRNA viruses",TRUE,52,5
+72,"308814346","dsRNA viruses",TRUE,50,5
+73,"375298197","dsRNA viruses",TRUE,48,5
+74,"555928277","dsRNA viruses",TRUE,47,5
+75,"226423341","dsRNA viruses",TRUE,60,5
+76,"78763552","dsRNA viruses",TRUE,46,5
+77,"608309552","dsRNA viruses",TRUE,46,5
+78,"20889358","dsRNA viruses",TRUE,47,5
+79,"189022226","dsRNA viruses",TRUE,49,5
+80,"394935462","dsRNA viruses",TRUE,47,5
+81,"482651005","dsRNA viruses",TRUE,52,5
+82,"85813347","dsRNA viruses",TRUE,57,5
+83,"85719285","dsRNA viruses",TRUE,53,5
+84,"23309034","dsRNA viruses",TRUE,40,5
+85,"607064641","dsRNA viruses",TRUE,43,5
+86,"22855204","dsRNA viruses",TRUE,54,5
+87,"555928257","dsRNA viruses",TRUE,51,5
+88,"304373830","dsRNA viruses",TRUE,55,5
+89,"39980672","ssDNA viruses",TRUE,55,5
+90,"9625381","ssDNA viruses",TRUE,51,5
+91,"338826803","ssDNA viruses",TRUE,59,5
+92,"296006059","ssDNA viruses",TRUE,55,5
+93,"9628649","ssDNA viruses",TRUE,56,5
+94,"401715657","ssDNA viruses",TRUE,55,5
+95,"9626316","ssDNA viruses",TRUE,50,5
+96,"212928341","ssDNA viruses",TRUE,57,5
+97,"261597702","ssDNA viruses",TRUE,51,5
+98,"46359753","ssDNA viruses",TRUE,54,5
+99,"89888094","ssDNA viruses",TRUE,59,5
+100,"675510788","ssDNA viruses",TRUE,53,5
+101,"20522153","ssDNA viruses",TRUE,48,5
+102,"570033506","ssDNA viruses",TRUE,50,5
+103,"29337269","ssDNA viruses",TRUE,51,5
+104,"9626133","ssDNA viruses",TRUE,63,5
+105,"295441905","ssDNA viruses",TRUE,55,5
+106,"449147296","ssDNA viruses",TRUE,53,5
+107,"122808720","ssDNA viruses",TRUE,54,5
+108,"9626316","ssDNA viruses",TRUE,57,5
+109,"207271566","ssDNA viruses",TRUE,53,5
+110,"9630747","ssDNA viruses",TRUE,55,5
+111,"295413918","ssDNA viruses",TRUE,62,5
+112,"422933996","ssDNA viruses",TRUE,58,5
+113,"9628649","ssDNA viruses",TRUE,56,5
+114,"45597171","ssDNA viruses",TRUE,54,5
+115,"9626133","ssDNA viruses",TRUE,59,5
+116,"9630761","ssDNA viruses",TRUE,60,5
+117,"22128611","ssDNA viruses",TRUE,49,5
+118,"21165975","ssDNA viruses",TRUE,55,5
+119,"312126258","ssDNA viruses",TRUE,58,5
+120,"601448486","ssDNA viruses",TRUE,51,5
+121,"215480028","ssDNA viruses",TRUE,60,5
+122,"209901313","ssDNA viruses",TRUE,58,5
+123,"589287117","ssDNA viruses",TRUE,59,5
+124,"526177323","ssDNA viruses",TRUE,49,5
+125,"113199737","ssDNA viruses",TRUE,56,5
+126,"315111586","ssDNA viruses",TRUE,53,5
+127,"51949957","ssDNA viruses",TRUE,56,5
+128,"49248530","ssDNA viruses",TRUE,62,5
+129,"113200776","ssDNA viruses",TRUE,53,5
+130,"29337266","ssDNA viruses",TRUE,55,5
+131,"296005654","ssDNA viruses",TRUE,52,5
+132,"404184272","ssDNA viruses",TRUE,62,5
+133,"261597702","ssDNA viruses",TRUE,53,5
+134,"226596529","ssDNA viruses",TRUE,59,5
+135,"9630683","ssDNA viruses",TRUE,55,5
+136,"46359766","ssDNA viruses",TRUE,51,5
+137,"23334625","ssDNA viruses",TRUE,62,5
+138,"372199594","ssDNA viruses",TRUE,54,5
+139,"607840593","ssDNA viruses",TRUE,49,5
+140,"387600895","ssDNA viruses",TRUE,59,5
+141,"295413928","ssDNA viruses",TRUE,57,5
+142,"256352170","ssDNA viruses",TRUE,57,5
+143,"254688527","ssDNA viruses",TRUE,56,5
+144,"589287117","ssDNA viruses",TRUE,59,5
+145,"394922850","ssDNA viruses",TRUE,60,5
+146,"312126258","ssDNA viruses",TRUE,57,5
+147,"394922850","ssDNA viruses",TRUE,59,5
+148,"356457872","ssDNA viruses",TRUE,54,5
+149,"29337260","ssDNA viruses",TRUE,55,5
+150,"23334625","ssDNA viruses",TRUE,60,5
+151,"9630378","ssDNA viruses",TRUE,62,5
+152,"9625381","ssDNA viruses",TRUE,49,5
+153,"605039075","ssDNA viruses",TRUE,56,5
+154,"296006072","ssDNA viruses",TRUE,52,5
+155,"45597171","ssDNA viruses",TRUE,53,5
+156,"29337266","ssDNA viruses",TRUE,53,5
+157,"46359766","ssDNA viruses",TRUE,52,5
+158,"295413834","ssDNA viruses",TRUE,57,5
+159,"295413918","ssDNA viruses",TRUE,59,5
+160,"49248521","ssDNA viruses",TRUE,58,5
+161,"591398015","ssDNA viruses",TRUE,61,5
+162,"9630747","ssDNA viruses",TRUE,55,5
+163,"77020114","ssDNA viruses",TRUE,56,5
+164,"9628649","ssDNA viruses",TRUE,64,5
+165,"29337269","ssDNA viruses",TRUE,46,5
+166,"19919902","ssDNA viruses",TRUE,53,5
+167,"295441905","ssDNA viruses",TRUE,54,5
+168,"9630747","ssDNA viruses",TRUE,54,5
+169,"9625381","ssDNA viruses",TRUE,53,5
+170,"296006072","ssDNA viruses",TRUE,54,5
+171,"254688527","ssDNA viruses",TRUE,55,5
+172,"338826803","ssDNA viruses",TRUE,58,5
+173,"9625381","ssDNA viruses",TRUE,53,5
+174,"110084000","ssDNA viruses",TRUE,54,5
+175,"51949957","ssDNA viruses",TRUE,58,5
+176,"77125236","ssDNA viruses",TRUE,55,5
+177,"9630807","ssRNA viruses",TRUE,43,5
+178,"380877198","ssRNA viruses",TRUE,45,5
+179,"15081544","ssRNA viruses",TRUE,57,5
+180,"237781162","ssRNA viruses",TRUE,51,5
+181,"76364065","ssRNA viruses",TRUE,35,5
+182,"33589253","ssRNA viruses",TRUE,40,5
+183,"425867887","ssRNA viruses",TRUE,43,5
+184,"301173451","ssRNA viruses",TRUE,41,5
+185,"212671430","ssRNA viruses",TRUE,48,5
+186,"62398870","ssRNA viruses",TRUE,46,5
+187,"21557568","ssRNA viruses",TRUE,57,5
+188,"15426259","ssRNA viruses",TRUE,38,5
+189,"554967333","ssRNA viruses",TRUE,42,5
+190,"77118348","ssRNA viruses",TRUE,46,5
+191,"189026268","ssRNA viruses",TRUE,38,5
+192,"594139845","ssRNA viruses",TRUE,42,5
+193,"568319712","ssRNA viruses",TRUE,52,5
+194,"9634968","ssRNA viruses",TRUE,46,5
+195,"30410830","ssRNA viruses",TRUE,52,5
+196,"9632978","ssRNA viruses",TRUE,46,5
+197,"30090015","ssRNA viruses",TRUE,42,5
+198,"385724809","ssRNA viruses",TRUE,42,5
+199,"209363550","ssRNA viruses",TRUE,39,5
+200,"354459081","ssRNA viruses",TRUE,54,5
+201,"20260781","ssRNA viruses",TRUE,40,5
+202,"20564186","ssRNA viruses",TRUE,48,5
+203,"46393298","ssRNA viruses",TRUE,48,5
+204,"9790313","ssRNA viruses",TRUE,47,5
+205,"9635457","ssRNA viruses",TRUE,49,5
+206,"571026784","ssRNA viruses",TRUE,59,5
+207,"255694008","ssRNA viruses",TRUE,31,5
+208,"216967209","ssRNA viruses",TRUE,53,5
+209,"425867875","ssRNA viruses",TRUE,41,5
+210,"182406744","ssRNA viruses",TRUE,40,5
+211,"594139803","ssRNA viruses",TRUE,39,5
+212,"11067737","ssRNA viruses",TRUE,54,5
+213,"594139941","ssRNA viruses",TRUE,42,5
+214,"471236993","ssRNA viruses",TRUE,49,5
+215,"428782081","ssRNA viruses",TRUE,36,5
+216,"9626205","ssRNA viruses",TRUE,43,5
+217,"570364810","ssRNA viruses",TRUE,40,5
+218,"19387576","ssRNA viruses",TRUE,46,5
+219,"9635457","ssRNA viruses",TRUE,48,5
+220,"268529021","ssRNA viruses",TRUE,43,5
+221,"9629255","ssRNA viruses",TRUE,55,5
+222,"115304324","ssRNA viruses",TRUE,48,5
+223,"401829621","ssRNA viruses",TRUE,40,5
+224,"594139785","ssRNA viruses",TRUE,42,5
+225,"85718614","ssRNA viruses",TRUE,53,5
+226,"56692979","ssRNA viruses",TRUE,39,5
+227,"594139833","ssRNA viruses",TRUE,45,5
+228,"9629812","ssRNA viruses",TRUE,49,5
+229,"20373121","ssRNA viruses",TRUE,50,5
+230,"594139920","ssRNA viruses",TRUE,40,5
+231,"20522126","ssRNA viruses",TRUE,44,5
+232,"9629345","ssRNA viruses",TRUE,39,5
+233,"425867860","ssRNA viruses",TRUE,43,5
+234,"353332641","ssRNA viruses",TRUE,47,5
+235,"85677473","ssRNA viruses",TRUE,39,5
+236,"594139686","ssRNA viruses",TRUE,46,5
+237,"14583260","ssRNA viruses",TRUE,48,5
+238,"658645608","ssRNA viruses",TRUE,48,5
+239,"9629506","ssRNA viruses",TRUE,45,5
+240,"9632350","ssRNA viruses",TRUE,47,5
+241,"315192962","ssRNA viruses",TRUE,52,5
+242,"182406744","ssRNA viruses",TRUE,49,5
+243,"9631279","ssRNA viruses",TRUE,54,5
+244,"9626685","ssRNA viruses",TRUE,40,5
+245,"38371718","ssRNA viruses",TRUE,33,5
+246,"554505422","ssRNA viruses",TRUE,55,5
+247,"655454918","ssRNA viruses",TRUE,44,5
+248,"381333920","ssRNA viruses",TRUE,36,5
+249,"394922808","ssRNA viruses",TRUE,41,5
+250,"594139815","ssRNA viruses",TRUE,41,5
+251,"55770806","ssRNA viruses",TRUE,42,5
+252,"594139866","ssRNA viruses",TRUE,41,5
+253,"380035083","ssRNA viruses",TRUE,44,5
+254,"115304324","ssRNA viruses",TRUE,40,5
+255,"475994034","ssRNA viruses",TRUE,53,5
+256,"22789222","ssRNA viruses",TRUE,42,5
+257,"443615329","ssRNA viruses",TRUE,39,5
+258,"582973095","ssRNA viruses",TRUE,48,5
+259,"22256025","ssRNA viruses",TRUE,37,5
+260,"594139941","ssRNA viruses",TRUE,43,5
+261,"294768475","ssRNA viruses",TRUE,45,5
+262,"530547424","ssRNA viruses",TRUE,52,5
+263,"20428591","ssRNA viruses",TRUE,43,5
+264,"594139815","ssRNA viruses",TRUE,40,5
+265,"194172859","dsDNA viruses, no RNA stage",TRUE,57,5
+266,"408905858","dsDNA viruses, no RNA stage",TRUE,50,5
+267,"192823996","dsDNA viruses, no RNA stage",TRUE,37,5
+268,"281190771","dsDNA viruses, no RNA stage",TRUE,60,5
+269,"530787714","dsDNA viruses, no RNA stage",TRUE,44,5
+270,"602259872","dsDNA viruses, no RNA stage",TRUE,39,5
+271,"310003214","dsDNA viruses, no RNA stage",TRUE,60,5
+272,"20065797","dsDNA viruses, no RNA stage",TRUE,54,5
+273,"109521758","dsDNA viruses, no RNA stage",TRUE,39,5
+274,"363539522","dsDNA viruses, no RNA stage",TRUE,60,5
+275,"530787714","dsDNA viruses, no RNA stage",TRUE,59,5
+276,"83722567","dsDNA viruses, no RNA stage",TRUE,38,5
+277,"194100514","dsDNA viruses, no RNA stage",TRUE,40,5
+278,"33300811","dsDNA viruses, no RNA stage",TRUE,43,5
+279,"311992494","dsDNA viruses, no RNA stage",TRUE,57,5
+280,"422935057","dsDNA viruses, no RNA stage",TRUE,52,5
+281,"414089947","dsDNA viruses, no RNA stage",TRUE,56,5
+282,"472437772","dsDNA viruses, no RNA stage",TRUE,57,5
+283,"83642839","dsDNA viruses, no RNA stage",TRUE,62,5
+284,"465282709","dsDNA viruses, no RNA stage",TRUE,61,5
+285,"585299329","dsDNA viruses, no RNA stage",TRUE,54,5
+286,"109302753","dsDNA viruses, no RNA stage",TRUE,51,5
+287,"15617474","dsDNA viruses, no RNA stage",TRUE,56,5
+288,"333798163","dsDNA viruses, no RNA stage",TRUE,60,5
+289,"414090130","dsDNA viruses, no RNA stage",TRUE,46,5
+290,"472437937","dsDNA viruses, no RNA stage",TRUE,56,5
+291,"13786531","dsDNA viruses, no RNA stage",TRUE,62,5
+292,"674269192","dsDNA viruses, no RNA stage",TRUE,58,5
+293,"363539767","dsDNA viruses, no RNA stage",TRUE,52,5
+294,"326536103","dsDNA viruses, no RNA stage",TRUE,63,5
+295,"643218568","dsDNA viruses, no RNA stage",TRUE,52,5
+296,"32453825","dsDNA viruses, no RNA stage",TRUE,52,5
+297,"182630511","dsDNA viruses, no RNA stage",TRUE,61,5
+298,"643217077","dsDNA viruses, no RNA stage",TRUE,64,5
+299,"448260223","dsDNA viruses, no RNA stage",TRUE,58,5
+300,"386522723","dsDNA viruses, no RNA stage",TRUE,51,5
+301,"281415946","dsDNA viruses, no RNA stage",TRUE,44,5
+302,"83642839","dsDNA viruses, no RNA stage",TRUE,56,5
+303,"593778526","dsDNA viruses, no RNA stage",TRUE,40,5
+304,"468639686","dsDNA viruses, no RNA stage",TRUE,56,5
+305,"45686008","dsDNA viruses, no RNA stage",TRUE,60,5
+306,"509141289","dsDNA viruses, no RNA stage",TRUE,37,5
+307,"313768203","dsDNA viruses, no RNA stage",TRUE,52,5
+308,"327198387","dsDNA viruses, no RNA stage",TRUE,61,5
+309,"674269192","dsDNA viruses, no RNA stage",TRUE,58,5
+310,"431810493","dsDNA viruses, no RNA stage",TRUE,54,5
+311,"356640291","dsDNA viruses, no RNA stage",TRUE,62,5
+312,"672550884","dsDNA viruses, no RNA stage",TRUE,60,5
+313,"10834856","dsDNA viruses, no RNA stage",TRUE,45,5
+314,"472437437","dsDNA viruses, no RNA stage",TRUE,50,5
+315,"20198505","dsDNA viruses, no RNA stage",TRUE,38,5
+316,"282599392","dsDNA viruses, no RNA stage",TRUE,62,5
+317,"423262043","dsDNA viruses, no RNA stage",TRUE,63,5
+318,"422933946","dsDNA viruses, no RNA stage",TRUE,49,5
+319,"526244872","dsDNA viruses, no RNA stage",TRUE,57,5
+320,"72257064","dsDNA viruses, no RNA stage",TRUE,45,5
+321,"589287214","dsDNA viruses, no RNA stage",TRUE,62,5
+322,"334265679","dsDNA viruses, no RNA stage",TRUE,62,5
+323,"66391804","dsDNA viruses, no RNA stage",TRUE,62,5
+324,"281190771","dsDNA viruses, no RNA stage",TRUE,53,5
+325,"388570360","dsDNA viruses, no RNA stage",TRUE,52,5
+326,"9629267","dsDNA viruses, no RNA stage",TRUE,40,5
+327,"119953744","dsDNA viruses, no RNA stage",TRUE,59,5
+328,"531034792","dsDNA viruses, no RNA stage",TRUE,46,5
+329,"209401054","dsDNA viruses, no RNA stage",TRUE,55,5
+330,"157953191","dsDNA viruses, no RNA stage",TRUE,49,5
+331,"327197843","dsDNA viruses, no RNA stage",TRUE,52,5
+332,"30844336","dsDNA viruses, no RNA stage",TRUE,50,5
+333,"658607984","dsDNA viruses, no RNA stage",TRUE,63,5
+334,"643217077","dsDNA viruses, no RNA stage",TRUE,59,5
+335,"255033713","dsDNA viruses, no RNA stage",TRUE,42,5
+336,"314121562","dsDNA viruses, no RNA stage",TRUE,57,5
+337,"30984428","dsDNA viruses, no RNA stage",TRUE,39,5
+338,"530545183","dsDNA viruses, no RNA stage",TRUE,47,5
+339,"593779232","dsDNA viruses, no RNA stage",TRUE,38,5
+340,"326633040","dsDNA viruses, no RNA stage",TRUE,61,5
+341,"593776411","dsDNA viruses, no RNA stage",TRUE,43,5
+342,"51557483","dsDNA viruses, no RNA stage",TRUE,37,5
+343,"409187963","dsDNA viruses, no RNA stage",TRUE,57,5
+344,"531034792","dsDNA viruses, no RNA stage",TRUE,48,5
+345,"341865278","dsDNA viruses, no RNA stage",TRUE,51,5
+346,"448260543","dsDNA viruses, no RNA stage",TRUE,58,5
+347,"170783609","dsDNA viruses, no RNA stage",TRUE,62,5
+348,"682123100","dsDNA viruses, no RNA stage",TRUE,58,5
+349,"529153477","dsDNA viruses, no RNA stage",TRUE,40,5
+350,"508180789","dsDNA viruses, no RNA stage",TRUE,41,5
+351,"589890642","dsDNA viruses, no RNA stage",TRUE,63,5
+352,"431809199","dsDNA viruses, no RNA stage",TRUE,58,5
+1,"85719285","dsRNA viruses",TRUE,53,6
+2,"50253395","dsRNA viruses",TRUE,47,6
+3,"50234096","dsRNA viruses",TRUE,56,6
+4,"14993614","dsRNA viruses",TRUE,51,6
+5,"608309552","dsRNA viruses",TRUE,47,6
+6,"20177434","dsRNA viruses",TRUE,50,6
+7,"189022226","dsRNA viruses",TRUE,51,6
+8,"342243406","dsRNA viruses",TRUE,56,6
+9,"20889296","dsRNA viruses",TRUE,52,6
+10,"596403197","dsRNA viruses",TRUE,47,6
+11,"555928257","dsRNA viruses",TRUE,53,6
+12,"262216749","dsRNA viruses",TRUE,48,6
+13,"23238153","dsRNA viruses",TRUE,49,6
+14,"85813347","dsRNA viruses",TRUE,62,6
+15,"14993614","dsRNA viruses",TRUE,44,6
+16,"20889329","dsRNA viruses",TRUE,50,6
+17,"308814346","dsRNA viruses",TRUE,51,6
+18,"10518479","dsRNA viruses",TRUE,54,6
+19,"14993614","dsRNA viruses",TRUE,48,6
+20,"109240508","dsRNA viruses",TRUE,48,6
+21,"14993614","dsRNA viruses",TRUE,46,6
+22,"23238127","dsRNA viruses",TRUE,48,6
+23,"596403532","dsRNA viruses",TRUE,48,6
+24,"226423331","dsRNA viruses",TRUE,48,6
+25,"20889358","dsRNA viruses",TRUE,47,6
+26,"50253401","dsRNA viruses",TRUE,47,6
+27,"304373830","dsRNA viruses",TRUE,51,6
+28,"187765483","dsRNA viruses",TRUE,50,6
+29,"20889329","dsRNA viruses",TRUE,52,6
+30,"23309030","dsRNA viruses",TRUE,53,6
+31,"23309034","dsRNA viruses",TRUE,43,6
+32,"315573168","dsRNA viruses",TRUE,52,6
+33,"298201185","dsRNA viruses",TRUE,49,6
+34,"20428567","dsRNA viruses",TRUE,40,6
+35,"20889358","dsRNA viruses",TRUE,50,6
+36,"23309034","dsRNA viruses",TRUE,53,6
+37,"262530253","dsRNA viruses",TRUE,46,6
+38,"134287146","dsRNA viruses",TRUE,49,6
+39,"521967825","dsRNA viruses",TRUE,42,6
+40,"20889296","dsRNA viruses",TRUE,55,6
+41,"78763552","dsRNA viruses",TRUE,47,6
+42,"20889389","dsRNA viruses",TRUE,52,6
+43,"85719285","dsRNA viruses",TRUE,57,6
+44,"23309030","dsRNA viruses",TRUE,46,6
+45,"298201181","dsRNA viruses",TRUE,52,6
+46,"302317583","dsRNA viruses",TRUE,48,6
+47,"226423341","dsRNA viruses",TRUE,60,6
+48,"302317583","dsRNA viruses",TRUE,49,6
+49,"50253411","dsRNA viruses",TRUE,51,6
+50,"608309552","dsRNA viruses",TRUE,45,6
+51,"78767273","dsRNA viruses",TRUE,54,6
+52,"342243406","dsRNA viruses",TRUE,54,6
+53,"81054207","dsRNA viruses",TRUE,51,6
+54,"20279540","dsRNA viruses",TRUE,52,6
+55,"50253395","dsRNA viruses",TRUE,42,6
+56,"50253411","dsRNA viruses",TRUE,52,6
+57,"375298197","dsRNA viruses",TRUE,47,6
+58,"389656396","dsRNA viruses",TRUE,51,6
+59,"22855204","dsRNA viruses",TRUE,52,6
+60,"190643480","dsRNA viruses",TRUE,42,6
+61,"555928277","dsRNA viruses",TRUE,50,6
+62,"394935462","dsRNA viruses",TRUE,46,6
+63,"482651005","dsRNA viruses",TRUE,54,6
+64,"521967825","dsRNA viruses",TRUE,55,6
+65,"20889358","dsRNA viruses",TRUE,51,6
+66,"226423331","dsRNA viruses",TRUE,48,6
+67,"255612555","dsRNA viruses",TRUE,54,6
+68,"20889358","dsRNA viruses",TRUE,47,6
+69,"189022224","dsRNA viruses",TRUE,48,6
+70,"309259994","dsRNA viruses",TRUE,46,6
+71,"551682528","dsRNA viruses",TRUE,49,6
+72,"22855198","dsRNA viruses",TRUE,47,6
+73,"383386110","dsRNA viruses",TRUE,52,6
+74,"20428567","dsRNA viruses",TRUE,47,6
+75,"21450040","dsRNA viruses",TRUE,44,6
+76,"20889358","dsRNA viruses",TRUE,49,6
+77,"607064641","dsRNA viruses",TRUE,47,6
+78,"635717078","dsRNA viruses",TRUE,56,6
+79,"190643480","dsRNA viruses",TRUE,55,6
+80,"255612555","dsRNA viruses",TRUE,53,6
+81,"20428604","dsRNA viruses",TRUE,55,6
+82,"308814346","dsRNA viruses",TRUE,48,6
+83,"256398147","dsRNA viruses",TRUE,51,6
+84,"304373826","dsRNA viruses",TRUE,51,6
+85,"68532388","dsRNA viruses",TRUE,53,6
+86,"226423341","dsRNA viruses",TRUE,58,6
+87,"309259994","dsRNA viruses",TRUE,49,6
+88,"62401671","dsRNA viruses",TRUE,45,6
+89,"23334625","ssDNA viruses",TRUE,60,6
+90,"9626109","ssDNA viruses",TRUE,56,6
+91,"46359766","ssDNA viruses",TRUE,55,6
+92,"21165975","ssDNA viruses",TRUE,51,6
+93,"317453629","ssDNA viruses",TRUE,51,6
+94,"312126258","ssDNA viruses",TRUE,57,6
+95,"573007056","ssDNA viruses",TRUE,48,6
+96,"317453629","ssDNA viruses",TRUE,53,6
+97,"254688527","ssDNA viruses",TRUE,59,6
+98,"601449263","ssDNA viruses",TRUE,60,6
+99,"9625381","ssDNA viruses",TRUE,54,6
+100,"9628649","ssDNA viruses",TRUE,55,6
+101,"9625381","ssDNA viruses",TRUE,52,6
+102,"9625381","ssDNA viruses",TRUE,49,6
+103,"9626316","ssDNA viruses",TRUE,56,6
+104,"29337266","ssDNA viruses",TRUE,54,6
+105,"77020114","ssDNA viruses",TRUE,55,6
+106,"9628649","ssDNA viruses",TRUE,58,6
+107,"356457872","ssDNA viruses",TRUE,61,6
+108,"394922850","ssDNA viruses",TRUE,57,6
+109,"526177323","ssDNA viruses",TRUE,52,6
+110,"312126258","ssDNA viruses",TRUE,59,6
+111,"372199594","ssDNA viruses",TRUE,57,6
+112,"422933996","ssDNA viruses",TRUE,58,6
+113,"9626133","ssDNA viruses",TRUE,57,6
+114,"338826803","ssDNA viruses",TRUE,60,6
+115,"29337269","ssDNA viruses",TRUE,54,6
+116,"27151463","ssDNA viruses",TRUE,58,6
+117,"45597171","ssDNA viruses",TRUE,56,6
+118,"296006072","ssDNA viruses",TRUE,50,6
+119,"591398015","ssDNA viruses",TRUE,61,6
+120,"9630683","ssDNA viruses",TRUE,52,6
+121,"29337269","ssDNA viruses",TRUE,44,6
+122,"601448486","ssDNA viruses",TRUE,49,6
+123,"20522153","ssDNA viruses",TRUE,45,6
+124,"295441905","ssDNA viruses",TRUE,55,6
+125,"295413918","ssDNA viruses",TRUE,56,6
+126,"51949957","ssDNA viruses",TRUE,58,6
+127,"29171762","ssDNA viruses",TRUE,53,6
+128,"29337260","ssDNA viruses",TRUE,51,6
+129,"209901313","ssDNA viruses",TRUE,62,6
+130,"9625381","ssDNA viruses",TRUE,46,6
+131,"449147296","ssDNA viruses",TRUE,49,6
+132,"9630683","ssDNA viruses",TRUE,53,6
+133,"295413928","ssDNA viruses",TRUE,58,6
+134,"296005654","ssDNA viruses",TRUE,56,6
+135,"296006072","ssDNA viruses",TRUE,52,6
+136,"589287117","ssDNA viruses",TRUE,57,6
+137,"295413918","ssDNA viruses",TRUE,56,6
+138,"9630747","ssDNA viruses",TRUE,55,6
+139,"226596529","ssDNA viruses",TRUE,55,6
+140,"387600895","ssDNA viruses",TRUE,59,6
+141,"296006059","ssDNA viruses",TRUE,53,6
+142,"110084000","ssDNA viruses",TRUE,54,6
+143,"9626316","ssDNA viruses",TRUE,48,6
+144,"570033506","ssDNA viruses",TRUE,49,6
+145,"315111586","ssDNA viruses",TRUE,50,6
+146,"23334625","ssDNA viruses",TRUE,63,6
+147,"295413834","ssDNA viruses",TRUE,57,6
+148,"77125236","ssDNA viruses",TRUE,57,6
+149,"51949957","ssDNA viruses",TRUE,59,6
+150,"356457872","ssDNA viruses",TRUE,60,6
+151,"46359753","ssDNA viruses",TRUE,55,6
+152,"39980672","ssDNA viruses",TRUE,56,6
+153,"9630747","ssDNA viruses",TRUE,57,6
+154,"9630378","ssDNA viruses",TRUE,65,6
+155,"19919902","ssDNA viruses",TRUE,54,6
+156,"49248530","ssDNA viruses",TRUE,63,6
+157,"113199737","ssDNA viruses",TRUE,60,6
+158,"49248521","ssDNA viruses",TRUE,57,6
+159,"22128611","ssDNA viruses",TRUE,53,6
+160,"261597702","ssDNA viruses",TRUE,49,6
+161,"607840593","ssDNA viruses",TRUE,46,6
+162,"675510788","ssDNA viruses",TRUE,52,6
+163,"295413834","ssDNA viruses",TRUE,56,6
+164,"22128611","ssDNA viruses",TRUE,47,6
+165,"9626133","ssDNA viruses",TRUE,60,6
+166,"89888094","ssDNA viruses",TRUE,57,6
+167,"122808720","ssDNA viruses",TRUE,52,6
+168,"45597171","ssDNA viruses",TRUE,56,6
+169,"589287117","ssDNA viruses",TRUE,59,6
+170,"372199594","ssDNA viruses",TRUE,49,6
+171,"295441905","ssDNA viruses",TRUE,53,6
+172,"212928341","ssDNA viruses",TRUE,57,6
+173,"401715657","ssDNA viruses",TRUE,56,6
+174,"29337266","ssDNA viruses",TRUE,52,6
+175,"394922850","ssDNA viruses",TRUE,57,6
+176,"256352170","ssDNA viruses",TRUE,57,6
+177,"172088171","ssRNA viruses",TRUE,38,6
+178,"212525346","ssRNA viruses",TRUE,51,6
+179,"443615329","ssRNA viruses",TRUE,33,6
+180,"9626123","ssRNA viruses",TRUE,43,6
+181,"19919949","ssRNA viruses",TRUE,45,6
+182,"428782081","ssRNA viruses",TRUE,38,6
+183,"530547424","ssRNA viruses",TRUE,47,6
+184,"187251953","ssRNA viruses",TRUE,47,6
+185,"76253626","ssRNA viruses",TRUE,48,6
+186,"354459081","ssRNA viruses",TRUE,49,6
+187,"571026784","ssRNA viruses",TRUE,55,6
+188,"401829625","ssRNA viruses",TRUE,48,6
+189,"19919949","ssRNA viruses",TRUE,44,6
+190,"404184187","ssRNA viruses",TRUE,40,6
+191,"11125722","ssRNA viruses",TRUE,47,6
+192,"9632338","ssRNA viruses",TRUE,41,6
+193,"19387576","ssRNA viruses",TRUE,43,6
+194,"148724437","ssRNA viruses",TRUE,51,6
+195,"570364810","ssRNA viruses",TRUE,43,6
+196,"9635572","ssRNA viruses",TRUE,47,6
+197,"172088171","ssRNA viruses",TRUE,43,6
+198,"116536735","ssRNA viruses",TRUE,39,6
+199,"402502237","ssRNA viruses",TRUE,38,6
+200,"9629179","ssRNA viruses",TRUE,37,6
+201,"154814487","ssRNA viruses",TRUE,40,6
+202,"408355343","ssRNA viruses",TRUE,40,6
+203,"428781805","ssRNA viruses",TRUE,51,6
+204,"72257063","ssRNA viruses",TRUE,39,6
+205,"85667876","ssRNA viruses",TRUE,54,6
+206,"20522126","ssRNA viruses",TRUE,41,6
+207,"85718614","ssRNA viruses",TRUE,49,6
+208,"9630726","ssRNA viruses",TRUE,47,6
+209,"594139803","ssRNA viruses",TRUE,43,6
+210,"148717937","ssRNA viruses",TRUE,54,6
+211,"9626685","ssRNA viruses",TRUE,44,6
+212,"209363550","ssRNA viruses",TRUE,42,6
+213,"612400722","ssRNA viruses",TRUE,55,6
+214,"21557568","ssRNA viruses",TRUE,53,6
+215,"190643471","ssRNA viruses",TRUE,38,6
+216,"9630658","ssRNA viruses",TRUE,45,6
+217,"675510672","ssRNA viruses",TRUE,38,6
+218,"89902995","ssRNA viruses",TRUE,48,6
+219,"9632338","ssRNA viruses",TRUE,39,6
+220,"366091748","ssRNA viruses",TRUE,40,6
+221,"9627007","ssRNA viruses",TRUE,43,6
+222,"9627493","ssRNA viruses",TRUE,47,6
+223,"188543030","ssRNA viruses",TRUE,49,6
+224,"9633622","ssRNA viruses",TRUE,36,6
+225,"9628265","ssRNA viruses",TRUE,46,6
+226,"381333920","ssRNA viruses",TRUE,38,6
+227,"9635457","ssRNA viruses",TRUE,43,6
+228,"554967333","ssRNA viruses",TRUE,41,6
+229,"475994026","ssRNA viruses",TRUE,56,6
+230,"9626694","ssRNA viruses",TRUE,47,6
+231,"594139740","ssRNA viruses",TRUE,41,6
+232,"475994026","ssRNA viruses",TRUE,58,6
+233,"594139791","ssRNA viruses",TRUE,47,6
+234,"330850808","ssRNA viruses",TRUE,39,6
+235,"216967209","ssRNA viruses",TRUE,53,6
+236,"594139821","ssRNA viruses",TRUE,47,6
+237,"330370654","ssRNA viruses",TRUE,39,6
+238,"383081734","ssRNA viruses",TRUE,42,6
+239,"440382952","ssRNA viruses",TRUE,40,6
+240,"397776125","ssRNA viruses",TRUE,45,6
+241,"354459081","ssRNA viruses",TRUE,51,6
+242,"554967333","ssRNA viruses",TRUE,38,6
+243,"9626125","ssRNA viruses",TRUE,50,6
+244,"21389216","ssRNA viruses",TRUE,40,6
+245,"9632978","ssRNA viruses",TRUE,43,6
+246,"9630807","ssRNA viruses",TRUE,41,6
+247,"431810239","ssRNA viruses",TRUE,50,6
+248,"89902995","ssRNA viruses",TRUE,46,6
+249,"77118348","ssRNA viruses",TRUE,45,6
+250,"20451021","ssRNA viruses",TRUE,42,6
+251,"9629812","ssRNA viruses",TRUE,48,6
+252,"443615329","ssRNA viruses",TRUE,37,6
+253,"674269308","ssRNA viruses",TRUE,41,6
+254,"9632350","ssRNA viruses",TRUE,40,6
+255,"385724809","ssRNA viruses",TRUE,39,6
+256,"443615329","ssRNA viruses",TRUE,37,6
+257,"212681378","ssRNA viruses",TRUE,40,6
+258,"46852132","ssRNA viruses",TRUE,47,6
+259,"594139662","ssRNA viruses",TRUE,46,6
+260,"594139815","ssRNA viruses",TRUE,41,6
+261,"582973095","ssRNA viruses",TRUE,49,6
+262,"30090015","ssRNA viruses",TRUE,45,6
+263,"19747285","ssRNA viruses",TRUE,47,6
+264,"20428591","ssRNA viruses",TRUE,35,6
+265,"310003214","dsDNA viruses, no RNA stage",TRUE,67,6
+266,"66395508","dsDNA viruses, no RNA stage",TRUE,45,6
+267,"89152479","dsDNA viruses, no RNA stage",TRUE,51,6
+268,"52627071","dsDNA viruses, no RNA stage",TRUE,60,6
+269,"508181800","dsDNA viruses, no RNA stage",TRUE,50,6
+270,"311977355","dsDNA viruses, no RNA stage",TRUE,42,6
+271,"414087713","dsDNA viruses, no RNA stage",TRUE,49,6
+272,"508178111","dsDNA viruses, no RNA stage",TRUE,47,6
+273,"310004946","dsDNA viruses, no RNA stage",TRUE,66,6
+274,"659488140","dsDNA viruses, no RNA stage",TRUE,51,6
+275,"612508640","dsDNA viruses, no RNA stage",TRUE,61,6
+276,"509141289","dsDNA viruses, no RNA stage",TRUE,58,6
+277,"593773442","dsDNA viruses, no RNA stage",TRUE,64,6
+278,"148724443","dsDNA viruses, no RNA stage",TRUE,61,6
+279,"9628835","dsDNA viruses, no RNA stage",TRUE,60,6
+280,"148727082","dsDNA viruses, no RNA stage",TRUE,63,6
+281,"125745044","dsDNA viruses, no RNA stage",TRUE,64,6
+282,"209401054","dsDNA viruses, no RNA stage",TRUE,46,6
+283,"197935853","dsDNA viruses, no RNA stage",TRUE,56,6
+284,"9629267","dsDNA viruses, no RNA stage",TRUE,50,6
+285,"239507361","dsDNA viruses, no RNA stage",TRUE,46,6
+286,"526118633","dsDNA viruses, no RNA stage",TRUE,52,6
+287,"57753410","dsDNA viruses, no RNA stage",TRUE,50,6
+288,"89158250","dsDNA viruses, no RNA stage",TRUE,57,6
+289,"311977355","dsDNA viruses, no RNA stage",TRUE,55,6
+290,"514361045","dsDNA viruses, no RNA stage",TRUE,61,6
+291,"238695156","dsDNA viruses, no RNA stage",TRUE,57,6
+292,"281190771","dsDNA viruses, no RNA stage",TRUE,63,6
+293,"224020395","dsDNA viruses, no RNA stage",TRUE,58,6
+294,"238695156","dsDNA viruses, no RNA stage",TRUE,59,6
+295,"109289986","dsDNA viruses, no RNA stage",TRUE,53,6
+296,"531034792","dsDNA viruses, no RNA stage",TRUE,56,6
+297,"682123897","dsDNA viruses, no RNA stage",TRUE,66,6
+298,"589890759","dsDNA viruses, no RNA stage",TRUE,53,6
+299,"12084983","dsDNA viruses, no RNA stage",TRUE,42,6
+300,"643654468","dsDNA viruses, no RNA stage",TRUE,48,6
+301,"9634221","dsDNA viruses, no RNA stage",TRUE,58,6
+302,"109289986","dsDNA viruses, no RNA stage",TRUE,54,6
+303,"408905849","dsDNA viruses, no RNA stage",TRUE,62,6
+304,"423261416","dsDNA viruses, no RNA stage",TRUE,50,6
+305,"469519400","dsDNA viruses, no RNA stage",TRUE,50,6
+306,"643654857","dsDNA viruses, no RNA stage",TRUE,56,6
+307,"215401232","dsDNA viruses, no RNA stage",TRUE,57,6
+308,"15011550","dsDNA viruses, no RNA stage",TRUE,47,6
+309,"73852470","dsDNA viruses, no RNA stage",TRUE,65,6
+310,"526177130","dsDNA viruses, no RNA stage",TRUE,55,6
+311,"119953744","dsDNA viruses, no RNA stage",TRUE,59,6
+312,"519904135","dsDNA viruses, no RNA stage",TRUE,51,6
+313,"409187963","dsDNA viruses, no RNA stage",TRUE,50,6
+314,"431809199","dsDNA viruses, no RNA stage",TRUE,60,6
+315,"46358648","dsDNA viruses, no RNA stage",TRUE,61,6
+316,"52627071","dsDNA viruses, no RNA stage",TRUE,55,6
+317,"9630816","dsDNA viruses, no RNA stage",TRUE,44,6
+318,"414086086","dsDNA viruses, no RNA stage",TRUE,57,6
+319,"426202315","dsDNA viruses, no RNA stage",TRUE,64,6
+320,"48843534","dsDNA viruses, no RNA stage",TRUE,46,6
+321,"75750386","dsDNA viruses, no RNA stage",TRUE,54,6
+322,"163954976","dsDNA viruses, no RNA stage",TRUE,57,6
+323,"564292548","dsDNA viruses, no RNA stage",TRUE,50,6
+324,"310002946","dsDNA viruses, no RNA stage",TRUE,58,6
+325,"389059862","dsDNA viruses, no RNA stage",TRUE,65,6
+326,"9629378","dsDNA viruses, no RNA stage",TRUE,49,6
+327,"526118633","dsDNA viruses, no RNA stage",TRUE,49,6
+328,"197261511","dsDNA viruses, no RNA stage",TRUE,51,6
+329,"392972653","dsDNA viruses, no RNA stage",TRUE,49,6
+330,"189490161","dsDNA viruses, no RNA stage",TRUE,62,6
+331,"162329482","dsDNA viruses, no RNA stage",TRUE,57,6
+332,"465282709","dsDNA viruses, no RNA stage",TRUE,57,6
+333,"465282709","dsDNA viruses, no RNA stage",TRUE,62,6
+334,"119953744","dsDNA viruses, no RNA stage",TRUE,54,6
+335,"193201247","dsDNA viruses, no RNA stage",TRUE,66,6
+336,"148368821","dsDNA viruses, no RNA stage",TRUE,53,6
+337,"314055095","dsDNA viruses, no RNA stage",TRUE,46,6
+338,"593777468","dsDNA viruses, no RNA stage",TRUE,46,6
+339,"216905852","dsDNA viruses, no RNA stage",TRUE,56,6
+340,"294661423","dsDNA viruses, no RNA stage",TRUE,59,6
+341,"195661200","dsDNA viruses, no RNA stage",TRUE,60,6
+342,"589889163","dsDNA viruses, no RNA stage",TRUE,49,6
+343,"29565879","dsDNA viruses, no RNA stage",TRUE,59,6
+344,"308814351","dsDNA viruses, no RNA stage",TRUE,65,6
+345,"508551607","dsDNA viruses, no RNA stage",TRUE,56,6
+346,"399529040","dsDNA viruses, no RNA stage",TRUE,55,6
+347,"610585404","dsDNA viruses, no RNA stage",TRUE,58,6
+348,"331028054","dsDNA viruses, no RNA stage",TRUE,53,6
+349,"20198505","dsDNA viruses, no RNA stage",TRUE,46,6
+350,"448244584","dsDNA viruses, no RNA stage",TRUE,51,6
+351,"326804500","dsDNA viruses, no RNA stage",TRUE,58,6
+352,"20026600","dsDNA viruses, no RNA stage",TRUE,47,6
+1,"342243406","dsRNA viruses",TRUE,54,7
+2,"22855204","dsRNA viruses",TRUE,53,7
+3,"342243406","dsRNA viruses",TRUE,55,7
+4,"20428604","dsRNA viruses",TRUE,54,7
+5,"23238127","dsRNA viruses",TRUE,49,7
+6,"20889296","dsRNA viruses",TRUE,55,7
+7,"23309034","dsRNA viruses",TRUE,42,7
+8,"308814346","dsRNA viruses",TRUE,51,7
+9,"50253395","dsRNA viruses",TRUE,42,7
+10,"607064641","dsRNA viruses",TRUE,45,7
+11,"20889358","dsRNA viruses",TRUE,47,7
+12,"555928257","dsRNA viruses",TRUE,53,7
+13,"20889389","dsRNA viruses",TRUE,53,7
+14,"50253401","dsRNA viruses",TRUE,47,7
+15,"85813347","dsRNA viruses",TRUE,60,7
+16,"255612555","dsRNA viruses",TRUE,53,7
+17,"23309034","dsRNA viruses",TRUE,53,7
+18,"190643480","dsRNA viruses",TRUE,54,7
+19,"309259994","dsRNA viruses",TRUE,49,7
+20,"20177434","dsRNA viruses",TRUE,46,7
+21,"78767273","dsRNA viruses",TRUE,54,7
+22,"20428567","dsRNA viruses",TRUE,41,7
+23,"375298197","dsRNA viruses",TRUE,48,7
+24,"302317583","dsRNA viruses",TRUE,48,7
+25,"255612555","dsRNA viruses",TRUE,55,7
+26,"20889358","dsRNA viruses",TRUE,50,7
+27,"50253411","dsRNA viruses",TRUE,51,7
+28,"78763552","dsRNA viruses",TRUE,45,7
+29,"190643480","dsRNA viruses",TRUE,46,7
+30,"50234096","dsRNA viruses",TRUE,57,7
+31,"68532388","dsRNA viruses",TRUE,52,7
+32,"20889329","dsRNA viruses",TRUE,50,7
+33,"226423331","dsRNA viruses",TRUE,50,7
+34,"20889296","dsRNA viruses",TRUE,52,7
+35,"23309030","dsRNA viruses",TRUE,47,7
+36,"608309552","dsRNA viruses",TRUE,45,7
+37,"555928277","dsRNA viruses",TRUE,51,7
+38,"315573168","dsRNA viruses",TRUE,53,7
+39,"50253411","dsRNA viruses",TRUE,53,7
+40,"256398147","dsRNA viruses",TRUE,48,7
+41,"81054207","dsRNA viruses",TRUE,48,7
+42,"608309552","dsRNA viruses",TRUE,47,7
+43,"482651005","dsRNA viruses",TRUE,54,7
+44,"551682528","dsRNA viruses",TRUE,48,7
+45,"23238153","dsRNA viruses",TRUE,50,7
+46,"109240508","dsRNA viruses",TRUE,47,7
+47,"14993614","dsRNA viruses",TRUE,47,7
+48,"50253395","dsRNA viruses",TRUE,44,7
+49,"383386110","dsRNA viruses",TRUE,52,7
+50,"389656396","dsRNA viruses",TRUE,55,7
+51,"134287146","dsRNA viruses",TRUE,49,7
+52,"304373826","dsRNA viruses",TRUE,53,7
+53,"20889358","dsRNA viruses",TRUE,49,7
+54,"20889329","dsRNA viruses",TRUE,52,7
+55,"394935462","dsRNA viruses",TRUE,45,7
+56,"189022224","dsRNA viruses",TRUE,47,7
+57,"189022226","dsRNA viruses",TRUE,52,7
+58,"596403197","dsRNA viruses",TRUE,45,7
+59,"20889358","dsRNA viruses",TRUE,47,7
+60,"262216749","dsRNA viruses",TRUE,48,7
+61,"14993614","dsRNA viruses",TRUE,44,7
+62,"23309030","dsRNA viruses",TRUE,52,7
+63,"298201185","dsRNA viruses",TRUE,49,7
+64,"20889358","dsRNA viruses",TRUE,48,7
+65,"521967825","dsRNA viruses",TRUE,50,7
+66,"521967825","dsRNA viruses",TRUE,43,7
+67,"309259994","dsRNA viruses",TRUE,47,7
+68,"304373830","dsRNA viruses",TRUE,51,7
+69,"187765483","dsRNA viruses",TRUE,49,7
+70,"85719285","dsRNA viruses",TRUE,52,7
+71,"21450040","dsRNA viruses",TRUE,44,7
+72,"226423341","dsRNA viruses",TRUE,56,7
+73,"85719285","dsRNA viruses",TRUE,57,7
+74,"62401671","dsRNA viruses",TRUE,41,7
+75,"308814346","dsRNA viruses",TRUE,48,7
+76,"22855198","dsRNA viruses",TRUE,47,7
+77,"226423341","dsRNA viruses",TRUE,60,7
+78,"14993614","dsRNA viruses",TRUE,47,7
+79,"20279540","dsRNA viruses",TRUE,52,7
+80,"302317583","dsRNA viruses",TRUE,48,7
+81,"298201181","dsRNA viruses",TRUE,50,7
+82,"596403532","dsRNA viruses",TRUE,43,7
+83,"635717078","dsRNA viruses",TRUE,56,7
+84,"10518479","dsRNA viruses",TRUE,54,7
+85,"226423331","dsRNA viruses",TRUE,50,7
+86,"20428567","dsRNA viruses",TRUE,47,7
+87,"14993614","dsRNA viruses",TRUE,42,7
+88,"262530253","dsRNA viruses",TRUE,46,7
+89,"46359753","ssDNA viruses",TRUE,54,7
+90,"601449263","ssDNA viruses",TRUE,56,7
+91,"573007056","ssDNA viruses",TRUE,47,7
+92,"387600895","ssDNA viruses",TRUE,57,7
+93,"9630683","ssDNA viruses",TRUE,55,7
+94,"77020114","ssDNA viruses",TRUE,56,7
+95,"372199594","ssDNA viruses",TRUE,54,7
+96,"261597702","ssDNA viruses",TRUE,55,7
+97,"226596529","ssDNA viruses",TRUE,55,7
+98,"49248521","ssDNA viruses",TRUE,56,7
+99,"9625381","ssDNA viruses",TRUE,53,7
+100,"45597171","ssDNA viruses",TRUE,57,7
+101,"295413834","ssDNA viruses",TRUE,58,7
+102,"19919902","ssDNA viruses",TRUE,53,7
+103,"589287117","ssDNA viruses",TRUE,59,7
+104,"22128611","ssDNA viruses",TRUE,53,7
+105,"394922850","ssDNA viruses",TRUE,56,7
+106,"317453629","ssDNA viruses",TRUE,51,7
+107,"356457872","ssDNA viruses",TRUE,59,7
+108,"45597171","ssDNA viruses",TRUE,56,7
+109,"570033506","ssDNA viruses",TRUE,51,7
+110,"591398015","ssDNA viruses",TRUE,62,7
+111,"51949957","ssDNA viruses",TRUE,57,7
+112,"296006072","ssDNA viruses",TRUE,48,7
+113,"9630761","ssDNA viruses",TRUE,57,7
+114,"9630747","ssDNA viruses",TRUE,55,7
+115,"404184272","ssDNA viruses",TRUE,59,7
+116,"49248530","ssDNA viruses",TRUE,62,7
+117,"22128611","ssDNA viruses",TRUE,47,7
+118,"9625381","ssDNA viruses",TRUE,51,7
+119,"394922850","ssDNA viruses",TRUE,58,7
+120,"312126258","ssDNA viruses",TRUE,58,7
+121,"212928341","ssDNA viruses",TRUE,56,7
+122,"296005654","ssDNA viruses",TRUE,54,7
+123,"215480028","ssDNA viruses",TRUE,59,7
+124,"295413834","ssDNA viruses",TRUE,55,7
+125,"9625381","ssDNA viruses",TRUE,46,7
+126,"317453629","ssDNA viruses",TRUE,50,7
+127,"605039075","ssDNA viruses",TRUE,55,7
+128,"113199737","ssDNA viruses",TRUE,55,7
+129,"295413918","ssDNA viruses",TRUE,58,7
+130,"9626133","ssDNA viruses",TRUE,59,7
+131,"21165975","ssDNA viruses",TRUE,52,7
+132,"89888094","ssDNA viruses",TRUE,60,7
+133,"9626316","ssDNA viruses",TRUE,50,7
+134,"9628649","ssDNA viruses",TRUE,54,7
+135,"29337266","ssDNA viruses",TRUE,54,7
+136,"449147296","ssDNA viruses",TRUE,51,7
+137,"39980672","ssDNA viruses",TRUE,57,7
+138,"23334625","ssDNA viruses",TRUE,59,7
+139,"296006059","ssDNA viruses",TRUE,55,7
+140,"39980672","ssDNA viruses",TRUE,56,7
+141,"27151463","ssDNA viruses",TRUE,60,7
+142,"338826803","ssDNA viruses",TRUE,59,7
+143,"29337266","ssDNA viruses",TRUE,51,7
+144,"601448486","ssDNA viruses",TRUE,50,7
+145,"46359766","ssDNA viruses",TRUE,46,7
+146,"29337269","ssDNA viruses",TRUE,51,7
+147,"9630378","ssDNA viruses",TRUE,63,7
+148,"29337269","ssDNA viruses",TRUE,45,7
+149,"113200776","ssDNA viruses",TRUE,53,7
+150,"207271566","ssDNA viruses",TRUE,52,7
+151,"296006072","ssDNA viruses",TRUE,53,7
+152,"29171762","ssDNA viruses",TRUE,54,7
+153,"209901313","ssDNA viruses",TRUE,56,7
+154,"338826803","ssDNA viruses",TRUE,60,7
+155,"607840593","ssDNA viruses",TRUE,46,7
+156,"9626133","ssDNA viruses",TRUE,57,7
+157,"110084000","ssDNA viruses",TRUE,51,7
+158,"254688527","ssDNA viruses",TRUE,56,7
+159,"9626133","ssDNA viruses",TRUE,59,7
+160,"77125236","ssDNA viruses",TRUE,57,7
+161,"9625381","ssDNA viruses",TRUE,54,7
+162,"9630747","ssDNA viruses",TRUE,54,7
+163,"9626109","ssDNA viruses",TRUE,55,7
+164,"295413928","ssDNA viruses",TRUE,57,7
+165,"9628649","ssDNA viruses",TRUE,58,7
+166,"9630747","ssDNA viruses",TRUE,55,7
+167,"209901313","ssDNA viruses",TRUE,62,7
+168,"315111586","ssDNA viruses",TRUE,51,7
+169,"422933996","ssDNA viruses",TRUE,58,7
+170,"122808720","ssDNA viruses",TRUE,54,7
+171,"312126258","ssDNA viruses",TRUE,55,7
+172,"256352170","ssDNA viruses",TRUE,56,7
+173,"9626109","ssDNA viruses",TRUE,56,7
+174,"254688527","ssDNA viruses",TRUE,56,7
+175,"372199594","ssDNA viruses",TRUE,49,7
+176,"295441905","ssDNA viruses",TRUE,55,7
+177,"38349471","ssRNA viruses",TRUE,48,7
+178,"9626123","ssRNA viruses",TRUE,40,7
+179,"72398362","ssRNA viruses",TRUE,40,7
+180,"19919949","ssRNA viruses",TRUE,44,7
+181,"85677473","ssRNA viruses",TRUE,36,7
+182,"594139683","ssRNA viruses",TRUE,43,7
+183,"425867887","ssRNA viruses",TRUE,34,7
+184,"404184187","ssRNA viruses",TRUE,38,7
+185,"394922808","ssRNA viruses",TRUE,38,7
+186,"9634109","ssRNA viruses",TRUE,48,7
+187,"9629345","ssRNA viruses",TRUE,41,7
+188,"20260781","ssRNA viruses",TRUE,45,7
+189,"39163640","ssRNA viruses",TRUE,37,7
+190,"594139767","ssRNA viruses",TRUE,49,7
+191,"189313868","ssRNA viruses",TRUE,46,7
+192,"594139845","ssRNA viruses",TRUE,43,7
+193,"27228716","ssRNA viruses",TRUE,44,7
+194,"56692979","ssRNA viruses",TRUE,31,7
+195,"471236999","ssRNA viruses",TRUE,41,7
+196,"93163150","ssRNA viruses",TRUE,46,7
+197,"20260798","ssRNA viruses",TRUE,43,7
+198,"172088171","ssRNA viruses",TRUE,38,7
+199,"291612456","ssRNA viruses",TRUE,44,7
+200,"21426909","ssRNA viruses",TRUE,51,7
+201,"20564186","ssRNA viruses",TRUE,52,7
+202,"425867953","ssRNA viruses",TRUE,38,7
+203,"164607202","ssRNA viruses",TRUE,35,7
+204,"242916041","ssRNA viruses",TRUE,44,7
+205,"21431571","ssRNA viruses",TRUE,45,7
+206,"481847811","ssRNA viruses",TRUE,39,7
+207,"408355343","ssRNA viruses",TRUE,40,7
+208,"212671430","ssRNA viruses",TRUE,42,7
+209,"221048141","ssRNA viruses",TRUE,39,7
+210,"212671430","ssRNA viruses",TRUE,40,7
+211,"594139920","ssRNA viruses",TRUE,37,7
+212,"9635457","ssRNA viruses",TRUE,44,7
+213,"9626685","ssRNA viruses",TRUE,41,7
+214,"383080775","ssRNA viruses",TRUE,52,7
+215,"9635572","ssRNA viruses",TRUE,49,7
+216,"428782081","ssRNA viruses",TRUE,41,7
+217,"655454924","ssRNA viruses",TRUE,35,7
+218,"675510672","ssRNA viruses",TRUE,37,7
+219,"19881389","ssRNA viruses",TRUE,39,7
+220,"584593351","ssRNA viruses",TRUE,50,7
+221,"209363550","ssRNA viruses",TRUE,40,7
+222,"218202718","ssRNA viruses",TRUE,35,7
+223,"33620701","ssRNA viruses",TRUE,37,7
+224,"554505422","ssRNA viruses",TRUE,55,7
+225,"383080775","ssRNA viruses",TRUE,46,7
+226,"18314284","ssRNA viruses",TRUE,43,7
+227,"166851938","ssRNA viruses",TRUE,44,7
+228,"594139662","ssRNA viruses",TRUE,46,7
+229,"9633477","ssRNA viruses",TRUE,37,7
+230,"594139695","ssRNA viruses",TRUE,44,7
+231,"113200758","ssRNA viruses",TRUE,42,7
+232,"62398870","ssRNA viruses",TRUE,42,7
+233,"296006062","ssRNA viruses",TRUE,44,7
+234,"554967333","ssRNA viruses",TRUE,42,7
+235,"46393298","ssRNA viruses",TRUE,42,7
+236,"9626677","ssRNA viruses",TRUE,38,7
+237,"19387576","ssRNA viruses",TRUE,37,7
+238,"326910944","ssRNA viruses",TRUE,42,7
+239,"425867880","ssRNA viruses",TRUE,40,7
+240,"394935448","ssRNA viruses",TRUE,46,7
+241,"294768475","ssRNA viruses",TRUE,36,7
+242,"594139785","ssRNA viruses",TRUE,41,7
+243,"20522122","ssRNA viruses",TRUE,40,7
+244,"304633675","ssRNA viruses",TRUE,41,7
+245,"556333860","ssRNA viruses",TRUE,42,7
+246,"190643471","ssRNA viruses",TRUE,36,7
+247,"20451021","ssRNA viruses",TRUE,42,7
+248,"353332641","ssRNA viruses",TRUE,41,7
+249,"554505422","ssRNA viruses",TRUE,54,7
+250,"366091748","ssRNA viruses",TRUE,39,7
+251,"582973095","ssRNA viruses",TRUE,51,7
+252,"126030122","ssRNA viruses",TRUE,46,7
+253,"212525346","ssRNA viruses",TRUE,49,7
+254,"9635457","ssRNA viruses",TRUE,40,7
+255,"82703944","ssRNA viruses",TRUE,44,7
+256,"156447513","ssRNA viruses",TRUE,47,7
+257,"15426259","ssRNA viruses",TRUE,52,7
+258,"19352423","ssRNA viruses",TRUE,51,7
+259,"9632338","ssRNA viruses",TRUE,35,7
+260,"126030122","ssRNA viruses",TRUE,38,7
+261,"85718614","ssRNA viruses",TRUE,48,7
+262,"21449930","ssRNA viruses",TRUE,47,7
+263,"9626685","ssRNA viruses",TRUE,36,7
+264,"167600353","ssRNA viruses",TRUE,45,7
+265,"157952304","dsDNA viruses, no RNA stage",TRUE,59,7
+266,"571031196","dsDNA viruses, no RNA stage",TRUE,49,7
+267,"58532811","dsDNA viruses, no RNA stage",TRUE,59,7
+268,"363539767","dsDNA viruses, no RNA stage",TRUE,49,7
+269,"593774912","dsDNA viruses, no RNA stage",TRUE,52,7
+270,"327409390","dsDNA viruses, no RNA stage",TRUE,49,7
+271,"526177198","dsDNA viruses, no RNA stage",TRUE,52,7
+272,"564292548","dsDNA viruses, no RNA stage",TRUE,56,7
+273,"526118633","dsDNA viruses, no RNA stage",TRUE,43,7
+274,"58532811","dsDNA viruses, no RNA stage",TRUE,61,7
+275,"157953191","dsDNA viruses, no RNA stage",TRUE,59,7
+276,"414087713","dsDNA viruses, no RNA stage",TRUE,45,7
+277,"408905829","dsDNA viruses, no RNA stage",TRUE,65,7
+278,"269838879","dsDNA viruses, no RNA stage",TRUE,58,7
+279,"422936140","dsDNA viruses, no RNA stage",TRUE,58,7
+280,"530546329","dsDNA viruses, no RNA stage",TRUE,44,7
+281,"9695413","dsDNA viruses, no RNA stage",TRUE,57,7
+282,"388262476","dsDNA viruses, no RNA stage",TRUE,63,7
+283,"589893225","dsDNA viruses, no RNA stage",TRUE,42,7
+284,"658310315","dsDNA viruses, no RNA stage",TRUE,52,7
+285,"589892323","dsDNA viruses, no RNA stage",TRUE,64,7
+286,"57753378","dsDNA viruses, no RNA stage",TRUE,58,7
+287,"157325365","dsDNA viruses, no RNA stage",TRUE,61,7
+288,"9628002","dsDNA viruses, no RNA stage",TRUE,58,7
+289,"41057437","dsDNA viruses, no RNA stage",TRUE,56,7
+290,"531034792","dsDNA viruses, no RNA stage",TRUE,44,7
+291,"371496125","dsDNA viruses, no RNA stage",TRUE,58,7
+292,"161617915","dsDNA viruses, no RNA stage",TRUE,69,7
+293,"418488446","dsDNA viruses, no RNA stage",TRUE,47,7
+294,"116326687","dsDNA viruses, no RNA stage",TRUE,68,7
+295,"609217196","dsDNA viruses, no RNA stage",TRUE,64,7
+296,"573007028","dsDNA viruses, no RNA stage",TRUE,50,7
+297,"311977355","dsDNA viruses, no RNA stage",TRUE,53,7
+298,"422935955","dsDNA viruses, no RNA stage",TRUE,58,7
+299,"609252819","dsDNA viruses, no RNA stage",TRUE,48,7
+300,"32453825","dsDNA viruses, no RNA stage",TRUE,56,7
+301,"363539767","dsDNA viruses, no RNA stage",TRUE,46,7
+302,"563398785","dsDNA viruses, no RNA stage",TRUE,48,7
+303,"531034792","dsDNA viruses, no RNA stage",TRUE,52,7
+304,"215401232","dsDNA viruses, no RNA stage",TRUE,55,7
+305,"408905849","dsDNA viruses, no RNA stage",TRUE,66,7
+306,"194303296","dsDNA viruses, no RNA stage",TRUE,52,7
+307,"216905852","dsDNA viruses, no RNA stage",TRUE,63,7
+308,"269838908","dsDNA viruses, no RNA stage",TRUE,64,7
+309,"585299329","dsDNA viruses, no RNA stage",TRUE,40,7
+310,"414089586","dsDNA viruses, no RNA stage",TRUE,47,7
+311,"448824968","dsDNA viruses, no RNA stage",TRUE,51,7
+312,"593777468","dsDNA viruses, no RNA stage",TRUE,49,7
+313,"431810571","dsDNA viruses, no RNA stage",TRUE,56,7
+314,"640884964","dsDNA viruses, no RNA stage",TRUE,45,7
+315,"311977355","dsDNA viruses, no RNA stage",TRUE,49,7
+316,"396576808","dsDNA viruses, no RNA stage",TRUE,53,7
+317,"351518443","dsDNA viruses, no RNA stage",TRUE,67,7
+318,"426202315","dsDNA viruses, no RNA stage",TRUE,62,7
+319,"585299329","dsDNA viruses, no RNA stage",TRUE,43,7
+320,"109392353","dsDNA viruses, no RNA stage",TRUE,52,7
+321,"418487384","dsDNA viruses, no RNA stage",TRUE,66,7
+322,"149380503","dsDNA viruses, no RNA stage",TRUE,63,7
+323,"639438320","dsDNA viruses, no RNA stage",TRUE,61,7
+324,"509140327","dsDNA viruses, no RNA stage",TRUE,53,7
+325,"66275797","dsDNA viruses, no RNA stage",TRUE,50,7
+326,"529153313","dsDNA viruses, no RNA stage",TRUE,59,7
+327,"639163062","dsDNA viruses, no RNA stage",TRUE,46,7
+328,"531034792","dsDNA viruses, no RNA stage",TRUE,63,7
+329,"428782085","dsDNA viruses, no RNA stage",TRUE,60,7
+330,"593774520","dsDNA viruses, no RNA stage",TRUE,65,7
+331,"531034792","dsDNA viruses, no RNA stage",TRUE,49,7
+332,"17313217","dsDNA viruses, no RNA stage",TRUE,48,7
+333,"422935796","dsDNA viruses, no RNA stage",TRUE,58,7
+334,"428782997","dsDNA viruses, no RNA stage",TRUE,51,7
+335,"448261025","dsDNA viruses, no RNA stage",TRUE,53,7
+336,"219523869","dsDNA viruses, no RNA stage",TRUE,58,7
+337,"422935762","dsDNA viruses, no RNA stage",TRUE,51,7
+338,"469520167","dsDNA viruses, no RNA stage",TRUE,64,7
+339,"10140926","dsDNA viruses, no RNA stage",TRUE,62,7
+340,"310004231","dsDNA viruses, no RNA stage",TRUE,61,7
+341,"22122227","dsDNA viruses, no RNA stage",TRUE,46,7
+342,"510953439","dsDNA viruses, no RNA stage",TRUE,60,7
+343,"530787625","dsDNA viruses, no RNA stage",TRUE,49,7
+344,"119953744","dsDNA viruses, no RNA stage",TRUE,65,7
+345,"341865278","dsDNA viruses, no RNA stage",TRUE,54,7
+346,"311977355","dsDNA viruses, no RNA stage",TRUE,49,7
+347,"163954976","dsDNA viruses, no RNA stage",TRUE,63,7
+348,"389656416","dsDNA viruses, no RNA stage",TRUE,64,7
+349,"13095578","dsDNA viruses, no RNA stage",TRUE,61,7
+350,"48843625","dsDNA viruses, no RNA stage",TRUE,47,7
+351,"109521840","dsDNA viruses, no RNA stage",TRUE,43,7
+352,"537108089","dsDNA viruses, no RNA stage",TRUE,58,7
+1,"608309552","dsRNA viruses",TRUE,44,8
+2,"50253401","dsRNA viruses",TRUE,46,8
+3,"596403197","dsRNA viruses",TRUE,46,8
+4,"256398147","dsRNA viruses",TRUE,47,8
+5,"68532388","dsRNA viruses",TRUE,52,8
+6,"20889329","dsRNA viruses",TRUE,47,8
+7,"190643480","dsRNA viruses",TRUE,54,8
+8,"20279540","dsRNA viruses",TRUE,51,8
+9,"394935462","dsRNA viruses",TRUE,45,8
+10,"22855204","dsRNA viruses",TRUE,53,8
+11,"607064641","dsRNA viruses",TRUE,44,8
+12,"298201181","dsRNA viruses",TRUE,50,8
+13,"226423331","dsRNA viruses",TRUE,48,8
+14,"23309034","dsRNA viruses",TRUE,50,8
+15,"308814346","dsRNA viruses",TRUE,48,8
+16,"304373830","dsRNA viruses",TRUE,51,8
+17,"109240508","dsRNA viruses",TRUE,46,8
+18,"20889358","dsRNA viruses",TRUE,48,8
+19,"23309034","dsRNA viruses",TRUE,42,8
+20,"14993614","dsRNA viruses",TRUE,46,8
+21,"189022224","dsRNA viruses",TRUE,43,8
+22,"50253395","dsRNA viruses",TRUE,44,8
+23,"596403532","dsRNA viruses",TRUE,44,8
+24,"551682528","dsRNA viruses",TRUE,48,8
+25,"302317583","dsRNA viruses",TRUE,46,8
+26,"298201185","dsRNA viruses",TRUE,49,8
+27,"383386110","dsRNA viruses",TRUE,51,8
+28,"262216749","dsRNA viruses",TRUE,50,8
+29,"190643480","dsRNA viruses",TRUE,46,8
+30,"226423331","dsRNA viruses",TRUE,45,8
+31,"521967825","dsRNA viruses",TRUE,49,8
+32,"187765483","dsRNA viruses",TRUE,47,8
+33,"23238127","dsRNA viruses",TRUE,48,8
+34,"14993614","dsRNA viruses",TRUE,42,8
+35,"50253411","dsRNA viruses",TRUE,48,8
+36,"50234096","dsRNA viruses",TRUE,59,8
+37,"78763552","dsRNA viruses",TRUE,46,8
+38,"304373826","dsRNA viruses",TRUE,51,8
+39,"20889358","dsRNA viruses",TRUE,43,8
+40,"608309552","dsRNA viruses",TRUE,46,8
+41,"62401671","dsRNA viruses",TRUE,43,8
+42,"20889296","dsRNA viruses",TRUE,52,8
+43,"23238153","dsRNA viruses",TRUE,49,8
+44,"309259994","dsRNA viruses",TRUE,46,8
+45,"375298197","dsRNA viruses",TRUE,45,8
+46,"226423341","dsRNA viruses",TRUE,60,8
+47,"308814346","dsRNA viruses",TRUE,51,8
+48,"81054207","dsRNA viruses",TRUE,48,8
+49,"20889296","dsRNA viruses",TRUE,54,8
+50,"255612555","dsRNA viruses",TRUE,54,8
+51,"20889358","dsRNA viruses",TRUE,47,8
+52,"20428567","dsRNA viruses",TRUE,41,8
+53,"189022226","dsRNA viruses",TRUE,49,8
+54,"226423341","dsRNA viruses",TRUE,58,8
+55,"10518479","dsRNA viruses",TRUE,50,8
+56,"85719285","dsRNA viruses",TRUE,49,8
+57,"482651005","dsRNA viruses",TRUE,50,8
+58,"14993614","dsRNA viruses",TRUE,47,8
+59,"14993614","dsRNA viruses",TRUE,43,8
+60,"255612555","dsRNA viruses",TRUE,53,8
+61,"22855198","dsRNA viruses",TRUE,49,8
+62,"342243406","dsRNA viruses",TRUE,52,8
+63,"555928257","dsRNA viruses",TRUE,50,8
+64,"50253395","dsRNA viruses",TRUE,42,8
+65,"342243406","dsRNA viruses",TRUE,53,8
+66,"50253411","dsRNA viruses",TRUE,51,8
+67,"20177434","dsRNA viruses",TRUE,45,8
+68,"20428604","dsRNA viruses",TRUE,54,8
+69,"20428567","dsRNA viruses",TRUE,45,8
+70,"134287146","dsRNA viruses",TRUE,47,8
+71,"20889358","dsRNA viruses",TRUE,46,8
+72,"389656396","dsRNA viruses",TRUE,55,8
+73,"21450040","dsRNA viruses",TRUE,43,8
+74,"309259994","dsRNA viruses",TRUE,48,8
+75,"20889358","dsRNA viruses",TRUE,46,8
+76,"85719285","dsRNA viruses",TRUE,53,8
+77,"315573168","dsRNA viruses",TRUE,52,8
+78,"78767273","dsRNA viruses",TRUE,50,8
+79,"20889389","dsRNA viruses",TRUE,52,8
+80,"262530253","dsRNA viruses",TRUE,43,8
+81,"23309030","dsRNA viruses",TRUE,51,8
+82,"555928277","dsRNA viruses",TRUE,47,8
+83,"521967825","dsRNA viruses",TRUE,41,8
+84,"635717078","dsRNA viruses",TRUE,56,8
+85,"20889329","dsRNA viruses",TRUE,48,8
+86,"302317583","dsRNA viruses",TRUE,44,8
+87,"23309030","dsRNA viruses",TRUE,46,8
+88,"85813347","dsRNA viruses",TRUE,57,8
+89,"110084000","ssDNA viruses",TRUE,50,8
+90,"605039075","ssDNA viruses",TRUE,50,8
+91,"45597171","ssDNA viruses",TRUE,52,8
+92,"526177323","ssDNA viruses",TRUE,46,8
+93,"296005654","ssDNA viruses",TRUE,51,8
+94,"9625381","ssDNA viruses",TRUE,50,8
+95,"51949957","ssDNA viruses",TRUE,53,8
+96,"9628649","ssDNA viruses",TRUE,56,8
+97,"9630747","ssDNA viruses",TRUE,55,8
+98,"422933996","ssDNA viruses",TRUE,55,8
+99,"404184272","ssDNA viruses",TRUE,60,8
+100,"295413928","ssDNA viruses",TRUE,50,8
+101,"226596529","ssDNA viruses",TRUE,59,8
+102,"29337260","ssDNA viruses",TRUE,51,8
+103,"27151463","ssDNA viruses",TRUE,55,8
+104,"573007056","ssDNA viruses",TRUE,52,8
+105,"46359753","ssDNA viruses",TRUE,53,8
+106,"29171762","ssDNA viruses",TRUE,55,8
+107,"22128611","ssDNA viruses",TRUE,49,8
+108,"372199594","ssDNA viruses",TRUE,48,8
+109,"296006072","ssDNA viruses",TRUE,50,8
+110,"387600895","ssDNA viruses",TRUE,59,8
+111,"23334625","ssDNA viruses",TRUE,61,8
+112,"312126258","ssDNA viruses",TRUE,54,8
+113,"317453629","ssDNA viruses",TRUE,53,8
+114,"295413834","ssDNA viruses",TRUE,54,8
+115,"338826803","ssDNA viruses",TRUE,58,8
+116,"29337269","ssDNA viruses",TRUE,51,8
+117,"29337269","ssDNA viruses",TRUE,45,8
+118,"46359766","ssDNA viruses",TRUE,53,8
+119,"89888094","ssDNA viruses",TRUE,59,8
+120,"9626316","ssDNA viruses",TRUE,50,8
+121,"23334625","ssDNA viruses",TRUE,57,8
+122,"209901313","ssDNA viruses",TRUE,59,8
+123,"29337266","ssDNA viruses",TRUE,55,8
+124,"261597702","ssDNA viruses",TRUE,53,8
+125,"45597171","ssDNA viruses",TRUE,51,8
+126,"401715657","ssDNA viruses",TRUE,52,8
+127,"51949957","ssDNA viruses",TRUE,54,8
+128,"356457872","ssDNA viruses",TRUE,55,8
+129,"338826803","ssDNA viruses",TRUE,54,8
+130,"9630683","ssDNA viruses",TRUE,47,8
+131,"215480028","ssDNA viruses",TRUE,58,8
+132,"254688527","ssDNA viruses",TRUE,54,8
+133,"315111586","ssDNA viruses",TRUE,51,8
+134,"77125236","ssDNA viruses",TRUE,54,8
+135,"9625381","ssDNA viruses",TRUE,48,8
+136,"19919902","ssDNA viruses",TRUE,49,8
+137,"675510788","ssDNA viruses",TRUE,52,8
+138,"9628649","ssDNA viruses",TRUE,61,8
+139,"394922850","ssDNA viruses",TRUE,60,8
+140,"449147296","ssDNA viruses",TRUE,52,8
+141,"49248530","ssDNA viruses",TRUE,59,8
+142,"29337266","ssDNA viruses",TRUE,50,8
+143,"122808720","ssDNA viruses",TRUE,55,8
+144,"113199737","ssDNA viruses",TRUE,55,8
+145,"212928341","ssDNA viruses",TRUE,57,8
+146,"39980672","ssDNA viruses",TRUE,56,8
+147,"46359766","ssDNA viruses",TRUE,48,8
+148,"570033506","ssDNA viruses",TRUE,48,8
+149,"356457872","ssDNA viruses",TRUE,59,8
+150,"296006059","ssDNA viruses",TRUE,56,8
+151,"372199594","ssDNA viruses",TRUE,54,8
+152,"9626316","ssDNA viruses",TRUE,51,8
+153,"49248521","ssDNA viruses",TRUE,57,8
+154,"256352170","ssDNA viruses",TRUE,57,8
+155,"296006072","ssDNA viruses",TRUE,51,8
+156,"317453629","ssDNA viruses",TRUE,47,8
+157,"591398015","ssDNA viruses",TRUE,60,8
+158,"9628649","ssDNA viruses",TRUE,54,8
+159,"39980672","ssDNA viruses",TRUE,56,8
+160,"9625381","ssDNA viruses",TRUE,51,8
+161,"9626109","ssDNA viruses",TRUE,53,8
+162,"601449263","ssDNA viruses",TRUE,55,8
+163,"21165975","ssDNA viruses",TRUE,53,8
+164,"601448486","ssDNA viruses",TRUE,50,8
+165,"22128611","ssDNA viruses",TRUE,53,8
+166,"295413834","ssDNA viruses",TRUE,58,8
+167,"607840593","ssDNA viruses",TRUE,46,8
+168,"9626109","ssDNA viruses",TRUE,52,8
+169,"113200776","ssDNA viruses",TRUE,53,8
+170,"9630747","ssDNA viruses",TRUE,54,8
+171,"254688527","ssDNA viruses",TRUE,54,8
+172,"9630747","ssDNA viruses",TRUE,54,8
+173,"394922850","ssDNA viruses",TRUE,62,8
+174,"9630761","ssDNA viruses",TRUE,57,8
+175,"77020114","ssDNA viruses",TRUE,53,8
+176,"9626133","ssDNA viruses",TRUE,59,8
+177,"9626694","ssRNA viruses",TRUE,50,8
+178,"594139686","ssRNA viruses",TRUE,47,8
+179,"148717937","ssRNA viruses",TRUE,59,8
+180,"594139767","ssRNA viruses",TRUE,51,8
+181,"123205971","ssRNA viruses",TRUE,39,8
+182,"568319712","ssRNA viruses",TRUE,47,8
+183,"383081734","ssRNA viruses",TRUE,49,8
+184,"425867953","ssRNA viruses",TRUE,43,8
+185,"22417456","ssRNA viruses",TRUE,56,8
+186,"20564186","ssRNA viruses",TRUE,51,8
+187,"667489388","ssRNA viruses",TRUE,51,8
+188,"675510672","ssRNA viruses",TRUE,43,8
+189,"9630807","ssRNA viruses",TRUE,44,8
+190,"347762083","ssRNA viruses",TRUE,47,8
+191,"443615329","ssRNA viruses",TRUE,41,8
+192,"9629812","ssRNA viruses",TRUE,47,8
+193,"212671453","ssRNA viruses",TRUE,46,8
+194,"9626123","ssRNA viruses",TRUE,45,8
+195,"20428591","ssRNA viruses",TRUE,49,8
+196,"9635457","ssRNA viruses",TRUE,40,8
+197,"38018022","ssRNA viruses",TRUE,46,8
+198,"20087032","ssRNA viruses",TRUE,48,8
+199,"475994034","ssRNA viruses",TRUE,46,8
+200,"70980512","ssRNA viruses",TRUE,41,8
+201,"9635790","ssRNA viruses",TRUE,44,8
+202,"20564186","ssRNA viruses",TRUE,50,8
+203,"20153407","ssRNA viruses",TRUE,43,8
+204,"443615329","ssRNA viruses",TRUE,41,8
+205,"76253626","ssRNA viruses",TRUE,45,8
+206,"594139806","ssRNA viruses",TRUE,45,8
+207,"148724437","ssRNA viruses",TRUE,55,8
+208,"294768475","ssRNA viruses",TRUE,43,8
+209,"20260781","ssRNA viruses",TRUE,47,8
+210,"355348565","ssRNA viruses",TRUE,49,8
+211,"381333920","ssRNA viruses",TRUE,43,8
+212,"21238454","ssRNA viruses",TRUE,43,8
+213,"594139821","ssRNA viruses",TRUE,46,8
+214,"441432845","ssRNA viruses",TRUE,38,8
+215,"397776125","ssRNA viruses",TRUE,44,8
+216,"20177479","ssRNA viruses",TRUE,54,8
+217,"34610126","ssRNA viruses",TRUE,49,8
+218,"301173451","ssRNA viruses",TRUE,42,8
+219,"77118348","ssRNA viruses",TRUE,50,8
+220,"594139821","ssRNA viruses",TRUE,48,8
+221,"55770806","ssRNA viruses",TRUE,44,8
+222,"169822550","ssRNA viruses",TRUE,42,8
+223,"126030112","ssRNA viruses",TRUE,57,8
+224,"385724809","ssRNA viruses",TRUE,46,8
+225,"674660326","ssRNA viruses",TRUE,48,8
+226,"425867860","ssRNA viruses",TRUE,43,8
+227,"594139677","ssRNA viruses",TRUE,51,8
+228,"96980660","ssRNA viruses",TRUE,44,8
+229,"9630645","ssRNA viruses",TRUE,48,8
+230,"66090969","ssRNA viruses",TRUE,49,8
+231,"182406744","ssRNA viruses",TRUE,50,8
+232,"11125722","ssRNA viruses",TRUE,51,8
+233,"116536735","ssRNA viruses",TRUE,47,8
+234,"240114604","ssRNA viruses",TRUE,41,8
+235,"21427637","ssRNA viruses",TRUE,49,8
+236,"212525346","ssRNA viruses",TRUE,51,8
+237,"20522126","ssRNA viruses",TRUE,47,8
+238,"594139677","ssRNA viruses",TRUE,54,8
+239,"20373121","ssRNA viruses",TRUE,48,8
+240,"20428591","ssRNA viruses",TRUE,47,8
+241,"570364810","ssRNA viruses",TRUE,37,8
+242,"62327407","ssRNA viruses",TRUE,52,8
+243,"242916041","ssRNA viruses",TRUE,42,8
+244,"148283122","ssRNA viruses",TRUE,39,8
+245,"594139740","ssRNA viruses",TRUE,43,8
+246,"30410830","ssRNA viruses",TRUE,52,8
+247,"38349471","ssRNA viruses",TRUE,49,8
+248,"383080765","ssRNA viruses",TRUE,49,8
+249,"21426909","ssRNA viruses",TRUE,50,8
+250,"238801614","ssRNA viruses",TRUE,40,8
+251,"85718614","ssRNA viruses",TRUE,54,8
+252,"13559817","ssRNA viruses",TRUE,48,8
+253,"126165310","ssRNA viruses",TRUE,48,8
+254,"33589253","ssRNA viruses",TRUE,42,8
+255,"330444746","ssRNA viruses",TRUE,39,8
+256,"39163640","ssRNA viruses",TRUE,42,8
+257,"9626123","ssRNA viruses",TRUE,51,8
+258,"22256025","ssRNA viruses",TRUE,45,8
+259,"655454924","ssRNA viruses",TRUE,44,8
+260,"594139947","ssRNA viruses",TRUE,47,8
+261,"9631279","ssRNA viruses",TRUE,50,8
+262,"394922808","ssRNA viruses",TRUE,45,8
+263,"20522096","ssRNA viruses",TRUE,46,8
+264,"187251953","ssRNA viruses",TRUE,49,8
+265,"570033450","dsDNA viruses, no RNA stage",TRUE,54,8
+266,"149882781","dsDNA viruses, no RNA stage",TRUE,41,8
+267,"431809857","dsDNA viruses, no RNA stage",TRUE,41,8
+268,"589892611","dsDNA viruses, no RNA stage",TRUE,41,8
+269,"526118633","dsDNA viruses, no RNA stage",TRUE,58,8
+270,"659488140","dsDNA viruses, no RNA stage",TRUE,62,8
+271,"428782787","dsDNA viruses, no RNA stage",TRUE,46,8
+272,"508180789","dsDNA viruses, no RNA stage",TRUE,42,8
+273,"418487144","dsDNA viruses, no RNA stage",TRUE,66,8
+274,"40555938","dsDNA viruses, no RNA stage",TRUE,58,8
+275,"414089228","dsDNA viruses, no RNA stage",TRUE,39,8
+276,"82700933","dsDNA viruses, no RNA stage",TRUE,60,8
+277,"661433635","dsDNA viruses, no RNA stage",TRUE,64,8
+278,"469519400","dsDNA viruses, no RNA stage",TRUE,53,8
+279,"18653809","dsDNA viruses, no RNA stage",TRUE,59,8
+280,"157953191","dsDNA viruses, no RNA stage",TRUE,59,8
+281,"119953744","dsDNA viruses, no RNA stage",TRUE,60,8
+282,"418487144","dsDNA viruses, no RNA stage",TRUE,60,8
+283,"32453825","dsDNA viruses, no RNA stage",TRUE,50,8
+284,"116326687","dsDNA viruses, no RNA stage",TRUE,55,8
+285,"531034792","dsDNA viruses, no RNA stage",TRUE,45,8
+286,"658307707","dsDNA viruses, no RNA stage",TRUE,41,8
+287,"311977355","dsDNA viruses, no RNA stage",TRUE,50,8
+288,"672550958","dsDNA viruses, no RNA stage",TRUE,50,8
+289,"585299329","dsDNA viruses, no RNA stage",TRUE,62,8
+290,"469519727","dsDNA viruses, no RNA stage",TRUE,61,8
+291,"448824968","dsDNA viruses, no RNA stage",TRUE,49,8
+292,"62362363","dsDNA viruses, no RNA stage",TRUE,61,8
+293,"508181800","dsDNA viruses, no RNA stage",TRUE,49,8
+294,"62422552","dsDNA viruses, no RNA stage",TRUE,49,8
+295,"428781939","dsDNA viruses, no RNA stage",TRUE,59,8
+296,"529153477","dsDNA viruses, no RNA stage",TRUE,51,8
+297,"327409465","dsDNA viruses, no RNA stage",TRUE,64,8
+298,"375918176","dsDNA viruses, no RNA stage",TRUE,66,8
+299,"269838908","dsDNA viruses, no RNA stage",TRUE,63,8
+300,"469518782","dsDNA viruses, no RNA stage",TRUE,62,8
+301,"30387379","dsDNA viruses, no RNA stage",TRUE,59,8
+302,"345107188","dsDNA viruses, no RNA stage",TRUE,50,8
+303,"509142635","dsDNA viruses, no RNA stage",TRUE,41,8
+304,"40555938","dsDNA viruses, no RNA stage",TRUE,50,8
+305,"32453825","dsDNA viruses, no RNA stage",TRUE,44,8
+306,"664651935","dsDNA viruses, no RNA stage",TRUE,40,8
+307,"582973099","dsDNA viruses, no RNA stage",TRUE,53,8
+308,"392972768","dsDNA viruses, no RNA stage",TRUE,60,8
+309,"414089586","dsDNA viruses, no RNA stage",TRUE,41,8
+310,"422936732","dsDNA viruses, no RNA stage",TRUE,62,8
+311,"414086362","dsDNA viruses, no RNA stage",TRUE,62,8
+312,"310005390","dsDNA viruses, no RNA stage",TRUE,60,8
+313,"571797926","dsDNA viruses, no RNA stage",TRUE,42,8
+314,"131840030","dsDNA viruses, no RNA stage",TRUE,44,8
+315,"359802265","dsDNA viruses, no RNA stage",TRUE,41,8
+316,"431810571","dsDNA viruses, no RNA stage",TRUE,66,8
+317,"568191834","dsDNA viruses, no RNA stage",TRUE,68,8
+318,"582973099","dsDNA viruses, no RNA stage",TRUE,50,8
+319,"313843970","dsDNA viruses, no RNA stage",TRUE,65,8
+320,"139424470","dsDNA viruses, no RNA stage",TRUE,63,8
+321,"157324960","dsDNA viruses, no RNA stage",TRUE,53,8
+322,"282598847","dsDNA viruses, no RNA stage",TRUE,63,8
+323,"23577820","dsDNA viruses, no RNA stage",TRUE,51,8
+324,"228861315","dsDNA viruses, no RNA stage",TRUE,58,8
+325,"310002946","dsDNA viruses, no RNA stage",TRUE,64,8
+326,"465283603","dsDNA viruses, no RNA stage",TRUE,61,8
+327,"331028054","dsDNA viruses, no RNA stage",TRUE,51,8
+328,"468641055","dsDNA viruses, no RNA stage",TRUE,42,8
+329,"9625955","dsDNA viruses, no RNA stage",TRUE,56,8
+330,"66395965","dsDNA viruses, no RNA stage",TRUE,59,8
+331,"589286276","dsDNA viruses, no RNA stage",TRUE,66,8
+332,"157952304","dsDNA viruses, no RNA stage",TRUE,58,8
+333,"468643626","dsDNA viruses, no RNA stage",TRUE,55,8
+334,"131840030","dsDNA viruses, no RNA stage",TRUE,48,8
+335,"116326222","dsDNA viruses, no RNA stage",TRUE,57,8
+336,"194303296","dsDNA viruses, no RNA stage",TRUE,41,8
+337,"469520859","dsDNA viruses, no RNA stage",TRUE,42,8
+338,"310003991","dsDNA viruses, no RNA stage",TRUE,63,8
+339,"469519505","dsDNA viruses, no RNA stage",TRUE,58,8
+340,"326804500","dsDNA viruses, no RNA stage",TRUE,68,8
+341,"18450236","dsDNA viruses, no RNA stage",TRUE,58,8
+342,"21716071","dsDNA viruses, no RNA stage",TRUE,46,8
+343,"609217196","dsDNA viruses, no RNA stage",TRUE,58,8
+344,"428781735","dsDNA viruses, no RNA stage",TRUE,63,8
+345,"109302896","dsDNA viruses, no RNA stage",TRUE,58,8
+346,"508181800","dsDNA viruses, no RNA stage",TRUE,58,8
+347,"526178095","dsDNA viruses, no RNA stage",TRUE,50,8
+348,"41057066","dsDNA viruses, no RNA stage",TRUE,39,8
+349,"640885266","dsDNA viruses, no RNA stage",TRUE,43,8
+350,"145708074","dsDNA viruses, no RNA stage",TRUE,41,8
+351,"526118633","dsDNA viruses, no RNA stage",TRUE,46,8
+352,"431809199","dsDNA viruses, no RNA stage",TRUE,53,8
+1,"482651005","dsRNA viruses",TRUE,52,9
+2,"190643480","dsRNA viruses",TRUE,54,9
+3,"596403532","dsRNA viruses",TRUE,46,9
+4,"20889358","dsRNA viruses",TRUE,47,9
+5,"85813347","dsRNA viruses",TRUE,61,9
+6,"10518479","dsRNA viruses",TRUE,54,9
+7,"255612555","dsRNA viruses",TRUE,53,9
+8,"50253401","dsRNA viruses",TRUE,49,9
+9,"315573168","dsRNA viruses",TRUE,52,9
+10,"23238153","dsRNA viruses",TRUE,50,9
+11,"20889358","dsRNA viruses",TRUE,46,9
+12,"383386110","dsRNA viruses",TRUE,52,9
+13,"607064641","dsRNA viruses",TRUE,46,9
+14,"20889296","dsRNA viruses",TRUE,52,9
+15,"298201181","dsRNA viruses",TRUE,50,9
+16,"555928257","dsRNA viruses",TRUE,52,9
+17,"309259994","dsRNA viruses",TRUE,48,9
+18,"226423341","dsRNA viruses",TRUE,60,9
+19,"551682528","dsRNA viruses",TRUE,49,9
+20,"20279540","dsRNA viruses",TRUE,52,9
+21,"20889389","dsRNA viruses",TRUE,53,9
+22,"20889329","dsRNA viruses",TRUE,51,9
+23,"189022226","dsRNA viruses",TRUE,49,9
+24,"85719285","dsRNA viruses",TRUE,55,9
+25,"78763552","dsRNA viruses",TRUE,45,9
+26,"342243406","dsRNA viruses",TRUE,53,9
+27,"20177434","dsRNA viruses",TRUE,46,9
+28,"308814346","dsRNA viruses",TRUE,52,9
+29,"50253411","dsRNA viruses",TRUE,50,9
+30,"23309030","dsRNA viruses",TRUE,45,9
+31,"608309552","dsRNA viruses",TRUE,47,9
+32,"226423331","dsRNA viruses",TRUE,49,9
+33,"50253411","dsRNA viruses",TRUE,51,9
+34,"62401671","dsRNA viruses",TRUE,43,9
+35,"302317583","dsRNA viruses",TRUE,50,9
+36,"20889358","dsRNA viruses",TRUE,47,9
+37,"521967825","dsRNA viruses",TRUE,48,9
+38,"608309552","dsRNA viruses",TRUE,46,9
+39,"635717078","dsRNA viruses",TRUE,56,9
+40,"262530253","dsRNA viruses",TRUE,46,9
+41,"20428567","dsRNA viruses",TRUE,42,9
+42,"308814346","dsRNA viruses",TRUE,54,9
+43,"20889329","dsRNA viruses",TRUE,51,9
+44,"262216749","dsRNA viruses",TRUE,50,9
+45,"85719285","dsRNA viruses",TRUE,54,9
+46,"394935462","dsRNA viruses",TRUE,45,9
+47,"23309034","dsRNA viruses",TRUE,53,9
+48,"187765483","dsRNA viruses",TRUE,49,9
+49,"375298197","dsRNA viruses",TRUE,45,9
+50,"190643480","dsRNA viruses",TRUE,44,9
+51,"78767273","dsRNA viruses",TRUE,56,9
+52,"20889296","dsRNA viruses",TRUE,55,9
+53,"14993614","dsRNA viruses",TRUE,44,9
+54,"134287146","dsRNA viruses",TRUE,49,9
+55,"20889358","dsRNA viruses",TRUE,50,9
+56,"68532388","dsRNA viruses",TRUE,52,9
+57,"23238127","dsRNA viruses",TRUE,49,9
+58,"23309030","dsRNA viruses",TRUE,53,9
+59,"50253395","dsRNA viruses",TRUE,45,9
+60,"50253395","dsRNA viruses",TRUE,47,9
+61,"21450040","dsRNA viruses",TRUE,44,9
+62,"304373830","dsRNA viruses",TRUE,52,9
+63,"22855204","dsRNA viruses",TRUE,52,9
+64,"389656396","dsRNA viruses",TRUE,55,9
+65,"20889358","dsRNA viruses",TRUE,49,9
+66,"298201185","dsRNA viruses",TRUE,49,9
+67,"521967825","dsRNA viruses",TRUE,42,9
+68,"596403197","dsRNA viruses",TRUE,47,9
+69,"14993614","dsRNA viruses",TRUE,49,9
+70,"302317583","dsRNA viruses",TRUE,48,9
+71,"256398147","dsRNA viruses",TRUE,51,9
+72,"14993614","dsRNA viruses",TRUE,44,9
+73,"109240508","dsRNA viruses",TRUE,47,9
+74,"255612555","dsRNA viruses",TRUE,54,9
+75,"555928277","dsRNA viruses",TRUE,51,9
+76,"81054207","dsRNA viruses",TRUE,50,9
+77,"20428604","dsRNA viruses",TRUE,54,9
+78,"189022224","dsRNA viruses",TRUE,50,9
+79,"304373826","dsRNA viruses",TRUE,52,9
+80,"14993614","dsRNA viruses",TRUE,47,9
+81,"226423341","dsRNA viruses",TRUE,57,9
+82,"23309034","dsRNA viruses",TRUE,42,9
+83,"50234096","dsRNA viruses",TRUE,58,9
+84,"20428567","dsRNA viruses",TRUE,47,9
+85,"342243406","dsRNA viruses",TRUE,55,9
+86,"309259994","dsRNA viruses",TRUE,47,9
+87,"226423331","dsRNA viruses",TRUE,50,9
+88,"22855198","dsRNA viruses",TRUE,48,9
+89,"51949957","ssDNA viruses",TRUE,58,9
+90,"9626109","ssDNA viruses",TRUE,56,9
+91,"9626133","ssDNA viruses",TRUE,57,9
+92,"9626316","ssDNA viruses",TRUE,51,9
+93,"9630683","ssDNA viruses",TRUE,53,9
+94,"295441905","ssDNA viruses",TRUE,55,9
+95,"212928341","ssDNA viruses",TRUE,57,9
+96,"591398015","ssDNA viruses",TRUE,60,9
+97,"296006059","ssDNA viruses",TRUE,54,9
+98,"46359753","ssDNA viruses",TRUE,53,9
+99,"295413834","ssDNA viruses",TRUE,57,9
+100,"607840593","ssDNA viruses",TRUE,46,9
+101,"422933996","ssDNA viruses",TRUE,59,9
+102,"296006072","ssDNA viruses",TRUE,51,9
+103,"317453629","ssDNA viruses",TRUE,52,9
+104,"9625381","ssDNA viruses",TRUE,49,9
+105,"394922850","ssDNA viruses",TRUE,58,9
+106,"605039075","ssDNA viruses",TRUE,54,9
+107,"9626133","ssDNA viruses",TRUE,57,9
+108,"226596529","ssDNA viruses",TRUE,55,9
+109,"113199737","ssDNA viruses",TRUE,58,9
+110,"404184272","ssDNA viruses",TRUE,60,9
+111,"675510788","ssDNA viruses",TRUE,55,9
+112,"46359766","ssDNA viruses",TRUE,53,9
+113,"45597171","ssDNA viruses",TRUE,54,9
+114,"356457872","ssDNA viruses",TRUE,59,9
+115,"9626109","ssDNA viruses",TRUE,58,9
+116,"256352170","ssDNA viruses",TRUE,58,9
+117,"9626316","ssDNA viruses",TRUE,56,9
+118,"29171762","ssDNA viruses",TRUE,54,9
+119,"209901313","ssDNA viruses",TRUE,54,9
+120,"526177323","ssDNA viruses",TRUE,50,9
+121,"51949957","ssDNA viruses",TRUE,56,9
+122,"601448486","ssDNA viruses",TRUE,51,9
+123,"394922850","ssDNA viruses",TRUE,56,9
+124,"49248530","ssDNA viruses",TRUE,62,9
+125,"9630683","ssDNA viruses",TRUE,51,9
+126,"29337260","ssDNA viruses",TRUE,54,9
+127,"9628649","ssDNA viruses",TRUE,57,9
+128,"254688527","ssDNA viruses",TRUE,56,9
+129,"449147296","ssDNA viruses",TRUE,51,9
+130,"296006072","ssDNA viruses",TRUE,50,9
+131,"77020114","ssDNA viruses",TRUE,55,9
+132,"312126258","ssDNA viruses",TRUE,57,9
+133,"338826803","ssDNA viruses",TRUE,58,9
+134,"21165975","ssDNA viruses",TRUE,54,9
+135,"589287117","ssDNA viruses",TRUE,56,9
+136,"254688527","ssDNA viruses",TRUE,56,9
+137,"9628649","ssDNA viruses",TRUE,58,9
+138,"23334625","ssDNA viruses",TRUE,60,9
+139,"19919902","ssDNA viruses",TRUE,55,9
+140,"9630747","ssDNA viruses",TRUE,54,9
+141,"20522153","ssDNA viruses",TRUE,48,9
+142,"312126258","ssDNA viruses",TRUE,58,9
+143,"570033506","ssDNA viruses",TRUE,50,9
+144,"356457872","ssDNA viruses",TRUE,61,9
+145,"372199594","ssDNA viruses",TRUE,51,9
+146,"9625381","ssDNA viruses",TRUE,51,9
+147,"122808720","ssDNA viruses",TRUE,51,9
+148,"296005654","ssDNA viruses",TRUE,56,9
+149,"338826803","ssDNA viruses",TRUE,60,9
+150,"601449263","ssDNA viruses",TRUE,60,9
+151,"39980672","ssDNA viruses",TRUE,57,9
+152,"46359766","ssDNA viruses",TRUE,48,9
+153,"9630761","ssDNA viruses",TRUE,56,9
+154,"9626133","ssDNA viruses",TRUE,58,9
+155,"295413918","ssDNA viruses",TRUE,56,9
+156,"77125236","ssDNA viruses",TRUE,57,9
+157,"29337266","ssDNA viruses",TRUE,53,9
+158,"49248521","ssDNA viruses",TRUE,55,9
+159,"209901313","ssDNA viruses",TRUE,60,9
+160,"113200776","ssDNA viruses",TRUE,55,9
+161,"9630747","ssDNA viruses",TRUE,55,9
+162,"315111586","ssDNA viruses",TRUE,52,9
+163,"589287117","ssDNA viruses",TRUE,56,9
+164,"9625381","ssDNA viruses",TRUE,55,9
+165,"387600895","ssDNA viruses",TRUE,60,9
+166,"261597702","ssDNA viruses",TRUE,56,9
+167,"23334625","ssDNA viruses",TRUE,56,9
+168,"207271566","ssDNA viruses",TRUE,52,9
+169,"9630747","ssDNA viruses",TRUE,56,9
+170,"215480028","ssDNA viruses",TRUE,61,9
+171,"372199594","ssDNA viruses",TRUE,55,9
+172,"22128611","ssDNA viruses",TRUE,54,9
+173,"22128611","ssDNA viruses",TRUE,48,9
+174,"29337269","ssDNA viruses",TRUE,46,9
+175,"29337269","ssDNA viruses",TRUE,53,9
+176,"29337266","ssDNA viruses",TRUE,52,9
+177,"9790313","ssRNA viruses",TRUE,51,9
+178,"594139884","ssRNA viruses",TRUE,39,9
+179,"408355343","ssRNA viruses",TRUE,36,9
+180,"594139803","ssRNA viruses",TRUE,43,9
+181,"22417456","ssRNA viruses",TRUE,50,9
+182,"212525346","ssRNA viruses",TRUE,49,9
+183,"655454918","ssRNA viruses",TRUE,52,9
+184,"172088171","ssRNA viruses",TRUE,43,9
+185,"20428591","ssRNA viruses",TRUE,47,9
+186,"109255267","ssRNA viruses",TRUE,51,9
+187,"9627007","ssRNA viruses",TRUE,47,9
+188,"397776125","ssRNA viruses",TRUE,47,9
+189,"20522132","ssRNA viruses",TRUE,39,9
+190,"18875445","ssRNA viruses",TRUE,50,9
+191,"381333920","ssRNA viruses",TRUE,40,9
+192,"20522126","ssRNA viruses",TRUE,47,9
+193,"126030122","ssRNA viruses",TRUE,46,9
+194,"148724437","ssRNA viruses",TRUE,57,9
+195,"9632338","ssRNA viruses",TRUE,38,9
+196,"478755937","ssRNA viruses",TRUE,41,9
+197,"85718614","ssRNA viruses",TRUE,52,9
+198,"655454924","ssRNA viruses",TRUE,38,9
+199,"216967209","ssRNA viruses",TRUE,50,9
+200,"20451021","ssRNA viruses",TRUE,42,9
+201,"406356611","ssRNA viruses",TRUE,51,9
+202,"383080765","ssRNA viruses",TRUE,48,9
+203,"18314284","ssRNA viruses",TRUE,47,9
+204,"39163640","ssRNA viruses",TRUE,38,9
+205,"635260758","ssRNA viruses",TRUE,55,9
+206,"9633622","ssRNA viruses",TRUE,43,9
+207,"96980660","ssRNA viruses",TRUE,39,9
+208,"21557568","ssRNA viruses",TRUE,62,9
+209,"96980660","ssRNA viruses",TRUE,39,9
+210,"385724809","ssRNA viruses",TRUE,43,9
+211,"38505533","ssRNA viruses",TRUE,35,9
+212,"557940280","ssRNA viruses",TRUE,53,9
+213,"9626125","ssRNA viruses",TRUE,50,9
+214,"387935515","ssRNA viruses",TRUE,41,9
+215,"554505422","ssRNA viruses",TRUE,54,9
+216,"9629456","ssRNA viruses",TRUE,41,9
+217,"156447513","ssRNA viruses",TRUE,49,9
+218,"326910944","ssRNA viruses",TRUE,46,9
+219,"594139803","ssRNA viruses",TRUE,47,9
+220,"221048141","ssRNA viruses",TRUE,38,9
+221,"169822550","ssRNA viruses",TRUE,44,9
+222,"425867880","ssRNA viruses",TRUE,46,9
+223,"354459081","ssRNA viruses",TRUE,53,9
+224,"9632338","ssRNA viruses",TRUE,40,9
+225,"471236993","ssRNA viruses",TRUE,39,9
+226,"62327407","ssRNA viruses",TRUE,49,9
+227,"82703944","ssRNA viruses",TRUE,42,9
+228,"406356611","ssRNA viruses",TRUE,57,9
+229,"115304324","ssRNA viruses",TRUE,48,9
+230,"568319712","ssRNA viruses",TRUE,50,9
+231,"475994026","ssRNA viruses",TRUE,54,9
+232,"21426909","ssRNA viruses",TRUE,50,9
+233,"537711871","ssRNA viruses",TRUE,40,9
+234,"404184113","ssRNA viruses",TRUE,52,9
+235,"172088171","ssRNA viruses",TRUE,42,9
+236,"46393298","ssRNA viruses",TRUE,43,9
+237,"594139677","ssRNA viruses",TRUE,52,9
+238,"72398362","ssRNA viruses",TRUE,42,9
+239,"9634968","ssRNA viruses",TRUE,48,9
+240,"46852132","ssRNA viruses",TRUE,44,9
+241,"339906182","ssRNA viruses",TRUE,34,9
+242,"169822550","ssRNA viruses",TRUE,36,9
+243,"594139815","ssRNA viruses",TRUE,44,9
+244,"570364810","ssRNA viruses",TRUE,42,9
+245,"571026784","ssRNA viruses",TRUE,57,9
+246,"20087032","ssRNA viruses",TRUE,42,9
+247,"355348565","ssRNA viruses",TRUE,44,9
+248,"481847811","ssRNA viruses",TRUE,40,9
+249,"19881389","ssRNA viruses",TRUE,44,9
+250,"9626677","ssRNA viruses",TRUE,40,9
+251,"156563980","ssRNA viruses",TRUE,50,9
+252,"570364810","ssRNA viruses",TRUE,37,9
+253,"9628874","ssRNA viruses",TRUE,43,9
+254,"89902995","ssRNA viruses",TRUE,45,9
+255,"594139881","ssRNA viruses",TRUE,49,9
+256,"47177088","ssRNA viruses",TRUE,51,9
+257,"594139941","ssRNA viruses",TRUE,46,9
+258,"18490052","ssRNA viruses",TRUE,46,9
+259,"212498331","ssRNA viruses",TRUE,40,9
+260,"164607202","ssRNA viruses",TRUE,37,9
+261,"56692979","ssRNA viruses",TRUE,31,9
+262,"366091748","ssRNA viruses",TRUE,41,9
+263,"253756593","ssRNA viruses",TRUE,47,9
+264,"9629892","ssRNA viruses",TRUE,46,9
+265,"389059862","dsDNA viruses, no RNA stage",TRUE,62,9
+266,"537108089","dsDNA viruses, no RNA stage",TRUE,61,9
+267,"472437772","dsDNA viruses, no RNA stage",TRUE,58,9
+268,"89152532","dsDNA viruses, no RNA stage",TRUE,61,9
+269,"37651481","dsDNA viruses, no RNA stage",TRUE,57,9
+270,"308814351","dsDNA viruses, no RNA stage",TRUE,48,9
+271,"526177130","dsDNA viruses, no RNA stage",TRUE,55,9
+272,"526118633","dsDNA viruses, no RNA stage",TRUE,49,9
+273,"125745044","dsDNA viruses, no RNA stage",TRUE,46,9
+274,"292397674","dsDNA viruses, no RNA stage",TRUE,47,9
+275,"12084824","dsDNA viruses, no RNA stage",TRUE,62,9
+276,"572730610","dsDNA viruses, no RNA stage",TRUE,48,9
+277,"148727181","dsDNA viruses, no RNA stage",TRUE,61,9
+278,"563448535","dsDNA viruses, no RNA stage",TRUE,57,9
+279,"414088861","dsDNA viruses, no RNA stage",TRUE,46,9
+280,"422935955","dsDNA viruses, no RNA stage",TRUE,52,9
+281,"161622381","dsDNA viruses, no RNA stage",TRUE,54,9
+282,"310722194","dsDNA viruses, no RNA stage",TRUE,54,9
+283,"18138257","dsDNA viruses, no RNA stage",TRUE,57,9
+284,"565323637","dsDNA viruses, no RNA stage",TRUE,54,9
+285,"313843970","dsDNA viruses, no RNA stage",TRUE,61,9
+286,"422935113","dsDNA viruses, no RNA stage",TRUE,54,9
+287,"9631195","dsDNA viruses, no RNA stage",TRUE,60,9
+288,"557307365","dsDNA viruses, no RNA stage",TRUE,62,9
+289,"557307474","dsDNA viruses, no RNA stage",TRUE,55,9
+290,"131840030","dsDNA viruses, no RNA stage",TRUE,56,9
+291,"157265294","dsDNA viruses, no RNA stage",TRUE,57,9
+292,"418488446","dsDNA viruses, no RNA stage",TRUE,57,9
+293,"459374399","dsDNA viruses, no RNA stage",TRUE,52,9
+294,"388262476","dsDNA viruses, no RNA stage",TRUE,63,9
+295,"529153313","dsDNA viruses, no RNA stage",TRUE,51,9
+296,"311977355","dsDNA viruses, no RNA stage",TRUE,52,9
+297,"428782085","dsDNA viruses, no RNA stage",TRUE,61,9
+298,"20026600","dsDNA viruses, no RNA stage",TRUE,49,9
+299,"20198505","dsDNA viruses, no RNA stage",TRUE,58,9
+300,"363539767","dsDNA viruses, no RNA stage",TRUE,48,9
+301,"82700933","dsDNA viruses, no RNA stage",TRUE,56,9
+302,"311992750","dsDNA viruses, no RNA stage",TRUE,58,9
+303,"422936321","dsDNA viruses, no RNA stage",TRUE,56,9
+304,"418487144","dsDNA viruses, no RNA stage",TRUE,59,9
+305,"213159268","dsDNA viruses, no RNA stage",TRUE,49,9
+306,"531034792","dsDNA viruses, no RNA stage",TRUE,45,9
+307,"216906055","dsDNA viruses, no RNA stage",TRUE,61,9
+308,"538397808","dsDNA viruses, no RNA stage",TRUE,53,9
+309,"658607439","dsDNA viruses, no RNA stage",TRUE,58,9
+310,"314055095","dsDNA viruses, no RNA stage",TRUE,48,9
+311,"431810571","dsDNA viruses, no RNA stage",TRUE,63,9
+312,"66395729","dsDNA viruses, no RNA stage",TRUE,59,9
+313,"360040900","dsDNA viruses, no RNA stage",TRUE,57,9
+314,"238695156","dsDNA viruses, no RNA stage",TRUE,56,9
+315,"509141110","dsDNA viruses, no RNA stage",TRUE,49,9
+316,"418487144","dsDNA viruses, no RNA stage",TRUE,63,9
+317,"448824968","dsDNA viruses, no RNA stage",TRUE,53,9
+318,"589891329","dsDNA viruses, no RNA stage",TRUE,59,9
+319,"418487051","dsDNA viruses, no RNA stage",TRUE,59,9
+320,"9633069","dsDNA viruses, no RNA stage",TRUE,57,9
+321,"298103485","dsDNA viruses, no RNA stage",TRUE,47,9
+322,"388260063","dsDNA viruses, no RNA stage",TRUE,54,9
+323,"149882900","dsDNA viruses, no RNA stage",TRUE,47,9
+324,"468639686","dsDNA viruses, no RNA stage",TRUE,59,9
+325,"9626243","dsDNA viruses, no RNA stage",TRUE,56,9
+326,"56160876","dsDNA viruses, no RNA stage",TRUE,63,9
+327,"194172859","dsDNA viruses, no RNA stage",TRUE,64,9
+328,"422934690","dsDNA viruses, no RNA stage",TRUE,59,9
+329,"89158250","dsDNA viruses, no RNA stage",TRUE,49,9
+330,"194303296","dsDNA viruses, no RNA stage",TRUE,46,9
+331,"519904135","dsDNA viruses, no RNA stage",TRUE,51,9
+332,"56698748","dsDNA viruses, no RNA stage",TRUE,59,9
+333,"643217077","dsDNA viruses, no RNA stage",TRUE,60,9
+334,"589890307","dsDNA viruses, no RNA stage",TRUE,49,9
+335,"593773806","dsDNA viruses, no RNA stage",TRUE,60,9
+336,"327409548","dsDNA viruses, no RNA stage",TRUE,60,9
+337,"195546701","dsDNA viruses, no RNA stage",TRUE,48,9
+338,"19881405","dsDNA viruses, no RNA stage",TRUE,62,9
+339,"675510705","dsDNA viruses, no RNA stage",TRUE,56,9
+340,"682123738","dsDNA viruses, no RNA stage",TRUE,63,9
+341,"237643549","dsDNA viruses, no RNA stage",TRUE,51,9
+342,"313768203","dsDNA viruses, no RNA stage",TRUE,52,9
+343,"589891766","dsDNA viruses, no RNA stage",TRUE,64,9
+344,"51010904","dsDNA viruses, no RNA stage",TRUE,53,9
+345,"20198505","dsDNA viruses, no RNA stage",TRUE,47,9
+346,"311992992","dsDNA viruses, no RNA stage",TRUE,59,9
+347,"203457352","dsDNA viruses, no RNA stage",TRUE,48,9
+348,"371671369","dsDNA viruses, no RNA stage",TRUE,60,9
+349,"9628932","dsDNA viruses, no RNA stage",TRUE,50,9
+350,"589891555","dsDNA viruses, no RNA stage",TRUE,61,9
+351,"310004231","dsDNA viruses, no RNA stage",TRUE,58,9
+352,"310005755","dsDNA viruses, no RNA stage",TRUE,61,9
+1,"14993614","dsRNA viruses",TRUE,44,10
+2,"20889329","dsRNA viruses",TRUE,49,10
+3,"50253411","dsRNA viruses",TRUE,52,10
+4,"189022224","dsRNA viruses",TRUE,46,10
+5,"20889358","dsRNA viruses",TRUE,47,10
+6,"20428567","dsRNA viruses",TRUE,44,10
+7,"50253395","dsRNA viruses",TRUE,44,10
+8,"262530253","dsRNA viruses",TRUE,43,10
+9,"226423331","dsRNA viruses",TRUE,49,10
+10,"298201185","dsRNA viruses",TRUE,47,10
+11,"298201181","dsRNA viruses",TRUE,50,10
+12,"68532388","dsRNA viruses",TRUE,54,10
+13,"23309030","dsRNA viruses",TRUE,48,10
+14,"62401671","dsRNA viruses",TRUE,42,10
+15,"255612555","dsRNA viruses",TRUE,56,10
+16,"521967825","dsRNA viruses",TRUE,52,10
+17,"342243406","dsRNA viruses",TRUE,55,10
+18,"309259994","dsRNA viruses",TRUE,49,10
+19,"389656396","dsRNA viruses",TRUE,53,10
+20,"189022226","dsRNA viruses",TRUE,49,10
+21,"190643480","dsRNA viruses",TRUE,54,10
+22,"256398147","dsRNA viruses",TRUE,45,10
+23,"309259994","dsRNA viruses",TRUE,48,10
+24,"14993614","dsRNA viruses",TRUE,43,10
+25,"304373826","dsRNA viruses",TRUE,51,10
+26,"78763552","dsRNA viruses",TRUE,45,10
+27,"23238153","dsRNA viruses",TRUE,49,10
+28,"607064641","dsRNA viruses",TRUE,47,10
+29,"226423341","dsRNA viruses",TRUE,60,10
+30,"81054207","dsRNA viruses",TRUE,51,10
+31,"109240508","dsRNA viruses",TRUE,47,10
+32,"20428567","dsRNA viruses",TRUE,40,10
+33,"50253401","dsRNA viruses",TRUE,47,10
+34,"20177434","dsRNA viruses",TRUE,49,10
+35,"20889358","dsRNA viruses",TRUE,47,10
+36,"23309034","dsRNA viruses",TRUE,42,10
+37,"383386110","dsRNA viruses",TRUE,51,10
+38,"50253395","dsRNA viruses",TRUE,42,10
+39,"85719285","dsRNA viruses",TRUE,54,10
+40,"50234096","dsRNA viruses",TRUE,58,10
+41,"14993614","dsRNA viruses",TRUE,52,10
+42,"10518479","dsRNA viruses",TRUE,52,10
+43,"521967825","dsRNA viruses",TRUE,42,10
+44,"20428604","dsRNA viruses",TRUE,54,10
+45,"608309552","dsRNA viruses",TRUE,46,10
+46,"255612555","dsRNA viruses",TRUE,53,10
+47,"262216749","dsRNA viruses",TRUE,53,10
+48,"302317583","dsRNA viruses",TRUE,44,10
+49,"134287146","dsRNA viruses",TRUE,49,10
+50,"308814346","dsRNA viruses",TRUE,45,10
+51,"555928277","dsRNA viruses",TRUE,50,10
+52,"375298197","dsRNA viruses",TRUE,45,10
+53,"482651005","dsRNA viruses",TRUE,52,10
+54,"551682528","dsRNA viruses",TRUE,49,10
+55,"342243406","dsRNA viruses",TRUE,54,10
+56,"20279540","dsRNA viruses",TRUE,50,10
+57,"22855198","dsRNA viruses",TRUE,48,10
+58,"608309552","dsRNA viruses",TRUE,46,10
+59,"20889358","dsRNA viruses",TRUE,48,10
+60,"187765483","dsRNA viruses",TRUE,50,10
+61,"20889296","dsRNA viruses",TRUE,51,10
+62,"304373830","dsRNA viruses",TRUE,50,10
+63,"14993614","dsRNA viruses",TRUE,45,10
+64,"190643480","dsRNA viruses",TRUE,44,10
+65,"226423341","dsRNA viruses",TRUE,56,10
+66,"23309030","dsRNA viruses",TRUE,45,10
+67,"20889358","dsRNA viruses",TRUE,47,10
+68,"23238127","dsRNA viruses",TRUE,49,10
+69,"315573168","dsRNA viruses",TRUE,52,10
+70,"85813347","dsRNA viruses",TRUE,61,10
+71,"50253411","dsRNA viruses",TRUE,51,10
+72,"302317583","dsRNA viruses",TRUE,46,10
+73,"20889329","dsRNA viruses",TRUE,48,10
+74,"394935462","dsRNA viruses",TRUE,45,10
+75,"23309034","dsRNA viruses",TRUE,53,10
+76,"20889296","dsRNA viruses",TRUE,54,10
+77,"21450040","dsRNA viruses",TRUE,44,10
+78,"596403197","dsRNA viruses",TRUE,45,10
+79,"555928257","dsRNA viruses",TRUE,53,10
+80,"20889358","dsRNA viruses",TRUE,47,10
+81,"308814346","dsRNA viruses",TRUE,51,10
+82,"596403532","dsRNA viruses",TRUE,46,10
+83,"22855204","dsRNA viruses",TRUE,51,10
+84,"85719285","dsRNA viruses",TRUE,57,10
+85,"635717078","dsRNA viruses",TRUE,51,10
+86,"78767273","dsRNA viruses",TRUE,52,10
+87,"20889389","dsRNA viruses",TRUE,52,10
+88,"226423331","dsRNA viruses",TRUE,49,10
+89,"295441905","ssDNA viruses",TRUE,52,10
+90,"45597171","ssDNA viruses",TRUE,54,10
+91,"46359766","ssDNA viruses",TRUE,55,10
+92,"256352170","ssDNA viruses",TRUE,57,10
+93,"449147296","ssDNA viruses",TRUE,49,10
+94,"49248521","ssDNA viruses",TRUE,57,10
+95,"29337266","ssDNA viruses",TRUE,51,10
+96,"77125236","ssDNA viruses",TRUE,54,10
+97,"261597702","ssDNA viruses",TRUE,47,10
+98,"23334625","ssDNA viruses",TRUE,61,10
+99,"9630747","ssDNA viruses",TRUE,55,10
+100,"401715657","ssDNA viruses",TRUE,53,10
+101,"317453629","ssDNA viruses",TRUE,48,10
+102,"422933996","ssDNA viruses",TRUE,56,10
+103,"9630683","ssDNA viruses",TRUE,52,10
+104,"605039075","ssDNA viruses",TRUE,56,10
+105,"23334625","ssDNA viruses",TRUE,58,10
+106,"49248530","ssDNA viruses",TRUE,62,10
+107,"295413834","ssDNA viruses",TRUE,55,10
+108,"296006072","ssDNA viruses",TRUE,49,10
+109,"22128611","ssDNA viruses",TRUE,53,10
+110,"295413928","ssDNA viruses",TRUE,57,10
+111,"261597702","ssDNA viruses",TRUE,53,10
+112,"573007056","ssDNA viruses",TRUE,45,10
+113,"387600895","ssDNA viruses",TRUE,57,10
+114,"27151463","ssDNA viruses",TRUE,58,10
+115,"122808720","ssDNA viruses",TRUE,51,10
+116,"39980672","ssDNA viruses",TRUE,60,10
+117,"29337269","ssDNA viruses",TRUE,43,10
+118,"113199737","ssDNA viruses",TRUE,57,10
+119,"9628649","ssDNA viruses",TRUE,55,10
+120,"295413834","ssDNA viruses",TRUE,56,10
+121,"338826803","ssDNA viruses",TRUE,59,10
+122,"39980672","ssDNA viruses",TRUE,54,10
+123,"394922850","ssDNA viruses",TRUE,60,10
+124,"110084000","ssDNA viruses",TRUE,52,10
+125,"20522153","ssDNA viruses",TRUE,45,10
+126,"589287117","ssDNA viruses",TRUE,57,10
+127,"601448486","ssDNA viruses",TRUE,48,10
+128,"526177323","ssDNA viruses",TRUE,50,10
+129,"591398015","ssDNA viruses",TRUE,62,10
+130,"9628649","ssDNA viruses",TRUE,56,10
+131,"9626133","ssDNA viruses",TRUE,57,10
+132,"21165975","ssDNA viruses",TRUE,50,10
+133,"9626316","ssDNA viruses",TRUE,48,10
+134,"77020114","ssDNA viruses",TRUE,53,10
+135,"9626109","ssDNA viruses",TRUE,54,10
+136,"589287117","ssDNA viruses",TRUE,57,10
+137,"254688527","ssDNA viruses",TRUE,54,10
+138,"9626109","ssDNA viruses",TRUE,56,10
+139,"226596529","ssDNA viruses",TRUE,58,10
+140,"9630761","ssDNA viruses",TRUE,52,10
+141,"372199594","ssDNA viruses",TRUE,54,10
+142,"209901313","ssDNA viruses",TRUE,55,10
+143,"46359766","ssDNA viruses",TRUE,46,10
+144,"9630378","ssDNA viruses",TRUE,60,10
+145,"295413918","ssDNA viruses",TRUE,57,10
+146,"22128611","ssDNA viruses",TRUE,46,10
+147,"207271566","ssDNA viruses",TRUE,50,10
+148,"296006059","ssDNA viruses",TRUE,53,10
+149,"29337260","ssDNA viruses",TRUE,54,10
+150,"312126258","ssDNA viruses",TRUE,59,10
+151,"312126258","ssDNA viruses",TRUE,56,10
+152,"296005654","ssDNA viruses",TRUE,52,10
+153,"356457872","ssDNA viruses",TRUE,59,10
+154,"9630747","ssDNA viruses",TRUE,57,10
+155,"9630683","ssDNA viruses",TRUE,48,10
+156,"9625381","ssDNA viruses",TRUE,52,10
+157,"9625381","ssDNA viruses",TRUE,50,10
+158,"9626133","ssDNA viruses",TRUE,59,10
+159,"607840593","ssDNA viruses",TRUE,44,10
+160,"570033506","ssDNA viruses",TRUE,51,10
+161,"19919902","ssDNA viruses",TRUE,52,10
+162,"9625381","ssDNA viruses",TRUE,46,10
+163,"29337266","ssDNA viruses",TRUE,53,10
+164,"9626316","ssDNA viruses",TRUE,53,10
+165,"295441905","ssDNA viruses",TRUE,54,10
+166,"45597171","ssDNA viruses",TRUE,53,10
+167,"215480028","ssDNA viruses",TRUE,60,10
+168,"9626133","ssDNA viruses",TRUE,58,10
+169,"89888094","ssDNA viruses",TRUE,58,10
+170,"9625381","ssDNA viruses",TRUE,53,10
+171,"113200776","ssDNA viruses",TRUE,53,10
+172,"338826803","ssDNA viruses",TRUE,59,10
+173,"29171762","ssDNA viruses",TRUE,53,10
+174,"296006072","ssDNA viruses",TRUE,49,10
+175,"51949957","ssDNA viruses",TRUE,57,10
+176,"356457872","ssDNA viruses",TRUE,59,10
+177,"20178606","ssRNA viruses",TRUE,42,10
+178,"568319712","ssRNA viruses",TRUE,47,10
+179,"20153407","ssRNA viruses",TRUE,44,10
+180,"20260781","ssRNA viruses",TRUE,47,10
+181,"554967333","ssRNA viruses",TRUE,41,10
+182,"20428591","ssRNA viruses",TRUE,50,10
+183,"294768475","ssRNA viruses",TRUE,46,10
+184,"189313868","ssRNA viruses",TRUE,55,10
+185,"89902995","ssRNA viruses",TRUE,43,10
+186,"237781162","ssRNA viruses",TRUE,46,10
+187,"410428372","ssRNA viruses",TRUE,37,10
+188,"401829632","ssRNA viruses",TRUE,47,10
+189,"594139785","ssRNA viruses",TRUE,49,10
+190,"380035083","ssRNA viruses",TRUE,39,10
+191,"37591172","ssRNA viruses",TRUE,45,10
+192,"594139791","ssRNA viruses",TRUE,54,10
+193,"9627007","ssRNA viruses",TRUE,48,10
+194,"33620701","ssRNA viruses",TRUE,44,10
+195,"85718614","ssRNA viruses",TRUE,53,10
+196,"9629255","ssRNA viruses",TRUE,60,10
+197,"19919930","ssRNA viruses",TRUE,56,10
+198,"667699533","ssRNA viruses",TRUE,40,10
+199,"157939615","ssRNA viruses",TRUE,53,10
+200,"291612456","ssRNA viruses",TRUE,46,10
+201,"404184187","ssRNA viruses",TRUE,45,10
+202,"9635790","ssRNA viruses",TRUE,35,10
+203,"242916041","ssRNA viruses",TRUE,44,10
+204,"556333860","ssRNA viruses",TRUE,53,10
+205,"388570521","ssRNA viruses",TRUE,44,10
+206,"9626123","ssRNA viruses",TRUE,48,10
+207,"96980660","ssRNA viruses",TRUE,44,10
+208,"19919949","ssRNA viruses",TRUE,49,10
+209,"459642388","ssRNA viruses",TRUE,48,10
+210,"594139833","ssRNA viruses",TRUE,42,10
+211,"22256025","ssRNA viruses",TRUE,51,10
+212,"366091748","ssRNA viruses",TRUE,44,10
+213,"406356611","ssRNA viruses",TRUE,63,10
+214,"431810239","ssRNA viruses",TRUE,49,10
+215,"594139947","ssRNA viruses",TRUE,49,10
+216,"55770806","ssRNA viruses",TRUE,45,10
+217,"172088171","ssRNA viruses",TRUE,45,10
+218,"164607202","ssRNA viruses",TRUE,39,10
+219,"443615329","ssRNA viruses",TRUE,37,10
+220,"21431571","ssRNA viruses",TRUE,46,10
+221,"443615329","ssRNA viruses",TRUE,42,10
+222,"27228716","ssRNA viruses",TRUE,48,10
+223,"148283122","ssRNA viruses",TRUE,41,10
+224,"594139683","ssRNA viruses",TRUE,50,10
+225,"557940280","ssRNA viruses",TRUE,44,10
+226,"425867875","ssRNA viruses",TRUE,44,10
+227,"19387576","ssRNA viruses",TRUE,45,10
+228,"18875445","ssRNA viruses",TRUE,46,10
+229,"612400722","ssRNA viruses",TRUE,59,10
+230,"589892864","ssRNA viruses",TRUE,52,10
+231,"72398362","ssRNA viruses",TRUE,49,10
+232,"347762083","ssRNA viruses",TRUE,50,10
+233,"443615329","ssRNA viruses",TRUE,38,10
+234,"172088171","ssRNA viruses",TRUE,40,10
+235,"425867985","ssRNA viruses",TRUE,40,10
+236,"425867887","ssRNA viruses",TRUE,42,10
+237,"89902995","ssRNA viruses",TRUE,44,10
+238,"116536735","ssRNA viruses",TRUE,42,10
+239,"9629456","ssRNA viruses",TRUE,39,10
+240,"9632338","ssRNA viruses",TRUE,43,10
+241,"18490052","ssRNA viruses",TRUE,51,10
+242,"9627229","ssRNA viruses",TRUE,45,10
+243,"655454924","ssRNA viruses",TRUE,40,10
+244,"9630807","ssRNA viruses",TRUE,46,10
+245,"594139785","ssRNA viruses",TRUE,52,10
+246,"34610126","ssRNA viruses",TRUE,53,10
+247,"19881389","ssRNA viruses",TRUE,47,10
+248,"47177088","ssRNA viruses",TRUE,55,10
+249,"46852132","ssRNA viruses",TRUE,48,10
+250,"440382952","ssRNA viruses",TRUE,42,10
+251,"481847811","ssRNA viruses",TRUE,38,10
+252,"46393298","ssRNA viruses",TRUE,47,10
+253,"19387576","ssRNA viruses",TRUE,47,10
+254,"116536735","ssRNA viruses",TRUE,45,10
+255,"9630726","ssRNA viruses",TRUE,45,10
+256,"594139686","ssRNA viruses",TRUE,44,10
+257,"19387576","ssRNA viruses",TRUE,47,10
+258,"11125722","ssRNA viruses",TRUE,52,10
+259,"171473627","ssRNA viruses",TRUE,44,10
+260,"394935448","ssRNA viruses",TRUE,52,10
+261,"116536721","ssRNA viruses",TRUE,50,10
+262,"226309581","ssRNA viruses",TRUE,40,10
+263,"315192962","ssRNA viruses",TRUE,55,10
+264,"355348565","ssRNA viruses",TRUE,45,10
+265,"531034792","dsDNA viruses, no RNA stage",TRUE,48,10
+266,"526244816","dsDNA viruses, no RNA stage",TRUE,58,10
+267,"109638594","dsDNA viruses, no RNA stage",TRUE,61,10
+268,"531034792","dsDNA viruses, no RNA stage",TRUE,58,10
+269,"66395885","dsDNA viruses, no RNA stage",TRUE,47,10
+270,"414088056","dsDNA viruses, no RNA stage",TRUE,44,10
+271,"557307993","dsDNA viruses, no RNA stage",TRUE,57,10
+272,"409187963","dsDNA viruses, no RNA stage",TRUE,58,10
+273,"531034792","dsDNA viruses, no RNA stage",TRUE,43,10
+274,"12657854","dsDNA viruses, no RNA stage",TRUE,49,10
+275,"469519505","dsDNA viruses, no RNA stage",TRUE,59,10
+276,"331028054","dsDNA viruses, no RNA stage",TRUE,49,10
+277,"66395656","dsDNA viruses, no RNA stage",TRUE,53,10
+278,"585299329","dsDNA viruses, no RNA stage",TRUE,55,10
+279,"414086362","dsDNA viruses, no RNA stage",TRUE,57,10
+280,"588498374","dsDNA viruses, no RNA stage",TRUE,58,10
+281,"526177551","dsDNA viruses, no RNA stage",TRUE,56,10
+282,"310005818","dsDNA viruses, no RNA stage",TRUE,59,10
+283,"30984428","dsDNA viruses, no RNA stage",TRUE,46,10
+284,"110645209","dsDNA viruses, no RNA stage",TRUE,51,10
+285,"115298502","dsDNA viruses, no RNA stage",TRUE,61,10
+286,"448824968","dsDNA viruses, no RNA stage",TRUE,47,10
+287,"469520167","dsDNA viruses, no RNA stage",TRUE,57,10
+288,"371671060","dsDNA viruses, no RNA stage",TRUE,56,10
+289,"469519400","dsDNA viruses, no RNA stage",TRUE,51,10
+290,"294661423","dsDNA viruses, no RNA stage",TRUE,62,10
+291,"115298502","dsDNA viruses, no RNA stage",TRUE,59,10
+292,"31880044","dsDNA viruses, no RNA stage",TRUE,65,10
+293,"203460520","dsDNA viruses, no RNA stage",TRUE,47,10
+294,"332672312","dsDNA viruses, no RNA stage",TRUE,50,10
+295,"356927359","dsDNA viruses, no RNA stage",TRUE,64,10
+296,"109522776","dsDNA viruses, no RNA stage",TRUE,47,10
+297,"468639686","dsDNA viruses, no RNA stage",TRUE,65,10
+298,"389059862","dsDNA viruses, no RNA stage",TRUE,62,10
+299,"639438320","dsDNA viruses, no RNA stage",TRUE,64,10
+300,"418487144","dsDNA viruses, no RNA stage",TRUE,59,10
+301,"333798163","dsDNA viruses, no RNA stage",TRUE,56,10
+302,"33622203","dsDNA viruses, no RNA stage",TRUE,52,10
+303,"57790931","dsDNA viruses, no RNA stage",TRUE,60,10
+304,"154551150","dsDNA viruses, no RNA stage",TRUE,57,10
+305,"310003214","dsDNA viruses, no RNA stage",TRUE,62,10
+306,"563397275","dsDNA viruses, no RNA stage",TRUE,58,10
+307,"508181800","dsDNA viruses, no RNA stage",TRUE,55,10
+308,"66394870","dsDNA viruses, no RNA stage",TRUE,54,10
+309,"310722194","dsDNA viruses, no RNA stage",TRUE,56,10
+310,"13242472","dsDNA viruses, no RNA stage",TRUE,55,10
+311,"282599175","dsDNA viruses, no RNA stage",TRUE,55,10
+312,"194172859","dsDNA viruses, no RNA stage",TRUE,63,10
+313,"14602241","dsDNA viruses, no RNA stage",TRUE,56,10
+314,"311992750","dsDNA viruses, no RNA stage",TRUE,60,10
+315,"9634626","dsDNA viruses, no RNA stage",TRUE,55,10
+316,"423262092","dsDNA viruses, no RNA stage",TRUE,59,10
+317,"215401395","dsDNA viruses, no RNA stage",TRUE,51,10
+318,"51010904","dsDNA viruses, no RNA stage",TRUE,56,10
+319,"194303296","dsDNA viruses, no RNA stage",TRUE,46,10
+320,"510135515","dsDNA viruses, no RNA stage",TRUE,57,10
+321,"530787714","dsDNA viruses, no RNA stage",TRUE,54,10
+322,"593778526","dsDNA viruses, no RNA stage",TRUE,43,10
+323,"18450236","dsDNA viruses, no RNA stage",TRUE,58,10
+324,"294661423","dsDNA viruses, no RNA stage",TRUE,56,10
+325,"345461107","dsDNA viruses, no RNA stage",TRUE,64,10
+326,"29565879","dsDNA viruses, no RNA stage",TRUE,45,10
+327,"281416213","dsDNA viruses, no RNA stage",TRUE,48,10
+328,"9631294","dsDNA viruses, no RNA stage",TRUE,50,10
+329,"448244742","dsDNA viruses, no RNA stage",TRUE,57,10
+330,"563397006","dsDNA viruses, no RNA stage",TRUE,49,10
+331,"311977355","dsDNA viruses, no RNA stage",TRUE,47,10
+332,"682123955","dsDNA viruses, no RNA stage",TRUE,57,10
+333,"643218205","dsDNA viruses, no RNA stage",TRUE,54,10
+334,"66275797","dsDNA viruses, no RNA stage",TRUE,50,10
+335,"414089586","dsDNA viruses, no RNA stage",TRUE,43,10
+336,"310830989","dsDNA viruses, no RNA stage",TRUE,62,10
+337,"311977355","dsDNA viruses, no RNA stage",TRUE,53,10
+338,"148734199","dsDNA viruses, no RNA stage",TRUE,44,10
+339,"51527264","dsDNA viruses, no RNA stage",TRUE,57,10
+340,"508178651","dsDNA viruses, no RNA stage",TRUE,46,10
+341,"468642100","dsDNA viruses, no RNA stage",TRUE,53,10
+342,"311977355","dsDNA viruses, no RNA stage",TRUE,53,10
+343,"530545941","dsDNA viruses, no RNA stage",TRUE,48,10
+344,"543171678","dsDNA viruses, no RNA stage",TRUE,59,10
+345,"418489442","dsDNA viruses, no RNA stage",TRUE,52,10
+346,"593775595","dsDNA viruses, no RNA stage",TRUE,43,10
+347,"459348139","dsDNA viruses, no RNA stage",TRUE,61,10
+348,"114680053","dsDNA viruses, no RNA stage",TRUE,48,10
+349,"443404743","dsDNA viruses, no RNA stage",TRUE,43,10
+350,"609252819","dsDNA viruses, no RNA stage",TRUE,43,10
+351,"526118633","dsDNA viruses, no RNA stage",TRUE,50,10
+352,"508181800","dsDNA viruses, no RNA stage",TRUE,48,10
