@@ -84,6 +84,16 @@ rule contigs_sample_indices:
 	shell:
 		"""../../bin/contig_sampling_with_blast.py -l {wildcards.ContigLength} -u -n {params.N_CONTIGS_PER_DOMAIN} {input} -o {output}"""
 
+rule contigs_sample_indices_many:
+	input: DB_DIR+"{domain}_blastdb_content.txt"
+	output: "{ContigLength}nt_{ResampleID}/{domain}_4k_sampling_contig_indices.txt"
+	params:
+		N_CONTIGS_PER_DOMAIN="40000"
+	shell:
+		"""../../bin/contig_sampling_with_blast.py -l {wildcards.ContigLength} -u -n {params.N_CONTIGS_PER_DOMAIN} {input} -o {output}"""
+
+ruleorder: contigs_sample_indices_many > contigs_sample_indices
+
 rule contigs_sample_extract_sequences:
 	input: seq="{ResampleID}/{domain}_sampling_contig_indices.txt"
 	output: contigs="{ResampleID}/{domain}_contigs.fa",sorted_seq=temp("{ResampleID}/{domain}_sampling_contig_indices.sorted.txt")
@@ -239,7 +249,7 @@ rule compress_results:
 rule archea_euk_contigs: 
 	input: expand("{length}nt_Resample_{res_id}/{domain}_k3_mers.tsv",length=[150,500,1000],res_id=range(1,100),domain=["euk","archaea"])
 
-rule bact_hardness:
+rule bact_hardness:	
 	input: "500nt_Resample_1/bact_Group_distribution_kDN.pdf","500nt_Resample_1/bact_SubGroup_distribution_kDN.pdf","150nt_Resample_2/bact_SubGroup_distribution_kDN.pdf","150nt_Resample_2/bact_Group_distribution_kDN.pdf"
 
 rule test_virus_hardness:
@@ -262,3 +272,7 @@ rule list_all_contents:
 
 rule some_hardness:
 	input: viruses=expand("{cont_length}nt_Resample_{res_id}/viruses_{classLabels}_distribution_kDN.pdf",res_id=range(1,100),cont_length=[150,500,1000],classLabels=['Group','SubGroup']), bact=expand("{cont_length}nt_Resample_{res_id}/bact_{classLabels}_distribution_kDN.pdf",res_id=range(1,100),cont_length=[150,500,1000],classLabels=['Group','SubGroup'])
+
+
+rule virus_host_comparison:
+	input: expand('500nt_Resample_{res_id}/{domain}_4k_k3_mers.tsv',domain=["bact","plants","viruses","archaea"],res_id=range(1,10))
