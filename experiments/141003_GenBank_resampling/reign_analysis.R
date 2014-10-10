@@ -23,7 +23,7 @@ for(group_sampling_id in 1:N_GROUP_SAMPLING){
 	normalized_kmers_ds_SG=normalized_kmers[downsample_idx]
 
 	input_size=nrow(normalized_kmers_ds_SG)
-	n_splits=as.integer(10*n_cores)
+	n_splits=as.integer(14*n_cores)
 	nas_to_add=((input_size %/% n_splits)+1)*n_splits - input_size
 	input_splits= matrix(c(1:input_size,rep(NA,nas_to_add)),byrow=T,ncol=n_splits)
 

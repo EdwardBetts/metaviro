@@ -6,7 +6,7 @@ from snakemake.utils import R
 * Account for multiple batches 
 """
 
-ALLDOMAIN=["viruses","bact","euk","archea"]
+ALLDOMAIN=["viruses","bact","euk","archaea"]
 
 
 ROOTDIR=os.getcwd()
@@ -58,10 +58,16 @@ rule list_db_content:
 		db_name=os.path.splitext(input[0])[0]
 		db_name=DB_DIR+wildcards.db_name
 		# print("Considering DB:%s OR %s"%(db_name,wildcards.db_name))
-		shell("""blastdbcmd -entry all -db {db_name} -outfmt "%g\t%a\t%i\t%t\t%l" > {output}""")
+		shell("""blastdbcmd -entry all -db {db_name} -outfmt "%g\t%a\t%T\t%i\t%t\t%l" > {output}""")
 
 
-
+rule detect_bad_gis:
+	input: expand("blast_dbs/{domain}_blastdb_content.txt",domain=ALLDOMAIN)
+	output: DB_DIR+"/bad_gis.txt"
+	run:
+		R("""
+			source("detect_bad_gis.R")
+		""")
 
 ### Contig sampling 
 
@@ -257,6 +263,9 @@ rule test_virus_hardness:
 
 rule test_all_hardness:
 	input: expand("{length}nt_Resample_{res_id}/all_domains_domain_distribution_kDN.pdf",res_id=range(3,10),length=[150,500,1000])
+
+rule domain_hardness_paper:
+	input: expand("{length}nt_Resample_{res_id}/all_domains_domain_distribution_kDN.pdf",res_id=range(1,12),length=[500])
 
 
 rule all_blast_db:

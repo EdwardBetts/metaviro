@@ -1,0 +1,121 @@
+586778913	NW_006500351.1	ref|NW_006500351.1|	Amborella trichopoda unplaced genomic scaffold AmTr_v1.0_scaffold00064, whole genome shotgun sequence	4206236
+586774437	NW_006500327.1	ref|NW_006500327.1|	Amborella trichopoda unplaced genomic scaffold AmTr_v1.0_scaffold00065, whole genome shotgun sequence	4238611
+475628045	KD499222.1	gb|KD499222.1|	Aegilops tauschii cultivar AL8/78 unplaced genomic scaffold Scaffold1, whole genome shotgun sequence	85651
+475628039	KD499227.1	gb|KD499227.1|	Aegilops tauschii cultivar AL8/78 unplaced genomic scaffold Scaffold6, whole genome shotgun sequence	71030
+475628038	KD499228.1	gb|KD499228.1|	Aegilops tauschii cultivar AL8/78 unplaced genomic scaffold Scaffold7, whole genome shotgun sequence	134982
+475628033	KD499232.1	gb|KD499232.1|	Aegilops tauschii cultivar AL8/78 unplaced genomic scaffold Scaffold11, whole genome shotgun sequence	142870
+475628029	KD499235.1	gb|KD499235.1|	Aegilops tauschii cultivar AL8/78 unplaced genomic scaffold Scaffold14, whole genome shotgun sequence	106528
+332189094	CP002684.1	gb|CP002684.1|	Arabidopsis thaliana chromosome 1, complete sequence	30427671
+330250293	CP002685.1	gb|CP002685.1|	Arabidopsis thaliana chromosome 2, complete sequence	19698289
+332640072	CP002686.1	gb|CP002686.1|	Arabidopsis thaliana chromosome 3, complete sequence	23459830
+332656411	CP002687.1	gb|CP002687.1|	Arabidopsis thaliana chromosome 4, complete genome	18585056
+332002898	CP002688.1	gb|CP002688.1|	Arabidopsis thaliana chromosome 5, complete sequence	26975502
+49256807	Y08501.2	emb|Y08501.2|	Arabidopsis thaliana mitochondrial genome	366924
+5881673	AP000423.1	dbj|AP000423.1|	Arabidopsis thaliana chloroplast DNA, complete genome, ecotype: Columbia	154478
+679811907	NC_024798.1	ref|NC_024798.1|	Brassica rapa cultivar Chiifu-401-42 chromosome A4, Brapa_1.0, whole genome shotgun sequence	18984343
+530537136	CM002084.1	gb|CM002084.1|	Elaeis guineensis chromosome 4, whole genome shotgun sequence	57251647
+629079300	KK198765.1	gb|KK198765.1|	Eucalyptus grandis cultivar BRASUZ1 unplaced genomic scaffold scaffold_13, whole genome shotgun sequence	1313349
+586919208	CM002476.1	gb|CM002476.1|	Leersia perrieri chromosome 1, whole genome shotgun sequence	32922458
+351648213	CM001231.1	gb|CM001231.1|	Magnaporthe oryzae 70-15 chromosome 1, whole genome shotgun sequence	7978604
+351645597	CM001232.1	gb|CM001232.1|	Magnaporthe oryzae 70-15 chromosome 2, whole genome shotgun sequence	8319966
+351643494	CM001233.1	gb|CM001233.1|	Magnaporthe oryzae 70-15 chromosome 3, whole genome shotgun sequence	6606598
+351641698	CM001234.1	gb|CM001234.1|	Magnaporthe oryzae 70-15 chromosome 4, whole genome shotgun sequence	5546968
+351640227	CM001235.1	gb|CM001235.1|	Magnaporthe oryzae 70-15 chromosome 5, whole genome shotgun sequence	4490059
+351638913	CM001236.1	gb|CM001236.1|	Magnaporthe oryzae 70-15 chromosome 6, whole genome shotgun sequence	4133993
+351637849	CM001237.1	gb|CM001237.1|	Magnaporthe oryzae 70-15 chromosome 7, whole genome shotgun sequence	3415785
+144575580	CP000581.1	gb|CP000581.1|	Ostreococcus lucimarinus CCE9901 chromosome 1, complete sequence	1152508
+144576265	CP000582.1	gb|CP000582.1|	Ostreococcus lucimarinus CCE9901 chromosome 2, complete sequence	895087
+144576750	CP000583.1	gb|CP000583.1|	Ostreococcus lucimarinus CCE9901 chromosome 3, complete sequence	982987
+144577341	CP000584.1	gb|CP000584.1|	Ostreococcus lucimarinus CCE9901 chromosome 4, complete sequence	930724
+144577865	CP000585.1	gb|CP000585.1|	Ostreococcus lucimarinus CCE9901 chromosome 5, complete sequence	847696
+144578356	CP000586.1	gb|CP000586.1|	Ostreococcus lucimarinus CCE9901 chromosome 6, complete sequence	818664
+144578808	CP000587.1	gb|CP000587.1|	Ostreococcus lucimarinus CCE9901 chromosome 7, complete sequence	783246
+144579271	CP000588.1	gb|CP000588.1|	Ostreococcus lucimarinus CCE9901 chromosome 8, complete sequence	701771
+144579693	CP000589.1	gb|CP000589.1|	Ostreococcus lucimarinus CCE9901 chromosome 9, complete sequence	670853
+144580105	CP000590.1	gb|CP000590.1|	Ostreococcus lucimarinus CCE9901 chromosome 10, complete sequence	613585
+144580464	CP000591.1	gb|CP000591.1|	Ostreococcus lucimarinus CCE9901 chromosome 11, complete sequence	593542
+144580792	CP000592.1	gb|CP000592.1|	Ostreococcus lucimarinus CCE9901 chromosome 12, complete sequence	538963
+144581113	CP000593.1	gb|CP000593.1|	Ostreococcus lucimarinus CCE9901 chromosome 13, complete sequence	528469
+144581412	CP000594.1	gb|CP000594.1|	Ostreococcus lucimarinus CCE9901 chromosome 14, complete sequence	708927
+144581780	CP000595.1	gb|CP000595.1|	Ostreococcus lucimarinus CCE9901 chromosome 15, complete sequence	468366
+144582046	CP000596.1	gb|CP000596.1|	Ostreococcus lucimarinus CCE9901 chromosome 16, complete sequence	428333
+144582309	CP000597.1	gb|CP000597.1|	Ostreococcus lucimarinus CCE9901 chromosome 17, complete sequence	366173
+144582519	CP000598.1	gb|CP000598.1|	Ostreococcus lucimarinus CCE9901 chromosome 18, complete sequence	149386
+144582599	CP000599.1	gb|CP000599.1|	Ostreococcus lucimarinus CCE9901 chromosome 19, complete sequence	154676
+144582692	CP000600.1	gb|CP000600.1|	Ostreococcus lucimarinus CCE9901 chromosome 20, complete sequence	549133
+144583023	CP000601.1	gb|CP000601.1|	Ostreococcus lucimarinus CCE9901 chromosome 21, complete sequence	321799
+255672756	AP008207.2	dbj|AP008207.2|	Oryza sativa Japonica Group DNA, chromosome 1, complete sequence, cultivar: Nipponbare	45064769
+255670529	AP008208.2	dbj|AP008208.2|	Oryza sativa Japonica Group DNA, chromosome 2, complete sequence, cultivar: Nipponbare	36823111
+255674134	AP008209.2	dbj|AP008209.2|	Oryza sativa Japonica Group DNA, chromosome 3, complete sequence, cultivar: Nipponbare	37257345
+255675107	AP008210.2	dbj|AP008210.2|	Oryza sativa Japonica Group DNA, chromosome 4, complete sequence, cultivar: Nipponbare	35863200
+255675924	AP008211.2	dbj|AP008211.2|	Oryza sativa Japonica Group DNA, chromosome 5, complete sequence, cultivar: Nipponbare	30039014
+255676632	AP008212.2	dbj|AP008212.2|	Oryza sativa Japonica Group DNA, chromosome 6, complete sequence, cultivar: Nipponbare	32124789
+255677434	AP008213.2	dbj|AP008213.2|	Oryza sativa Japonica Group DNA, chromosome 7, complete sequence, cultivar: Nipponbare	30357780
+255678087	AP008214.2	dbj|AP008214.2|	Oryza sativa Japonica Group DNA, chromosome 8, complete sequence, cultivar: Nipponbare	28530027
+255678666	AP008215.2	dbj|AP008215.2|	Oryza sativa Japonica Group DNA, chromosome 9, complete sequence, cultivar: Nipponbare	23843360
+255679158	AP008216.2	dbj|AP008216.2|	Oryza sativa Japonica Group DNA, chromosome 10, complete sequence, cultivar: Nipponbare	23661561
+255679674	AP008217.2	dbj|AP008217.2|	Oryza sativa Japonica Group DNA, chromosome 11, complete sequence, cultivar: Nipponbare	30828668
+255669953	AP008218.2	dbj|AP008218.2|	Oryza sativa Japonica Group DNA, chromosome 12, complete sequence, cultivar: Nipponbare	27757321
+11957	X15901.1	emb|X15901.1|	Oryza sativa Japonica Group chloroplast genome	134525
+47118326	BA000029.3	dbj|BA000029.3|	Oryza sativa Japonica Group mitochondrial DNA, complete genome	490520
+344018	D00293.1	dbj|D00293.1|RICMTB1	Oryza sativa mitochondrial plasmid-like gene (B1) for 2 ORFs, complete cds	2135
+312283788	AC243257.1	gb|AC243257.1|	Panicum virgatum clone PV_ABa103-H05, complete sequence	209397
+162697182	DS544890.1	gb|DS544890.1|	Physcomitrella patens subsp. patens PHYPAscaffold_1 genomic scaffold, whole genome shotgun sequence	5387533
+302771546	NW_003314272.1	ref|NW_003314272.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_11, whole genome shotgun sequence	2904818
+302765371	NW_003314267.1	ref|NW_003314267.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_6, whole genome shotgun sequence	3967200
+300153439	GL377603.1	gb|GL377603.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_38, whole genome shotgun sequence	1751465
+302828022	NW_003314330.1	ref|NW_003314330.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_69, whole genome shotgun sequence	1032227
+302826895	NW_003314286.1	ref|NW_003314286.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_25, whole genome shotgun sequence	2002060
+302826877	NW_003315018.1	ref|NW_003315018.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_772, whole genome shotgun sequence	399
+302826876	NW_003315017.1	ref|NW_003315017.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_771, whole genome shotgun sequence	437
+302826875	NW_003315016.1	ref|NW_003315016.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_770, whole genome shotgun sequence	455
+302826874	NW_003315015.1	ref|NW_003315015.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_769, whole genome shotgun sequence	464
+302826873	NW_003315014.1	ref|NW_003315014.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_768, whole genome shotgun sequence	647
+302826872	NW_003315013.1	ref|NW_003315013.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_767, whole genome shotgun sequence	759
+302826871	NW_003315012.1	ref|NW_003315012.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_766, whole genome shotgun sequence	773
+302826870	NW_003315011.1	ref|NW_003315011.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_765, whole genome shotgun sequence	790
+302826869	NW_003315010.1	ref|NW_003315010.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_764, whole genome shotgun sequence	806
+302826868	NW_003315009.1	ref|NW_003315009.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_763, whole genome shotgun sequence	813
+302826867	NW_003315008.1	ref|NW_003315008.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_762, whole genome shotgun sequence	827
+302826866	NW_003315007.1	ref|NW_003315007.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_761, whole genome shotgun sequence	852
+302826865	NW_003315006.1	ref|NW_003315006.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_760, whole genome shotgun sequence	862
+302826864	NW_003315005.1	ref|NW_003315005.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_759, whole genome shotgun sequence	892
+302826863	NW_003315004.1	ref|NW_003315004.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_758, whole genome shotgun sequence	923
+302826862	NW_003315003.1	ref|NW_003315003.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_757, whole genome shotgun sequence	977
+302826859	NW_003315002.1	ref|NW_003315002.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_756, whole genome shotgun sequence	1046
+302826858	NW_003315001.1	ref|NW_003315001.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_755, whole genome shotgun sequence	1093
+302826857	NW_003315000.1	ref|NW_003315000.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_754, whole genome shotgun sequence	1137
+302826856	NW_003314999.1	ref|NW_003314999.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_753, whole genome shotgun sequence	1168
+302826855	NW_003314998.1	ref|NW_003314998.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_752, whole genome shotgun sequence	3456
+302826854	NW_003314997.1	ref|NW_003314997.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_751, whole genome shotgun sequence	1264
+302826853	NW_003314996.1	ref|NW_003314996.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_750, whole genome shotgun sequence	1285
+302826852	NW_003314995.1	ref|NW_003314995.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_749, whole genome shotgun sequence	1287
+302826851	NW_003314994.1	ref|NW_003314994.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_748, whole genome shotgun sequence	1290
+302826850	NW_003314993.1	ref|NW_003314993.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_747, whole genome shotgun sequence	1325
+302826849	NW_003314992.1	ref|NW_003314992.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_746, whole genome shotgun sequence	1365
+302826848	NW_003314991.1	ref|NW_003314991.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_745, whole genome shotgun sequence	1534
+302826847	NW_003314990.1	ref|NW_003314990.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_744, whole genome shotgun sequence	1555
+302826844	NW_003314989.1	ref|NW_003314989.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_743, whole genome shotgun sequence	1583
+302826843	NW_003314988.1	ref|NW_003314988.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_742, whole genome shotgun sequence	1592
+302826842	NW_003314987.1	ref|NW_003314987.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_741, whole genome shotgun sequence	1608
+302826839	NW_003314986.1	ref|NW_003314986.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_740, whole genome shotgun sequence	1669
+302826838	NW_003314985.1	ref|NW_003314985.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_739, whole genome shotgun sequence	2401
+302826837	NW_003314984.1	ref|NW_003314984.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_738, whole genome shotgun sequence	2747
+302826836	NW_003314983.1	ref|NW_003314983.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_737, whole genome shotgun sequence	2681
+302826835	NW_003314982.1	ref|NW_003314982.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_736, whole genome shotgun sequence	2843
+302826834	NW_003314981.1	ref|NW_003314981.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_735, whole genome shotgun sequence	2019
+302826833	NW_003314980.1	ref|NW_003314980.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_734, whole genome shotgun sequence	2038
+302826832	NW_003314979.1	ref|NW_003314979.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_733, whole genome shotgun sequence	2048
+302826831	NW_003314978.1	ref|NW_003314978.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_732, whole genome shotgun sequence	3060
+302826830	NW_003314977.1	ref|NW_003314977.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_731, whole genome shotgun sequence	2862
+302826829	NW_003314976.1	ref|NW_003314976.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_730, whole genome shotgun sequence	2909
+302826828	NW_003314975.1	ref|NW_003314975.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_729, whole genome shotgun sequence	3086
+302826827	NW_003314974.1	ref|NW_003314974.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_728, whole genome shotgun sequence	3138
+302826824	NW_003314973.1	ref|NW_003314973.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_727, whole genome shotgun sequence	2254
+302826823	NW_003314972.1	ref|NW_003314972.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_726, whole genome shotgun sequence	2983
+302826822	NW_003314971.1	ref|NW_003314971.1|	Selaginella moellendorffii unplaced genomic scaffold SELMOscaffold_725, whole genome shotgun sequence	2291
+675269502	AC247207.9	gb|AC247207.9|	Solanum lycopersicum strain Heinz 1706 chromosome 5 clone slm-54l3 map 5, WORKING DRAFT SEQUENCE, 7 unordered pieces	142903
+675269501	AC247188.11	gb|AC247188.11|	Solanum lycopersicum strain Heinz 1706 chromosome 5 clone slm-31i21 map 5, WORKING DRAFT SEQUENCE, 5 unordered pieces	126810
+142942393	EF514212.1	gb|EF514212.1|	Solanum tuberosum strain P6/210 contig R1, complete sequence	417445
+253761954	NW_002994243.1	ref|NW_002994243.1|	Sorghum bicolor chromosome 2 genomic scaffold, whole genome shotgun sequence	43354415
+593497591	NC_023625.1	ref|NC_023625.1|	Theobroma cacao cultivar Matina 1-6 chromosome 1, whole genome shotgun sequence	38988864
