@@ -1,0 +1,454 @@
+We want to determine whether viruses are more spread than the other classes
+
+```{r libraries}
+library(data.table)
+library(cluster)
+library(ggplot2)
+library(corrplot)
+library(plyr)
+library(dplyr)
+library(reshape2)
+library(fpc)
+library(foreach)
+library(doParallel)
+registerDoParallel(cores=2)
+
+
+setwd("~/Documents/metaviro/experiments/141003_GenBank_resampling/")
+
+apply(expand.grid("500nt_Resample_",1:50,"/",c("archaea","bact"),"_k3_mers.tsv"),FUN=function(x) paste(x,collapse="",sep=""),MARGIN=1)
+pb <- txtProgressBar(min = 0, max = 50, style = 3)
+
+all_instances_kmers= foreach(res_id=1:50,.combine=rbind) %do% {
+	setTxtProgressBar(pb, res_id)
+	rbind(
+	fread(paste0("500nt_Resample_",res_id,"/archaea_k3_mers.tsv")),
+	fread(paste0("500nt_Resample_",res_id,"/bact_k3_mers.tsv")),
+	fread(paste0("500nt_Resample_",res_id,"/euk_k3_mers.tsv")),
+	fread(paste0("500nt_Resample_",res_id,"/viruses_k3_mers.tsv")))
+}
+close(pb)
+
+# let's annotate the viruses 
+
+
+kmers_columns=colnames(all_instances_kmers)[5:ncol(all_instances_kmers)]
+
+sequence_attributes=data.table(cbind(
+	limma::strsplit2(all_instances_kmers$path,"_|/",fixed=F),
+	limma::strsplit2(all_instances_kmers$sequence_description,"|",fixed=T)))
+
+sequence_attributes[,contig_index:=1:.N,by=V4]
+
+
+all_instances_kmers$gi=as.integer(as.character(sequence_attributes[,V7]))
+all_instances_kmers$domain=factor(sequence_attributes[,V4])
+all_instances_kmers$batch=factor(sequence_attributes[,V2])
+all_instances_kmers$mean_length=factor(sequence_attributes[,V3])
+all_instances_kmers$contig_index=sequence_attributes$contig_index
+
+load("gi_mapping/viruses_annotations_gi.RData")
+GenBank_annotations[,.N,by=Host][order(N)]
+annotated_kmers=merge(all_instances_kmers,GenBank_taxID2gi,by="gi",all.x=T)
+annotated_kmers=merge(annotated_kmers,GenBank_annotations,by="TaxID",all.x=T)
+
+kmer_tot=rowSums(annotated_kmers[,kmers_columns,with=F])
+annotated_kmers$kmer_tot=kmer_tot
+annotated_kmers[,ratio:=kmer_tot/sequence_length,by=.I]
+
+annotated_kmers[order(sequence_length)]
+annotated_kmers=annotated_kmers[sequence_length<=2000]
+annotated_kmers=annotated_kmers[sequence_length>=150]
+annotated_kmers=annotated_kmers[ratio>=0.6]
+
+
+summary(annotated_kmers$sequence_length)
+summary(annotated_kmers$kmer_tot)
+summary(annotated_kmers$ratio)
+
+ggplot(annotated_kmers[sample(nrow(annotated_kmers),1e5)],aes(x=sequence_length,y=ratio))+geom_point()
+
+
+# normalize and type 
+normalized_kmers_counts=annotated_kmers[,kmers_columns,with=F]/annotated_kmers$sequence_length
+
+normalized_kmers=cbind(normalized_kmers_counts, annotated_kmers[,list(domain,sequence_length,gi,BioProject.ID,Group,SubGroup,"tgt_host"=Host,"org"=Organism.Name,"org.GC"=GC.,"size"=Size,"seq.GC"=GC)] )
+
+normalized_kmers$org.GC=as.numeric(normalized_kmers$org.GC)
+normalized_kmers$size=as.numeric(normalized_kmers$size)
+
+# normalized_kmers$tgt_host=as.factor(normalized_kmers$tgt_host)
+normalized_kmers$Group=as.factor(normalized_kmers$Group)
+normalized_kmers$SubGroup=as.factor(normalized_kmers$SubGroup)
+normalized_kmers$gi=as.factor(normalized_kmers$gi)
+normalized_kmers$org=as.factor(normalized_kmers$org)
+normalized_kmers$idx=1:nrow(normalized_kmers)
+normalized_kmers$classLabels<-NULL
+normalized_kmers[,classLabels:=as.character(ifelse(is.na(tgt_host),ifelse(domain=="viruses","viruses_unassigned",as.character(domain)),paste("viruses",as.character(tgt_host),sep="_")))]
+# normalized_kmers[grep("plants",classLabels),classLabels]
+sort(table(normalized_kmers$classLabels))
+# save(normalized_kmers,file="combined_resample_1_50_normalized_kmers.RData")
+
+
+```
+
+* We remove forbidden GIs 
+
+```{r }
+bad_gis=fread("blast_dbs/bad_gis.txt")$V2
+normalized_kmers=normalized_kmers[!(gi %in% bad_gis)]
+
+```
+
+
+* We balance downsample 
+
+```{r }
+# most_frequent_classes=tail(normalized_kmers[grep("unclassified|unassigned|unknown",classLabels,invert=T)][,.N,by=classLabels][order(N)],n=8)[,classLabels]
+most_frequent_classes=c("viruses_archaea","viruses_bacteria","viruses_plants","bact","archaea","euk")
+
+# viruses_and_hosts=normalized_kmers[as.character(classLabels) %in% most_frequent_classes]
+# save(viruses_and_hosts,file="combined_resample_1_50_viruses_and_hosts.RData")
+
+min_size=min(7000,normalized_kmers[as.character(classLabels) %in% most_frequent_classes,.N,by=classLabels][,min(N)])
+
+# normalized_kmers[,.N,by=classLabels][order(N)]
+downsample_idx=unlist(llply(most_frequent_classes,function(g){sample(normalized_kmers[as.character(classLabels) == g,idx],min_size)}))
+
+normalized_kmers_ds_SG=normalized_kmers[idx %in% downsample_idx]
+
+normalized_kmers_ds_SG[,.N,by=classLabels]
+dim(normalized_kmers_ds_SG)
+```
+
+* MCA analysis 
+
+```{r }
+library(FactoMineR)
+library(broom)
+
+res.mca=PCA(normalized_kmers_ds_SG[,c("classLabels","seq.GC",kmers_columns),with=F],quali.sup=c(1),quanti.sup=c(2),graph=F,scale.unit=T)
+foo=dimdesc(res.mca)
+
+
+
+# plot.PCA(res.mca,invisible=c("quali"),habillage=c(1),label="none")
+plotellipses(res.mca,invisible=c("quali"),habillage=c(1),label="none")
+
+plot.PCA(res.mca,invisible=c("quali"),habillage=c(1),axes=c(1,3),label="none")
+
+plot.PCA(res.mca,invisible=c("quali"),habillage=c(1),axes=c(2,3),label="none")
+plotellipses(res.mca,invisible=c("quali"),habillage=c(1),axis=c(1,3),label="none")
+
+plotellipses(res.mca,invisible=c("quali"),habillage=c(1),axis=c(2,3),label="none")
+
+plotellipses(res.mca,invisible=c("quali"),habillage=c(1),axis=c(3,5),label="none")
+
+plot.PCA(res.mca,invisible=c("quali"),habillage=c(1),axes=c(2,3),label="none")
+dimdesc(res.mca)
+
+```
+* we make nicer plots with ggplots 
+
+```{r }
+library(ggsubplot)
+
+res.mca=PCA(normalized_kmers_ds_SG[,c("classLabels","seq.GC",kmers_columns),with=F],quali.sup=c(1),quanti.sup=c(2),graph=F,scale.unit=T)
+
+ind_coord=data.table(res.mca$ind$coord)
+ind_coord$classLabels=normalized_kmers_ds_SG$classLabels
+ind_coord$domain=normalized_kmers_ds_SG$domain
+ind_coord$seq.GC=normalized_kmers_ds_SG$seq.GC
+ind_coord$top_level_group=normalized_kmers_ds_SG$Group
+ind_coord$sub_group=normalized_kmers_ds_SG$SubGroup
+
+sub_group_to_keep=names(tail(sort(table(ind_coord$sub_group)),n=10))
+ind_coord[domain=="viruses" & !(sub_group %in% sub_group_to_keep),sub_group:="misc."]
+ind_coord[domain=="viruses" & sub_group=="unclassified",sub_group:="misc."]
+sort(table(ind_coord$sub_group))
+
+ind_coord[,top_level_domain:="Cellular"]
+ind_coord[domain=="viruses",top_level_domain:="Viral"]
+
+correct_names=list("viruses_archaea")
+
+
+
+# ggplot(ind_coord,aes(x=Dim.1,y=Dim.3,colour=classLabels,fill=classLabels))+geom_point()+stat_binhex(alpha=0.1,bins=10)
+# ggplot(ind_coord,aes(x=Dim.1,y=Dim.3,colour=classLabels,fill=classLabels))+geom_point()+stat_bin2d(alpha=0.1)
+
+# ggplot(ind_coord,aes(x=Dim.1,y=Dim.2,colour=classLabels,fill=classLabels))+geom_point()+geom_density2d()+facet_wrap(~domain)
+
+ggplot(ind_coord,aes(x=Dim.1,y=Dim.2,colour=classLabels,fill=classLabels))+geom_point()+geom_density2d()+facet_wrap(~classLabels)
+
+ggplot(ind_coord,aes(x=Dim.1,y=Dim.2,colour=seq.GC))+geom_point()+geom_density2d()+facet_wrap(~classLabels)
+
+ggplot(ind_coord,aes(x=Dim.1,y=Dim.2,colour=sub_group,group=classLabels))+geom_point(alpha=0.5)+geom_density2d(colour="firebrick2",linemitre=1)+facet_wrap(~classLabels)
+
+ggplot(ind_coord,aes(x=Dim.1,y=Dim.2,colour=sub_group,group=classLabels))+geom_point(alpha=0.5)+geom_density2d(colour="firebrick2",linemitre=1)+facet_wrap(~classLabels)+xlim(c(-12,12))+ylim(c(-5.5,5.5))
+ggplot(ind_coord,aes(x=Dim.1,y=Dim.3,colour=sub_group,group=classLabels))+geom_point(alpha=0.5)+geom_density2d(colour="firebrick2",linemitre=1)+facet_wrap(~classLabels)+xlim(c(-12,12))+ylim(c(-5.5,5.5))
+ggplot(ind_coord,aes(x=Dim.2,y=Dim.3,colour=sub_group,group=classLabels))+geom_point(alpha=0.5)+geom_density2d(colour="firebrick2",linemitre=1)+facet_wrap(~classLabels)+xlim(c(-5.5,5.5))+ylim(c(-5.5,5.5))
+# ggplot(ind_coord,aes(x=Dim.1,y=Dim.2,group=classLabels))+geom_point(alpha=0.5)+stat_density2d(aes(fill = ..level..),geom="polygon")+facet_wrap(~classLabels)+xlim(c(-12,12))+ylim(c(-5.5,5.5))
+
+ggplot(ind_coord,aes(x=Dim.1,y=Dim.3,colour=sub_group,group=classLabels))+geom_point(alpha=0.5)+geom_density2d(colour="firebrick2")+facet_wrap(~classLabels)+xlim(c(-12,12))+ylim(c(-5.5,5.5))
+ggplot(ind_coord,aes(x=Dim.2,y=Dim.3,colour=sub_group,group=classLabels))+geom_point(alpha=0.5)+geom_density2d(colour="firebrick2")+facet_wrap(~classLabels)+xlim(c(-10,10))+ylim(c(-10,10))
+
+ggplot(ind_coord,aes(x=Dim.1,y=Dim.3,colour=classLabels))+geom_point()+geom_density2d()+facet_wrap(~classLabels)
+
+ggplot(ind_coord,aes(x=Dim.1,y=Dim.3,colour=classLabels,fill=classLabels))+geom_point()+geom_density2d()+facet_wrap(~classLabels)
+ggplot(ind_coord,aes(x=Dim.2,y=Dim.3,colour=classLabels,fill=classLabels))+geom_point()+geom_density2d()+facet_wrap(~classLabels)
+
+# ggplot(ind_coord,aes(x=Dim.1,y=Dim.3,colour=classLabels,fill=classLabels))+geom_point()+geom_density2d()+facet_wrap(~domain)
+
+```
+
+* We determine the highest contours 
+
+```{r }
+ind_kde_arch=kde2d(ind_coord[classLabels=="archaea",Dim.1],ind_coord[classLabels=="archaea",Dim.2])
+
+ind_kde_arch=kde2d(ind_coord[classLabels=="viruses_archaea",Dim.1],ind_coord[classLabels=="viruses_archaea",Dim.2],n=30)
+
+coords_max=which(ind_kde_arch$z>=quantile(ind_kde_arch$z,0.90),arr.ind=T)
+
+medoids_kde=pam(coords_max,k=3)
+coords_max_med=medoids_kde$medoids
+
+ind_kde_arch$x[coords_max_med[,1]]
+ind_kde_arch$y[coords_max_med[,2]]
+
+
+plot(ind_coord[classLabels=="viruses_archaea",Dim.1],ind_coord[classLabels=="viruses_archaea",Dim.2],xlim=c(-10,10),ylim=c(-6,6))
+points(ind_kde_arch$x[coords_max_med[,1]],ind_kde_arch$y[coords_max_med[,2]],col="red",cex=4,pch='O')
+points(ind_kde_arch$x[coords_max[,1]],ind_kde_arch$y[coords_max[,2]],col="red",cex=4)
+
+```
+
+* Using EMD 
+Works perfectly well to find the local maxima in a 2d kernel 
+
+```{r }
+library(EMD)
+
+tgt_class_label="viruses_archaea"
+local_maximas=data.table(ldply(unique(ind_coord$classLabels),function(cl){
+	ind_kde_local=kde2d(ind_coord[classLabels==cl,Dim.1],ind_coord[classLabels==cl,Dim.2],n=30)
+
+	ind_kde_local$z[ind_kde_local$z<=quantile(ind_kde_local$z,0.92)]<-0
+	ex=extrema2dC(ind_kde_local$z)
+	max_ind=ind_kde_local$z
+	max_ind[ex$maxindex]=1
+	coords_max_med=which(max_ind==1,arr.ind=T)
+
+
+	# plot(ind_coord[classLabels==tgt_class_label,Dim.1],ind_coord[classLabels==tgt_class_label,Dim.2],xlim=c(-10,10),ylim=c(-6,6))
+	# points(ind_kde_local$x[coords_max_med[,1]],ind_kde_local$y[coords_max_med[,2]],col="red",cex=4,pch='O')
+	data.frame(Dim.1=ind_kde_local$x[coords_max_med[,1]],Dim.2=ind_kde_local$y[coords_max_med[,2]],classLabels=cl,sub_group=NA,size=ind_kde_local$z[coords_max_med])
+}))
+
+
+
+local_maximas[,shape:=ifelse(grepl("virus",classLabels),21,22)]
+
+save(local_maximas,file="local_maximas.RData")
+
+```
+
+* We visualize dist between local maximas
+
+```{r }
+library(corrplot)
+local_maximas$idx=1:nrow(local_maximas)
+g2=ggplot(local_maximas,aes(x=Dim.1,y=Dim.2,fill=classLabels,label=classLabels,shape=factor(shape)))+geom_point(size=12)+geom_text(hjust=0.5,vjust=2.5)+scale_shape_manual(values=c(21,22))+geom_text(aes(label=idx))
+g2
+local_maximas_mat=as.matrix(local_maximas[,list(Dim.1,Dim.2)])
+rownames(local_maximas_mat)=make.names(local_maximas$classLabels,unique=T)
+
+local_maximas_d=dist(local_maximas_mat)
+corrplot(as.matrix(local_maximas_d),is.corr=F,order="hclust")
+
+```
+* We add kmeans 
+
+```{r }
+# pam(ind_coord[,list(Dim.1,Dim.2)],k=3)
+
+
+
+
+clust_per_class=list("archaea"=3,"bact"=3,"euk"=1,"viruses_archaea"=3,"viruses_bacteria"=3,'viruses_plants'=1)
+
+
+inds_kmeans=data.table(ldply(unique(ind_coord$classLabels),function(g){
+	kmeans_clusts=kmeans(ind_coord[classLabels==g,list(Dim.1,Dim.2)],centers=clust_per_class[[g]]);
+	data.table(kmeans_clusts$centers,classLabels=g,sub_group=NA,size=kmeans_clusts$size)
+}))
+
+inds_kmeans[,shape:=ifelse(grepl("virus",classLabels),21,22)]
+
+
+### UGLY UGLY UGLY, make a simple hash table !
+class_mapping=list("viruses_archaea"="archaea","viruses_bacteria"="bact","viruses_plants"="euk")
+mapped_maximas=local_maximas[grep("viruses",classLabels),list(classLabels,Dim.1,Dim.2,sub_group,size,shape=21)]
+mapped_maximas[,classLabels:=limma::strsplit2(classLabels,"_")[,2],by=.I]
+mapped_maximas[classLabels=="plants",classLabels:="euk"]
+mapped_maximas[classLabels=="bacteria",classLabels:="bact"]
+
+inds_maximas=rbind(local_maximas,mapped_maximas)
+
+
+
+# Clean up for panel names 
+
+
+panel_names <- list(
+	"archaea"="Archaea",
+	"bact"="Bacteria",
+	"euk"="Plants & Fungi",
+	"viruses_archaea"="Archaeal viruses",
+	"viruses_bacteria"="Bacterial viruses",
+	"viruses_plants"="Plants viruses")
+
+# names(panel_names)
+ind_coord$classLabels=factor(ind_coord$classLabels,levels=names(panel_names),labels=as.character(panel_names))
+inds_maximas$classLabels=factor(inds_maximas$classLabels,levels=names(panel_names),labels=as.character(panel_names))
+
+# inds_pams=ldply(unique(ind_coord$classLabels),function(g)data.table(pam(ind_coord[classLabels==g,list(Dim.1,Dim.2)],k=clust_per_class[g])$medoids,classLabels=g,sub_group=NA,shapes=g))
+
+# ggplot(ind_coord,aes(x=Dim.1,y=Dim.2,colour=classLabels))+geom_point(alpha=0.4)+guides(fill=FALSE,shape=FALSE) +xlim(c(-12,12))+ylim(c(-5.5,5.5))+ theme(legend.position="top") 
+
+
+# ggplot(ind_coord,aes(x=Dim.1,y=Dim.2,colour=sub_group,group=classLabels))+geom_point(alpha=0.5)+geom_density2d(colour="firebrick2",linemitre=1)+facet_wrap(~classLabels)+geom_point(data=inds_maximas,shape=22,aes(size=size),fill="white")+ guides(fill=FALSE,colour=FALSE,shape=F) +xlim(c(-12,12))+ylim(c(-5.5,5.5))+scale_size_continuous(range=c(4,8))
+
+g=ggplot(ind_coord,aes(x=Dim.1,y=Dim.2,colour=sub_group,group=classLabels))+geom_point(alpha=0.5)+geom_density2d(colour="firebrick2",linemitre=1)+facet_wrap(~classLabels)+xlim(c(-12,12))+ylim(c(-5.5,5.5))+scale_size_continuous(range=c(4,8))
+
+g=g+geom_point(data=inds_maximas,aes(size=size,shape=factor(shape)),fill="white")+scale_shape_manual(values=c(21,22),name="Local density maxima:",labels=c("Host","Virus"))+guides(fill=FALSE,size=FALSE)+ theme_grey(base_size=22)+theme(legend.position="top",axis.title.x = element_blank(),axis.title.y= element_blank())+scale_colour_discrete(name="Viral sub-groups")
+g
+ggsave("PCA_plots_of_viral_and_hosts_v2.pdf",w=14,h=8)
+
+
+# g+geom_point(data=inds_kmeans[grep("virus",classLabels,invert=F)],shape=22,aes(size=size),fill="white")
+# We report the viruses contigs centers on the host space 
+
+# g+geom_point(data=mapped_kmeans,shape=22,aes(size=size),fill="white")
+
+
+# ggplot(ind_coord,aes(x=Dim.1,y=Dim.2,colour=sub_group,group=classLabels))+geom_point(alpha=0.5)+geom_density2d(colour="firebrick2",linemitre=1)+facet_wrap(~classLabels)+geom_point(data=inds_pams,aes(shape=shapes),size=5,fill="black",colour="black")+ guides(fill=FALSE,colour=FALSE,shape=FALSE)+xlim(c(-12,12))+ylim(c(-5.5,5.5))
+
+
+```
+
+we combine 
+
+```{r }
+library(gridExtra)
+grid.arrange(g,g2)
+g2
+
+```
+
+Other versions without mapped maximas but with labels 
+
+
+```{r }
+
+local_maximas_renamed=local_maximas
+local_maximas_renamed$classLabels=factor(local_maximas_renamed$classLabels,levels=names(panel_names),labels=as.character(panel_names))
+
+local_maximas_renamed=local_maximas_renamed[idx!=9]
+
+local_maximas_renamed[order(classLabels),idx:=1:nrow(local_maximas_renamed)]
+
+g=ggplot(ind_coord,aes(x=Dim.1,y=Dim.2,colour=sub_group,group=classLabels))+geom_point(alpha=0.5)+geom_density2d(colour="firebrick2",linemitre=1)+facet_wrap(~classLabels)+xlim(c(-12,12))+ylim(c(-5.5,5.5))+scale_size_continuous(range=c(4,8))
+g=g+geom_point(data=local_maximas_renamed,aes(size=size,shape=factor(shape)),fill="white")+scale_shape_manual(values=c(21,22),name="Local density maxima:",labels=c("Host","Virus"))+guides(fill=FALSE,size=FALSE)+ theme_grey(base_size=22)+theme(legend.position="top",axis.title.x = element_blank(),axis.title.y= element_blank())+scale_colour_discrete(name="Viral sub-groups")
+g=g+geom_text(data=local_maximas_renamed,aes(label=idx),colour="black")+scale_size_continuous(range=c(8,12))
+g
+
+
+# make g2 for local maximas 
+
+# Adjust labels 
+
+local_maximas_renamed$label.x=local_maximas_renamed$Dim.1
+local_maximas_renamed$label.y=local_maximas_renamed$Dim.2
+local_maximas_renamed[idx==12,label.y:=label.y+0.35]
+local_maximas_renamed[idx==7,label.y:=label.y+0.35]
+local_maximas_renamed[idx==8,label.y:=label.y+0.35]
+
+g2=ggplot(local_maximas_renamed,aes(x=Dim.1,y=Dim.2,fill=classLabels,shape=factor(shape)))+geom_point(size=12)+geom_text(aes(label=classLabels,x=label.x,y=label.y),hjust=0.5,vjust=2.5)+scale_shape_manual(values=c(21,22))+geom_text(aes(label=idx))+guides(fill=FALSE,size=FALSE,shape=FALSE)+theme(axis.title.x = element_blank(),axis.title.y= element_blank())
+g2
+
+
+grid.arrange(g,g2)
+g2
+
+
+
+```
+
+# Using and MDS 
+Too costly !
+
+```{r }
+
+min_size=min(1500,normalized_kmers[as.character(classLabels) %in% most_frequent_classes,.N,by=classLabels][,min(N)])
+
+normalized_kmers[,.N,by=classLabels][order(N)]
+downsample_idx=unlist(llply(most_frequent_classes,function(g){sample(normalized_kmers[as.character(classLabels) == g,idx],min_size)}))
+
+
+normalized_kmers_ds_SG_1500=normalized_kmers[downsample_idx]
+normalized_kmers_ds_SG_1500[,.N,by=classLabels]
+dim(normalized_kmers_ds_SG_1500)
+
+
+d <- dist(normalized_kmers_ds_SG_1500[,kmers_columns,with=F])
+fit <- cmdscale(d,eig=TRUE, k=2) # k is the number of dim
+str(fit)
+
+mds_coords=data.table(fit$points)
+
+mds_coords$classLabels=normalized_kmers_ds_SG_1500$classLabels
+mds_coords$domain=normalized_kmers_ds_SG_1500$domain
+mds_coords$seq.GC=normalized_kmers_ds_SG_1500$seq.GC
+mds_coords$top_level_group=normalized_kmers_ds_SG_1500$Group
+mds_coords$sub_group=normalized_kmers_ds_SG_1500$SubGroup
+mds_coords$gi=normalized_kmers_ds_SG_1500$gi
+mds_coords$idx=normalized_kmers_ds_SG_1500$idx
+save(mds_coords,file="1500_per_goupds_mds_coords.RData")
+
+# test pam again 
+
+# pamk(mds_coords[classLabels=="bact",list(V1,V2)])
+
+# mds_pams=pam(mds_coords[classLabels=="bact",list(V1,V2)],k=2)
+# mds_pams$medoids
+
+# mds_centers=ldply(unique(mds_coords$classLabels),function(g)data.table(kmeans(mds_coords[classLabels==g,list(V1,V2)],centers=2)$centers,classLabels=g,sub_group=NA,shapes=g))
+clust_per_class=list("archaea"=2,"bact"=2,"euk"=2,"viruses_archaea"=2,"viruses_bacteria"=2,'viruses_plants'=1)
+
+mds_pams=ldply(unique(mds_coords$classLabels),function(g)data.table(pam(mds_coords[classLabels==g,list(V1,V2)],k=clust_per_class[g])$medoids,classLabels=g,sub_group=NA,shapes=g))
+
+# We manually add some "attractors"
+mds_centers=data.table(
+	V1=rep(c(0.09,-0.037,0.075),each=6),
+	V2=rep(c(0.005,0.01,0.005),each=6),
+	shapes=rep(c("A","E","B"),each=6),
+	classLabels=rep(c("archaea","euk","bact","viruses_bacteria","viruses_plants","viruses_archaea"),3),
+	sub_group=NA
+	)
+
+
+# mds_coords$classLabels=factor(mds_coords$classLabels,levels=c("archaea","viruses_archaea","bact","viruses_bacteria","euk","viruses_plants"))
+# mds_pams$classLabels=factor(mds_pams$classLabels,levels=c("archaea","viruses_archaea","bact","viruses_bacteria","euk","viruses_plants"))
+
+vline_matching=mds_pams
+# We dupl to make lines between viruses 
+
+ggplot(mds_coords,aes(x=V1,y=V2,colour=sub_group,group=classLabels))+geom_point(alpha=0.5)+geom_density2d(colour="firebrick2",linemitre=1)+facet_wrap(~classLabels)+geom_point(data=mds_centers,aes(shape=shapes),size=5,fill="black",colour="black")+ guides(fill=FALSE,colour=FALSE)
+
+ggplot(mds_coords,aes(x=V1,y=V2,colour=sub_group,group=classLabels))+geom_point(alpha=0.5)+geom_density2d(colour="firebrick2",linemitre=1)+facet_wrap(~classLabels)+geom_point(data=mds_pams,aes(shape=shapes),size=5,fill="black",colour="black")+ guides(fill=FALSE,colour=FALSE,shape=FALSE)+xlim(c(-0.14,0.14))+ylim(c(-0.06,0.06))
+
+```
+
+

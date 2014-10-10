@@ -1,0 +1,67 @@
+
+```{r }
+library(data.table)
+library(reshape2)
+library(ggplot2)
+library(foreach)
+library(doParallel)
+registerDoParallel(cores=2)
+
+setwd("/Users/hayssam/Documents/metaviro/experiments/141003_GenBank_resampling/")
+
+all_results_top_level=data.table()
+# ROOTFOLDER="500nt_all_resample"
+file_list=list.files(pattern="all_domains_domain_by_gi_kDN.csv",recursive=T)
+
+pb <- txtProgressBar(min = 0, max = length(file_list), style = 3)
+
+all_results_by_gi=foreach(i=1:length(file_list),.combine="rbind") %do% {
+	this_path=file_list[i]
+	# a_file_p=paste(this_path,sep="/")
+	# cat("processing",a_file_p,"\n")
+	these_results=fread(this_path)
+	these_results$file=this_path
+	setTxtProgressBar(pb, i)
+	return(these_results)
+}
+close(pb)
+dim(all_results_by_gi)
+```
+
+We annotate them 
+
+```{r }
+mdata=data.table(limma::strsplit2(file_list,split="\\_|/"))
+setnames(mdata,c("V1","V3","V4","V5"),c("length","resample_id","domain","targetClassification"))
+mdata$file=file_list
+mdata$V2<-NULL
+mdata$V6<-NULL
+mdata$V7<-NULL
+mdata$V8<-NULL
+all_results_by_gi=merge(all_results_by_gi,mdata,by="file")
+save(all_results_by_gi,file="all_domains_by_gi.RData")
+```
+
+
+GI difficulty 
+
+
+```{r }
+N_NEAREST_NEIGHBORS=73
+N_GROUP_SAMPLING=10
+classLabelsTag=""
+table(all_results_by_gi$file)
+
+
+# all_results_by_gi[targetClassification=="SubGroup"][,.N,by=list(domain,src_classLabels,src_gi)][domain=="viruses"][order(N)]
+
+top_level_names=list(archaea="Archaea",bact="bacteria",euk="Plants & Fungi",viruses="Viruses")
+all_results_by_gi$src_classLabels=factor(all_results_by_gi$src_classLabels,levels=names(top_level_names),labels=as.character(top_level_names))
+
+all_results_by_gi[length=="500nt" & targetClassification=="domains"][,median(kDN),by=src_classLabels]
+
+g=ggplot(all_results_by_gi[length=="500nt" & targetClassification=="domains"],aes(x=factor(kDN),fill=src_classLabels))+geom_bar()+scale_x_discrete(limits=factor(0:N_NEAREST_NEIGHBORS),breaks=factor(seq(0,N_NEAREST_NEIGHBORS,10)),name="kDN")+scale_fill_discrete(name="First-level domain:")+ggtitle(paste("Distribution of kDN values over 10 sampling of 30 000 contigs of 500nt"))+ theme(legend.position="top")
+g+geom_vline(x=36,linetype="dashed",color="grey20") #+facet_grid(domain~targetClassification)
+
+ggsave("first_level_domain_kDN.pdf",w=10,h=5.7)
+```
