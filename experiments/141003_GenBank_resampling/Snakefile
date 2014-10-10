@@ -276,3 +276,7 @@ rule some_hardness:
 
 rule virus_host_comparison:
 	input: expand('500nt_Resample_{res_id}/{domain}_4k_k3_mers.tsv',domain=["bact","plants","viruses","archaea"],res_id=range(1,10))
+
+
+rule plant_kmers:
+	input: '500nt_Resample_1/plants_k3_mers.tsv'
