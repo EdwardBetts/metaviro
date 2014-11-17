@@ -44,6 +44,7 @@ annotated_kmers=merge(domain_kmers,GenBank_taxID2gi,by="gi")
 annotated_kmers=merge(annotated_kmers,GenBank_annotations,by="TaxID")
 
 # normalize and type 
+# normalized_kmers_counts=all_instances_kmers[,kmers_columns,with=F]/all_instances_kmers$sequence_length
 normalized_kmers_counts=annotated_kmers[,kmers_columns,with=F]/annotated_kmers$sequence_length
 
 normalized_kmers=cbind(normalized_kmers_counts, annotated_kmers[,list(gi,BioProject.ID,Group,SubGroup,Status,Genes,Proteins,"org"=Organism.Name,"org.GC"=GC.,"size"=Size)] )

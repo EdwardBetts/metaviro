@@ -1,0 +1,119 @@
+
+
+
+```{r }
+library(data.table)
+library(reshape2)
+library(ggplot2)
+library(foreach)
+library(doParallel)
+registerDoParallel(cores=2)
+
+setwd("/Users/hayssam/Documents/metaviro/experiments/141003_GenBank_resampling/")
+
+all_results_by_gi=data.table()
+ROOTFOLDER="500nt_all_resample"
+file_list=list.files(pattern="*by_gi_kDN.csv",recursive=T,path=ROOTFOLDER)
+
+pb <- txtProgressBar(min = 0, max = length(file_list), style = 3)
+
+all_results_by_gi=foreach(i=1:length(file_list),.combine="rbind") %do% {
+	this_path=file_list[i]
+	a_file_p=paste(ROOTFOLDER,this_path,sep="/")
+	# cat("processing",a_file_p,"\n")
+	these_results=fread(a_file_p)
+	these_results$file=this_path
+	setTxtProgressBar(pb, i)
+	return(these_results)
+}
+close(pb)
+
+
+mdata=data.table(limma::strsplit2(file_list,split="\\_|/"))
+setnames(mdata,c("V1","V3","V4","V5"),c("lenght","resample_id","domain","targetClassification"))
+mdata$file=file_list
+mdata$V2<-NULL
+mdata$V6<-NULL
+mdata$V7<-NULL
+mdata$V8<-NULL
+all_results_by_gi=merge(all_results_by_gi,mdata,by="file")
+save(all_results_by_gi,file="500nt_all_results_by_gi.RData")
+
+```
+
+* GI level analysis
+
+```{r }
+load("500nt_all_results_by_gi.RData")
+# all_results_by_gi[,.N,by=src_gi][order(N)]
+# all_results_by_gi[src_gi==40555938]
+# all_results_by_gi[,as.numeric(median(kDN)),by=list(lenght,src_classLabels,domain,targetClassification)]
+
+N_NEAREST_NEIGHBORS=73
+N_GROUP_SAMPLING=10*100
+classLabelsTag="mixed"
+table(all_results_by_gi$targetClassification)
+
+
+all_results_by_gi[targetClassification=="SubGroup"][,.N,by=list(domain,src_classLabels,src_gi)][domain=="viruses"][order(N)]
+
+ggplot(all_results_by_gi[targetClassification!="domain"],aes(x=factor(kDN),fill=src_classLabels))+geom_bar()+scale_x_discrete(limits=factor(0:N_NEAREST_NEIGHBORS),breaks=factor(seq(0,N_NEAREST_NEIGHBORS,10)),name="kDN")+scale_fill_discrete(name=classLabelsTag)+ggtitle(paste("Distribution of kDN values over all",N_GROUP_SAMPLING," downsampling"))+facet_grid(domain~targetClassification)
+
+```
+
+We make a panel for each classification task 
+
+```{r }
+ggplot(all_results_by_gi[targetClassification=="Group" & domain=="viruses"],aes(x=factor(kDN),fill=src_classLabels))+geom_bar()+scale_x_discrete(limits=factor(0:N_NEAREST_NEIGHBORS),breaks=factor(seq(0,N_NEAREST_NEIGHBORS,10)),name="kDN")+scale_fill_discrete(name="Viral groups")+ theme(legend.position="top")#+ggtitle(paste("Distribution of kDN values over all",N_GROUP_SAMPLING," downsampling"))
+ggsave("viral_groups_kDN.pdf",w=10,h=5.7)
+
+ggplot(all_results_by_gi[targetClassification=="SubGroup" & domain=="viruses"],aes(x=factor(kDN),fill=src_classLabels))+geom_bar()+scale_x_discrete(limits=factor(0:N_NEAREST_NEIGHBORS),breaks=factor(seq(0,N_NEAREST_NEIGHBORS,10)),name="kDN")+scale_fill_discrete(name="Viral sub-groups")+ theme(legend.position="top")#+ggtitle(paste("Distribution of kDN values over all",N_GROUP_SAMPLING," downsampling"))
+ggsave("viral_sub_groups_kDN.pdf",w=10,h=5.7)
+
+ggplot(all_results_by_gi[targetClassification=="Group" & domain=="bact"],aes(x=factor(kDN),fill=src_classLabels))+geom_bar()+scale_x_discrete(limits=factor(0:N_NEAREST_NEIGHBORS),breaks=factor(seq(0,N_NEAREST_NEIGHBORS,10)),name="kDN")+scale_fill_discrete(name="Bacterial groups")+ theme(legend.position="top")#+ggtitle(paste("Distribution of kDN values over all",N_GROUP_SAMPLING," downsampling"))
+ggsave("bacterial_groups_kDN.pdf",w=10,h=5.7)
+
+ggplot(all_results_by_gi[targetClassification=="SubGroup" & domain=="bact"],aes(x=factor(kDN),fill=src_classLabels))+geom_bar()+scale_x_discrete(limits=factor(0:N_NEAREST_NEIGHBORS),breaks=factor(seq(0,N_NEAREST_NEIGHBORS,10)),name="kDN")+scale_fill_discrete(name="Bacterial sub-groups")+ theme(legend.position="top")#+ggtitle(paste("Distribution of kDN values over all",N_GROUP_SAMPLING," downsampling"))
+ggsave("bacterial_sub_groups_kDN.pdf",w=10,h=5.7)
+
+
+```
+
+# Null model analysis
+
+
+```{r }
+all_mean_results=data.table()
+file_list=list.files(pattern="*mean_kDN.csv",recursive=T,path="500nt_all_resample")
+
+pb <- txtProgressBar(min = 0, max = length(file_list), style = 3)
+
+all_mean_results=foreach(i=1:length(file_list),.combine="rbind") %do% {
+	this_path=file_list[i]
+	a_file_p=paste("500nt_all_resample",this_path,sep="/")
+	# cat("processing",a_file_p,"\n")
+	these_results=fread(a_file_p)
+	these_results$file=this_path
+	setTxtProgressBar(pb, i)
+	return(these_results)
+}
+close(pb)
+
+mdata=data.table(limma::strsplit2(file_list,split="\\_|/"))
+setnames(mdata,c("V1","V3","V4","V5"),c("lenght","resample_id","domain","targetClassification"))
+mdata$file=file_list
+mdata$V2<-NULL
+mdata$V6<-NULL
+mdata$V7<-NULL
+
+all_mean_results=merge(all_mean_results,mdata,by="file")
+save(all_mean_results,file="all_mean_results.RData")
+
+```
+
+
+we plot means of the null vs of the observed 
+
+```{r }
+ggplot(all_mean_results[targetClassification!="domain"],aes(x=src_classLabels,y=mean_kDN,colour=model,size=model))+geom_point()+stat_summary(data=all_mean_results[targetClassification!="domain" & model=="null"],fun.data = "mean_cl_boot", colour = "red",size=1)+ggtitle("Distribution of mean observed kDN values vs mean kDN values sampled under the null")+scale_x_discrete(name=classLabelsTag)+scale_y_continuous(name="mean kDN",limits=c(0,N_NEAREST_NEIGHBORS))+scale_colour_manual(values=c("grey40","black"))+scale_size_manual(values=c(1,3))+facet_grid(domain~targetClassification,scale="free_x")
+```
