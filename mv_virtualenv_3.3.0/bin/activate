@@ -45,7 +45,9 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/lschmitt/git-dev/mv_virtualenv_3.3.0"
+# FIX L-A: Making everything relative
+#VIRTUAL_ENV="/home/lschmitt/git-dev/mv_virtualenv_3.3.0"
+VIRTUAL_ENV=$(dirname $(dirname $(readlink -f $BASH_SOURCE)))
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
