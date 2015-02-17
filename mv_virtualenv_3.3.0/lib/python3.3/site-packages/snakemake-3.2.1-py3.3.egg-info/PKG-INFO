@@ -1,0 +1,17 @@
+Metadata-Version: 1.1
+Name: snakemake
+Version: 3.2.1
+Summary: Build systems like make are frequently used to create complicated workflows, e.g. in bioninformatics. This project aims to reduce the complexity of creating workflows by providing a clean and modern domain specific language (DSL) in python style, together with a fast and comfortable execution environment.
+Home-page: http://snakemake.googlecode.com
+Author: Johannes Köster
+Author-email: johannes.koester@tu-dortmund.de
+License: MIT
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics

@@ -1,0 +1,10 @@
+#!/home/lschmitt/git-dev/mv_virtualenv_3.3.0/bin/python3
+# EASY-INSTALL-ENTRY-SCRIPT: 'snakemake==3.2.1','console_scripts','snakemake'
+__requires__ = 'snakemake==3.2.1'
+import sys
+from pkg_resources import load_entry_point
+
+if __name__ == '__main__':
+    sys.exit(
+        load_entry_point('snakemake==3.2.1', 'console_scripts', 'snakemake')()
+    )
