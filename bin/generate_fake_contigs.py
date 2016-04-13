@@ -125,7 +125,7 @@ while left_to_go > 0:
             pass
 
 # How many of the original sequences have we kept in the resulting contigs?
-print "{0:.2f}".format(100*float(len(used_ids))/len(total_ids)) + "% of the original sequences are present in the resampling."
+print "{:.2%}".format(float(len(used_ids))/len(total_ids)) + " of the original sequences are present in the resampling."
 
 # Saving results
 print "writing to file..."
